@@ -6,17 +6,17 @@ function Navbar() {
       <div className="container">
         <div className="nav">
           <h1>
-            <Link><span className="logo">VWCV</span> Bank</Link>
+            <Link to={'/'}><span className="logo">VWCV</span> Bank</Link>
           </h1>
           <div className="links">
-            <Link className="link ">Home</Link>
+            <Link to={'/'} className="link ">Home</Link>
             <Link className="link ">Products</Link>
             <Link className="link ">Suport</Link>
           </div>
         </div>
         <div className="button-links">
-          <Link className="btn-link">Open Your Account</Link>
-          <Link className="link">Online Banking</Link>
+          <Link to={'/create-account'} className="btn-link">Create Account</Link>
+          <Link to={'/online-banking'} className="link">Online Banking</Link>
         </div>
       </div>
     </nav>

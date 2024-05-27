@@ -1,0 +1,28 @@
+.home_page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  .operations-section {
+    margin: 80px auto;
+    max-width: 1280px;
+    text-align: center;
+    
+    p {
+      font-size: 1.4rem;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #3fcf01;
+    }
+
+    .operations-container {
+      display: flex;
+      margin-top: 40px;
+      gap: 50px;
+    }
+  }
+}

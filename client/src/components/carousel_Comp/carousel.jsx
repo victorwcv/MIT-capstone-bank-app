@@ -39,7 +39,7 @@ const Carousel = ({ banners }) => {
 
   return (
     <div
-      className="carousel slide h-96"
+      className="carousel slide h-[450px]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -67,7 +67,7 @@ const Carousel = ({ banners }) => {
           >
             <img
               src={image.src}
-              className="d-block w-full h-[450px] object-cover"
+              className="d-block w-full h-[450px] object-cover cursor-pointer"
               alt={image.alt}
             />
             <div className="carousel-caption d-none d-md-block">

@@ -1,8 +1,8 @@
 .navbar {
-  @apply sticky w-screen bg-[var(--primary-color)] shadow-lg;
+  @apply sticky top-0 z-10 w-full bg-[var(--primary-color)] shadow-lg;
 
   .container {
-    @apply max-w-7xl w-3/4 text-lg h-16 m-auto text-[var(--primary-text-color)] flex flex-row items-center justify-between;
+    @apply max-w-7xl w-11/12 text-lg h-16 m-auto text-[var(--primary-text-color)] flex flex-row items-center justify-between;
 
     .nav {
       @apply flex  items-center gap-16;

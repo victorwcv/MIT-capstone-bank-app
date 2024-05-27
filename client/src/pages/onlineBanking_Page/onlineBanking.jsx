@@ -1,8 +1,9 @@
-import React from 'react'
+import Footer from "../../components/footer_Comp/footer"
 
 function OnlineBanking() {
   return (
-    <div>OnlineBanking</div>
+    <div>OnlineBanking
+    </div>
   )
 }
 
