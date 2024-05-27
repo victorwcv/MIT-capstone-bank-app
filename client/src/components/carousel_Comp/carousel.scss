@@ -1,5 +1,5 @@
 .carousel {
-  @apply relative my-6;
+  @apply relative ;
 }
 
 .carousel-indicators {
@@ -17,9 +17,6 @@
   @apply h-1 w-10 mx-1;
 }
 
-/* .carousel-indicators button.active {
-  background-color: #000;
-} */
 
 .carousel-inner {
   position: relative;
