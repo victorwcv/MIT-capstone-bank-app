@@ -10,7 +10,7 @@ function Footer() {
           <br />
           Your personal bank since 1995
           <br />
-          <small>By Victor Ccanhi - MIT xPro 2024</small>
+          <small>By Victor Ccanchi - MIT xPro 2024</small>
         </p>
       </aside>
       <div className='section-container'>

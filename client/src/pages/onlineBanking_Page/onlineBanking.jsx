@@ -20,7 +20,7 @@ function OnlineBanking() {
 
 
       <div className="form-container">
-        <h2 className="text-neutral-600 text-4xl font-bold text-center mb-16">Access to your Account</h2>
+        <h2 className="text-neutral-600 text-4xl font-bold text-center mx-6 mb-16">Access to your Account</h2>
         <form
           className="flex flex-col gap-10"
           // onSubmit={handleSubmit}
@@ -28,14 +28,14 @@ function OnlineBanking() {
           {/* Input fields */}
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder="Email"
             id="email"
             className="bg-gray-100 p-3 rounded-lg outline-none"
             // onChange={handleChange}
           />
           <input
             type="password"
-            placeholder="Contraseña"
+            placeholder="Password"
             id="password"
             className="bg-gray-100 p-3 rounded-lg outline-none"
             // onChange={handleChange}
@@ -43,7 +43,7 @@ function OnlineBanking() {
           {/* Submit button */}
           <button
             // disabled={loading}
-            className="bg-green-500 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            className="bg-green-500 font-bold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
             {"Access Account"}
           </button>

@@ -1,0 +1,52 @@
+.create-account {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  min-height: calc(100vh - 64px);
+
+  .steps-container {
+    @apply flex flex-col items-center bg-[var(--secondary-color)] text-white;
+    
+    h2 {
+      font-size: 4rem;
+      margin: 3rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 2.5rem;
+
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      li {
+        font-size: 1.3rem;
+        font-weight: 300;
+
+        span {
+          font-weight: 600;
+          display: block;
+          margin-top: 1.5rem;
+        }
+      }
+
+    }
+
+    p {
+      margin-top: 2.5rem;
+      font-size: 1.25rem;
+      max-width: 80%;
+
+    }
+  }
+
+  .create-acc-form {
+    @apply m-auto  max-w-[500px] ;
+  }
+}

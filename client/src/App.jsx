@@ -10,7 +10,7 @@ import Footer from "./components/footer_Comp/footer.jsx";
 function App() {
   return (
     <BrowserRouter >
-      <a className="block text-center bg-yellow-300 font-light">
+      <a className="block text-center bg-yellow-300 text-xs font-light">
         Attention! This is an educational project and does not represent a real
         bank. Do not enter personal information. This website is fictitious and
         is for demonstration purposes only.
