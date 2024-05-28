@@ -1,8 +1,11 @@
+import Navbar from "../../components/navbar_Comp/navbar";
 import "./onlineBanking.scss";
 
 
 function OnlineBanking() {
   return (
+    <>
+      <Navbar />
     <div className="online-banking">
       <div className="welcome-container">
         <h1> Online Banking </h1>
@@ -45,11 +48,12 @@ function OnlineBanking() {
             // disabled={loading}
             className="bg-green-500 font-bold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
-            {"Access Account"}
+            {"Access"}
           </button>
         </form>
       </div>
     </div>
+    </>
   );
 }
 

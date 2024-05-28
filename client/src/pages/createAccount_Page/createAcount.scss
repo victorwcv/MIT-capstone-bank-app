@@ -1,22 +1,25 @@
 .create-account {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   grid-template-rows: 1fr;
   min-height: calc(100vh - 64px);
 
   .steps-container {
-    @apply flex flex-col items-center bg-[var(--secondary-color)] text-white;
+    @apply flex flex-col justify-center pl-24 bg-[var(--secondary-color)] text-white;
+    border-radius: 0px 9999px 9999px 0px;
     
     h2 {
+      text-align: center;
+      max-width: 500px;
       font-size: 4rem;
       margin: 3rem;
       font-weight: 600;
-    }
 
-    h3 {
-      font-size: 1.5rem;
-      margin-bottom: 2.5rem;
 
+      span {
+        font-family: "Poetsen One", sans-serif;
+        font-weight: 400;
+      }
     }
 
     h4 {
@@ -27,12 +30,13 @@
     ul {
       li {
         font-size: 1.3rem;
-        font-weight: 300;
+        font-weight: 600;
+        margin-top: 1.5rem;
 
         span {
-          font-weight: 600;
+          font-weight: 300;
           display: block;
-          margin-top: 1.5rem;
+          margin-left: 2rem;
         }
       }
 
@@ -41,7 +45,7 @@
     p {
       margin-top: 2.5rem;
       font-size: 1.25rem;
-      max-width: 80%;
+      max-width: 600px;
 
     }
   }
