@@ -12,5 +12,7 @@ body {
 :root {
   --primary-color: #f3f3f3;
   --secondary-color: #cf013f;
+  --terciary-color: #3fcf01;
   --primary-text-color: #303030;
+  --secondary-text-color: #eeeeee;
 }
