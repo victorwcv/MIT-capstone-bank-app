@@ -9,12 +9,11 @@ import icons from "./data/icons_Data.jsx";
 function App() {
   return (
     < >
-      <Navbar />
       <Carousel banners={banners} />
       <section className="container max-w-7xl m-auto text-center">
         <p className="text-2xl mt-20">We are here to serve you,</p>
         <h2 className="text-4xl mb-5 font-bold text-slate-700">What would you like to do today?</h2>
-        <div className="container flex justify-evenly my-32">
+        <div className="container flex flex-wrap justify-center gap-10 mx-auto my-32">
           <Card icon={icons.credit_card} title={'Credit Card'} link={'#'}/>
           <Card icon={icons.money} title={'Loan'} link={'#'}/>
           <Card icon={icons.piggy} title={'Savings Account'} link={'#'}/>

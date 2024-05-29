@@ -5,6 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-y: scroll;
+}
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -15,4 +18,5 @@ body {
   --terciary-color: #3fcf01;
   --primary-text-color: #303030;
   --secondary-text-color: #eeeeee;
+  --font: "Poetsen One", sans-serif;
 }

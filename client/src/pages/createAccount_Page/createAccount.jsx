@@ -1,9 +1,7 @@
-import Navbar from "../../components/navbar_Comp/navbar";
 import "./createAcount.scss";
 function CreateAccount() {
   return (
     <>
-      <Navbar />
       <div className="create-account">
         <div className="steps-container">
           <h2>
