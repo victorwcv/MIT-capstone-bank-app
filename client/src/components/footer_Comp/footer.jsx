@@ -4,11 +4,11 @@ function Footer() {
   return (
     <footer className="footer">
       <aside>
-        <h2>VWCV</h2>
+        <h2>VWCV <span>BANK</span></h2>
         <p>
-          &copy; VWCV Bank
+          &copy; VWCV Bank&trade;
           <br />
-          Your personal bank since 1995
+          Your bank since 1995
           <br />
           <small>By Victor Ccanchi - MIT xPro 2024</small>
         </p>

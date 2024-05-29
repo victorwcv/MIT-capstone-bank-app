@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1.3fr 1fr;
   grid-template-rows: 1fr;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 66px);
 
   .welcome-container {
     @apply flex flex-col relative justify-evenly items-center bg-[var(--secondary-color)] text-[var(--secondary-text-color)];

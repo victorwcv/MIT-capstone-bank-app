@@ -5,13 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  overflow-y: scroll;
-}
-body {
-  font-family: "Roboto", sans-serif;
-}
-
 :root {
   --primary-color: #f3f3f3;
   --secondary-color: #cf013f;
@@ -19,4 +12,11 @@ body {
   --primary-text-color: #303030;
   --secondary-text-color: #eeeeee;
   --font: "Poetsen One", sans-serif;
+}
+html {
+  overflow-y: scroll;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  color: var(--primary-text-color);
 }
