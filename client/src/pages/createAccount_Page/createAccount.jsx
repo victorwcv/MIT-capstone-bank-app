@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "./createAcount.scss";
 function CreateAccount() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState({state: false, message: ''});
   const [formData, setFormData] = useState({});
+  console.log('error', error);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -9,14 +12,23 @@ function CreateAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:3000/api/auth/create-account", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    console.log(data);
-  }
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:3000/api/auth/create-account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (!data.success) {
+        setError({state:!data.success, message:data.message})
+      }
+    } catch (error) {
+      setLoading(false);
+      setError({ state: true, message:"An error occured! Please try again later." })
+    }
+  };
 
   return (
     <>
@@ -59,6 +71,7 @@ function CreateAccount() {
               id="username"
               className="bg-gray-100 p-3 rounded-lg outline-none"
               onChange={handleChange}
+              required
             />
             <input
               type="text"
@@ -66,6 +79,7 @@ function CreateAccount() {
               id="address"
               className="bg-gray-100 p-3 rounded-lg outline-none"
               onChange={handleChange}
+              required
             />
             <input
               type="text"
@@ -73,6 +87,7 @@ function CreateAccount() {
               id="phone"
               className="bg-gray-100 p-3 rounded-lg outline-none"
               onChange={handleChange}
+              required
             />
             <input
               type="email"
@@ -80,6 +95,7 @@ function CreateAccount() {
               id="email"
               className="bg-gray-100 p-3 rounded-lg outline-none"
               onChange={handleChange}
+              required
             />
             <input
               type="password"
@@ -87,13 +103,17 @@ function CreateAccount() {
               id="password"
               className="bg-gray-100 p-3 rounded-lg outline-none"
               onChange={handleChange}
+              required
             />
             <button
               // disabled={loading}
               className="bg-blue-500 font-bold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
             >
-              {"Create Account"}
+              {loading ? "Loading" : "Create Account"}
             </button>
+            <p className="text-red-600 mt-2 text-sm h-4">
+              {error.state && error.message}
+            </p>
           </form>
         </div>
       </div>
