@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from 'cors'
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js"
 import authRoute from "./routes/auth.route.js"
@@ -19,12 +20,14 @@ mongoose
 
 // Server app
 const app = express();
+app.disable('x-powered-by')
+app.use(cors());
 app.use(express.json());
 
-const _LOCAL_PORT = 3000;
+const PORT = process.env.PORT ?? 3000;
 
-app.listen(_LOCAL_PORT, () => {
-  console.log(`Server running on http://localhost:${_LOCAL_PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
 
 app.use('/api/user', userRoute);

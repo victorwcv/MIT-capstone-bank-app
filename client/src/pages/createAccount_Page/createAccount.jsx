@@ -1,5 +1,23 @@
+import { useState } from "react";
 import "./createAcount.scss";
 function CreateAccount() {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:3000/api/auth/create-account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    console.log(data);
+  }
+
   return (
     <>
       <div className="create-account">
@@ -34,36 +52,41 @@ function CreateAccount() {
           <h2 className="text-neutral-600 text-4xl font-bold text-center mx-10 mb-16">
             Create new Account
           </h2>
-          <form className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <input
               type="text"
               placeholder="Full Name"
-              id="fullname"
+              id="username"
               className="bg-gray-100 p-3 rounded-lg outline-none"
+              onChange={handleChange}
             />
             <input
               type="text"
-              placeholder="Adress"
+              placeholder="Address"
               id="address"
               className="bg-gray-100 p-3 rounded-lg outline-none"
+              onChange={handleChange}
             />
             <input
               type="text"
               placeholder="Phone Number"
-              id="phonenumber"
+              id="phone"
               className="bg-gray-100 p-3 rounded-lg outline-none"
+              onChange={handleChange}
             />
             <input
               type="email"
               placeholder="Email"
               id="email"
               className="bg-gray-100 p-3 rounded-lg outline-none"
+              onChange={handleChange}
             />
             <input
               type="password"
               placeholder="Password"
               id="password"
               className="bg-gray-100 p-3 rounded-lg outline-none"
+              onChange={handleChange}
             />
             <button
               // disabled={loading}
