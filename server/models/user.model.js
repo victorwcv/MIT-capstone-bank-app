@@ -33,6 +33,17 @@ const userSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters long"],
       trim: true,
     },
+    bankDetails: {
+      accountNumber: {
+        type: Number,
+        length: 15,
+        required: [true, "Account number is required"],
+        balance: {
+          type: Number,
+          default: 0,
+        },
+      },
+    },
   },
   {
     timestamps: true,
