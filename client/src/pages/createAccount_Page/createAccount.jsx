@@ -2,9 +2,8 @@ import { useState } from "react";
 import "./createAcount.scss";
 function CreateAccount() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({state: false, message: ''});
+  const [error, setError] = useState({ state: false, message: "" });
   const [formData, setFormData] = useState({});
-  console.log('error', error);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -22,11 +21,16 @@ function CreateAccount() {
       const data = await res.json();
       setLoading(false);
       if (!data.success) {
-        setError({state:!data.success, message:data.message})
+        setError({ state: !data.success, message: data.message });
+      } else {
+        setError({ state: false, message: "" });
       }
     } catch (error) {
       setLoading(false);
-      setError({ state: true, message:"An error occured! Please try again later." })
+      setError({
+        state: true,
+        message: "An error occured! Please try again later.",
+      });
     }
   };
 
