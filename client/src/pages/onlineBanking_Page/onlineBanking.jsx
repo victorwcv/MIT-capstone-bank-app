@@ -1,11 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "./onlineBanking.scss";
+import {
+  authFailure,
+  authStart,
+  authSuccess,
+} from "../../store/slices/userSlice";
 
 function OnlineBanking() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ state: false, message: "" });
   const [formData, setFormData] = useState({});
-  console.log(error);
+  const { loading, error } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -13,25 +21,23 @@ function OnlineBanking() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate form data before submission
+
     try {
-      setLoading(true);
+      dispatch(authStart());
       const res = await fetch("http://localhost:3000/api/auth/online-banking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       let data = await res.json();
-      setLoading(false);
-      console.log(data);
       if (!res.ok) {
-        setError({ state: !data.success, message: data.message });
-      } else {
-        setError({ state: false, message: "" });
+        dispatch(authFailure(data));
+        return;
       }
+      dispatch(authSuccess(data));
+      navigate("/");
     } catch (error) {
-      setError({ state: !data.success, message: data.message });
-      setLoading(false);
+      dispatch(authFailure(error));
     }
   };
 
@@ -82,7 +88,7 @@ function OnlineBanking() {
               {loading ? "Loading..." : "Access"}
             </button>
             <p className="text-red-600 mt-2 text-sm h-4">
-              {error.state && error.message}
+              {error ? error.message || "somenthing went wrong" : ""}
             </p>
           </form>
         </div>
