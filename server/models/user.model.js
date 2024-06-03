@@ -37,7 +37,6 @@ const userSchema = new mongoose.Schema(
       accountNumber: {
         type: Number,
         length: 15,
-        required: [true, "Account number is required"],
         balance: {
           type: Number,
           default: 0,

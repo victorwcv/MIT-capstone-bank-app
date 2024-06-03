@@ -22,8 +22,7 @@ function CreateAccount() {
       setLoading(false);
       if (!data.success) {
         setError({ state: !data.success, message: data.message });
-      } else {
-        setError({ state: false, message: "" });
+        return;
       }
     } catch (error) {
       setLoading(false);

@@ -45,7 +45,10 @@ export const onlineBanking = async (req, res, next) => {
       { expiresIn: "1h" }
     );
     res
-      .cookie("access_token", accessToken, { httpOnly: true, maxAge: 60 * 60 * 1000, })
+      .cookie("access_token", accessToken, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+      })
       .status(200)
       .json({
         _id: validUser._id,
@@ -57,4 +60,8 @@ export const onlineBanking = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const signout = (req, res) => {
+  res.clearCookie("access_token").status(200).json("Signed out!");
 };

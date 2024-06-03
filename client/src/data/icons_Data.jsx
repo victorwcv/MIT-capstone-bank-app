@@ -4,6 +4,7 @@ import { LiaPiggyBankSolid } from "react-icons/lia";
 import { BsPersonBadge } from "react-icons/bs";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { RiHandCoinLine, RiShieldUserFill } from "react-icons/ri";
+import { PiSignOutBold } from "react-icons/pi";
 
 
 const icons = {
@@ -14,6 +15,7 @@ const icons = {
   secure: <RiSecurePaymentFill />,
   service: <RiHandCoinLine />,
   secure: <RiShieldUserFill />,
+  signout: <PiSignOutBold />
 }
 
 export default icons

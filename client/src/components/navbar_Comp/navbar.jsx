@@ -1,7 +1,21 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import icons from "../../data/icons_Data";
+import { signout } from "../../store/slices/userSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleSignout = async () => {
+    try {
+      await fetch("http://localhost:3000/api/auth/signout");
+      dispatch(signout());
+      // location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <nav className="bg-neutral-100 p-4">
@@ -47,14 +61,19 @@ function Navbar() {
               Create Account
             </Link>
           )}
-          <Link
-            to="/dashboard"
-            className="hover:underline underline-offset-4"
-          >
+          <Link to="/dashboard" className="hover:underline underline-offset-4">
             {currentUser
-              ? `Welcome, ${currentUser.username}`
+              ? currentUser.username
               : "Online Banking"}
           </Link>
+          {currentUser && (
+            <button
+              onClick={handleSignout}
+              className="inline-flex gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg"
+            >
+              Sign out <span>{icons.signout}</span>
+            </button>
+          )}
         </div>
       </div>
     </nav>

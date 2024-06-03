@@ -33,7 +33,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "online-banking",
-        element: <OnlineBanking />, // TODO: Add redirect to /dashboard when not logged in.
+        element: <OnlineBanking />, //  Redirect to /onlineBanking_Page when not logged in.
       }
     ],
   },
