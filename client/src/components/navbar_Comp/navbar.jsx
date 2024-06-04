@@ -5,6 +5,10 @@ import icons from "../../data/icons_Data";
 import { signout } from "../../store/slices/userSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
+
+  let isUser = currentUser && currentUser.role === "user";
+  let isAdmin = currentUser && currentUser.role === "admin";
+
   const dispatch = useDispatch();
 
   const handleSignout = async () => {
@@ -41,17 +45,27 @@ function Navbar() {
             <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
               Suport
             </Link>
-            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
-              Transactions
-            </Link>
-            
-             {currentUser && currentUser.role === 'admin' ? (<Link to="/all-data" className="text-neutral-600 hover:text-neutral-800 ">
-              All Data
-            </Link>) : null} 
-            
-            
+
+            {isUser && (
+              <Link
+                to="/transactions"
+                className="text-neutral-600 hover:text-neutral-800"
+              >
+                Transactions
+              </Link>
+            )}
+
+            {isAdmin && (
+              <Link
+                to="/admin-panel"
+                className="text-red-500 hover:text-red-700"
+              >
+                Admin Panel
+              </Link>
+            )}
           </div>
         </div>
+
         <div className="space-x-4">
           {currentUser ? (
             ""
@@ -64,9 +78,7 @@ function Navbar() {
             </Link>
           )}
           <Link to="/dashboard" className="hover:underline underline-offset-4">
-            {currentUser
-              ? currentUser.username
-              : "Online Banking"}
+            {currentUser ? currentUser.username : "Online Banking"}
           </Link>
           {currentUser && (
             <button

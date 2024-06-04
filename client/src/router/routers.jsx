@@ -7,7 +7,9 @@ import Layout from "../layouts/layout";
 import Dashboard from "../pages/dashBoard_Page/dashboard";
 import PrivateRoute from "../auth/privateRoute";
 import AdminRoute from "../auth/adminRoute";
-import AllData from "../pages/allData_Page/allData";
+import AdminPanel from "../pages/adminPanel_Page/adminPanel";
+import Transactions from "../pages/transactions_Page/transactions";
+import AllData from "../components/allData_Comp/allData";
 
 const Router = createBrowserRouter([
   {
@@ -38,15 +40,25 @@ const Router = createBrowserRouter([
         element: <OnlineBanking />, //  Redirect to /onlineBanking_Page when not logged in.
       },
       {
-        path: "/all-data",
+        path: "/admin-panel",
         element: <AdminRoute/>,
         children: [
           {
             path: "",
-            element: <AllData />,
+            element: <AdminPanel />,
           },
         ],
       },
+      {
+        path: '/transactions',
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '',
+            element: <Transactions />
+          }
+        ]
+      }
     ],
   },
 ]);

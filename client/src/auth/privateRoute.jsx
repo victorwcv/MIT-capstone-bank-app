@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 function PrivateRoute() {
   const {currentUser} = useSelector(state => state.user);
-
+  
   return currentUser ? <Outlet /> : <Navigate to='/online-banking'/>
 }
 
