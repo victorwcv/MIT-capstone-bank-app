@@ -56,6 +56,7 @@ export const onlineBanking = async (req, res, next) => {
         phone: validUser.phone,
         email: validUser.email,
         address: validUser.address,
+        role: validUser.role,
       });
   } catch (error) {
     next(error);

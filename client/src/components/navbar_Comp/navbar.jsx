@@ -11,7 +11,6 @@ function Navbar() {
     try {
       await fetch("http://localhost:3000/api/auth/signout");
       dispatch(signout());
-      // location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -45,9 +44,12 @@ function Navbar() {
             <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
               Transactions
             </Link>
-            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
+            
+             {currentUser && currentUser.role === 'admin' ? (<Link to="/all-data" className="text-neutral-600 hover:text-neutral-800 ">
               All Data
-            </Link>
+            </Link>) : null} 
+            
+            
           </div>
         </div>
         <div className="space-x-4">

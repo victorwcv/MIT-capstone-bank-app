@@ -9,17 +9,6 @@ const userSchema = new mongoose.Schema(
       maxlength: [30, "Username cannot be longer than 30 characters"],
       trim: true,
     },
-    address: {
-      type: String,
-      required: [true, "Address is required"],
-      trim: true,
-    },
-    phone: {
-      type: String,
-      required: [true, "Phone number is required"],
-      match: [/^\d{10}$/, "Phone number must be 10 digits"],
-      trim: true,
-    },
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -33,15 +22,46 @@ const userSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters long"],
       trim: true,
     },
-    bankDetails: {
-      accountNumber: {
-        type: Number,
-        length: 15,
-        balance: {
-          type: Number,
-          default: 0,
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    phone: {
+      type: String,
+      validate: [
+        {
+          validator: function (v) {
+            if (this.role === "user" && (!v || v.trim().length === 0)) {
+              return false;
+            }
+            return true;
+          },
+          message: (props) => "Phone number is required",
         },
-      },
+        {
+          validator: function (v) {
+            if (this.role === 'user') {
+              const phoneRegex = /^[0-9]{8,11}$/;
+              return phoneRegex.test(v);
+            }
+            return true;
+          },
+          message: (props) => 'Phone number is 8 to 11 digits'
+        }
+      ],
+    },
+    address: {
+      type: String,
+      validate: {
+        validator: function (v) {
+          if (this.role === 'user' && (!v || v.trim().length === 0)) {
+            return false;
+          }
+          return true;
+        },
+        message: props => 'Address is required'
+      }
     },
   },
   {
