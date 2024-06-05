@@ -39,23 +39,22 @@ export const onlineBanking = async (req, res, next) => {
     const validPass = await bcryptjs.compare(password, validUser.password);
     if (!validPass) return next(errorHandler(401, "Invalid Password"));
     // Sign JWT and add to response header as token
-    const accessToken = jwt.sign(
-      { _id: validUser._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+    const token = jwt.sign(
+      { _id: validUser._id, role: validUser.role }, //Payload
+      process.env.JWT_SECRET, //Secret Key
+      { expiresIn: "1h" } //Options
     );
     res
-      .cookie("access_token", accessToken, {
+      .cookie("token", token, {
         httpOnly: true,
-        maxAge: 60 * 60 * 1000,
+        // secure: false,
+        // maxAge: 1000000,
+        // signed: true,
       })
       .status(200)
       .json({
         _id: validUser._id,
         username: validUser.username,
-        phone: validUser.phone,
-        email: validUser.email,
-        address: validUser.address,
         role: validUser.role,
       });
   } catch (error) {

@@ -28,6 +28,7 @@ function OnlineBanking() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
       let data = await res.json();
       if (!res.ok) {
