@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import transactionSchema from "./transaction.schema.js";
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: [true, "Username is required"],
-      minlength: [3, "Username must be at least 5 characters long"],
+      minlength: [5, "Username must be at least 5 characters long"],
       maxlength: [30, "Username cannot be longer than 30 characters"],
       trim: true,
     },
@@ -63,6 +64,13 @@ const userSchema = new mongoose.Schema(
         message: props => 'Address is required'
       }
     },
+    banking: {
+      transactions: [transactionSchema],
+      balance: {
+        type: Number,
+        default: 0
+      }
+    }
   },
   {
     timestamps: true,
