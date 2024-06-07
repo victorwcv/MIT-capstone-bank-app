@@ -1,9 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
+import { useState } from "react";
 function Deposit() {
-  
-  
+  const [data,setData] = useState(null)
+
   return (
     <div>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
@@ -23,13 +24,40 @@ function Deposit() {
           description: "",
         }}
         validationSchema={Yup.object({
-          amount: Yup.number().positive("Enter a positive amount").required("Required"),
-          destinationAccount: Yup.string().required("Required").length(11,"Enter 11 digits"),
+          amount: Yup.number()
+            .positive("Enter a positive amount")
+            .required("Required"),
+          destinationAccount: Yup.string()
+            .required("Required")
+            .length(11, "Enter 11 digits"),
           depositDate: Yup.string(),
           description: Yup.string(),
         })}
         onSubmit={(values) => {
           console.log(values);
+          try {
+            fetch("http://localhost:3000/api/user/transactions/deposit", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(values),
+              credentials: 'include'
+            }).then(res => {
+              if (!res.ok) throw new Error('Server response wasn\'t OK');
+              return res.json()
+            }).then(data => {
+              console.log(data)
+              alert(`Deposited successfully! Transaction ID is ${data.message}`)
+
+            })
+          
+
+            
+          } catch (error) {
+            console.log(error)
+          }
+
         }}
       >
         {(formik) => (
@@ -93,9 +121,13 @@ function Deposit() {
                 />
                 <ErrorMessage name="description" />
               </div>
-            <button type="submit" disabled={formik.isSubmitting} className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500">
-              Submit
-            </button>
+              <button
+                type="submit"
+                disabled={formik.isSubmitting}
+                className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
+              >
+                Submit
+              </button>
             </div>
           </Form>
         )}
