@@ -68,25 +68,36 @@ function Navbar() {
 
         <div className="space-x-4">
           {currentUser ? (
-            ""
+            <>
+              <Link
+                to="/dashboard"
+                className="hover:underline underline-offset-4"
+              >
+                {currentUser && currentUser.username}
+              </Link>
+
+              <button
+                onClick={handleSignout}
+                className="inline-flex gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg"
+              >
+                Sign out <span>{icons.signout}</span>
+              </button>
+            </>
           ) : (
-            <Link
-              to="/create-account"
-              className="border-2 font-semibold rounded-full border-[var(--secondary-color)] py-2 px-10"
-            >
-              Create Account
-            </Link>
-          )}
-          <Link to="/dashboard" className="hover:underline underline-offset-4">
-            {currentUser ? currentUser.username : "Online Banking"}
-          </Link>
-          {currentUser && (
-            <button
-              onClick={handleSignout}
-              className="inline-flex gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg"
-            >
-              Sign out <span>{icons.signout}</span>
-            </button>
+            <>
+              <Link
+                to="/create-account"
+                className="border-2 font-semibold rounded-full border-[var(--secondary-color)] py-2 px-10"
+              >
+                Create Account
+              </Link>
+              <Link
+                to="/online-banking"
+                className="hover:underline underline-offset-4"
+              >
+                Online Banking
+              </Link>
+            </>
           )}
         </div>
       </div>

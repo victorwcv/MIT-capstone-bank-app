@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import generateBankAccNum from "../utils/generateBankAccNum.js";
 
 export const createAccount = async (req, res, next) => {
   const { username, email, password, address, phone } = req.body;
@@ -12,6 +13,13 @@ export const createAccount = async (req, res, next) => {
     password: hashedPassword,
     address,
     phone,
+    banking: {
+      bankAccounts: [
+        {
+          bankAccountNumber: generateBankAccNum(),
+        },
+      ],
+    },
   });
   try {
     await newUser.save();
@@ -56,6 +64,9 @@ export const onlineBanking = async (req, res, next) => {
         _id: validUser._id,
         username: validUser.username,
         role: validUser.role,
+        bankAccounts:[
+          ...validUser.banking.bankAccounts
+        ]
       });
   } catch (error) {
     next(error);

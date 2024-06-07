@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import transactionSchema from "./transaction.schema.js";
+import bankAccountSchema from "./bankAccount.schema.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -66,10 +67,7 @@ const userSchema = new mongoose.Schema(
     },
     banking: {
       transactions: [transactionSchema],
-      balance: {
-        type: Number,
-        default: 0
-      }
+      bankAccounts: [bankAccountSchema],
     }
   },
   {
