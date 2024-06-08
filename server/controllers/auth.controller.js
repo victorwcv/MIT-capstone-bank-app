@@ -64,9 +64,6 @@ export const onlineBanking = async (req, res, next) => {
         _id: validUser._id,
         username: validUser.username,
         role: validUser.role,
-        bankAccounts:[
-          ...validUser.banking.bankAccounts
-        ]
       });
   } catch (error) {
     next(error);

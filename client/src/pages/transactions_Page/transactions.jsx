@@ -1,26 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/footer_Comp/footer";
 import Deposit from "../../components/deposit_Comp/deposit";
 import Withdrawal from "../../components/withdraw_Comp/withdrawal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchStart,
+  fetchSucces,
+  fetchFailure,
+} from "../../store/slices/userDataSlice";
+import { fetchData } from "../../utils/fetchData";
+import Loading from "../../components/loading_Comp/loading";
 
 const transactionsOptions = [
   { id: "deposit", label: "Deposit" },
   { id: "withdrawal", label: "Withdrawal" },
 ];
 
-const componentsMap = {
-  deposit: <Deposit />,
-  withdrawal: <Withdrawal />,
-};
-
 function Transactions() {
-  const [panelPage, setPanelPge] = useState("deposit");
+  const { data, loading, error } = useSelector((state) => state.userData);
+  const [panelPage, setPanelPage] = useState("deposit");
+  const dispatch = useDispatch();
 
-  console.log("rendering!");
+ 
+    useEffect(() => {
+      const loadData = async () => {
+        try {
+          dispatch(fetchStart());
+          const data = await fetchData(
+            "http://localhost:3000/api/user/transactions/user-data",
+            { method: "GET", credentials: "include" }
+          );
+          dispatch(fetchSucces(data));
+          console.log("User data fetched correctly!", data);
+        } catch (error) {
+          dispatch(fetchFailure());
+          console.error("Eror loading data:", error);
+        }
+      };
+      loadData();
+    }, [dispatch]);
+ 
+
+  console.log("rendering transactions!");
 
   const handleClick = (e) => {
-    setPanelPge(e.target.id);
-    console.log("You are ", e.target.id);
+    setPanelPage(e.target.id);
+  };
+
+  const componentsMap = {
+    deposit: <Deposit data={data} />,
+    withdrawal: <Withdrawal />,
   };
 
   return (
@@ -47,7 +76,7 @@ function Transactions() {
           </div>
 
           <div className="flex justify-center items-center bg-neutral-100 col-span-3">
-            {componentsMap[panelPage]}
+            {loading ? <Loading /> : componentsMap[panelPage]}
           </div>
         </div>
       </section>

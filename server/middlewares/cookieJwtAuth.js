@@ -7,7 +7,7 @@ export const cookieJwtAuth = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'No Token provided.', link:'/' });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    console.log("Authenticate correctly");
     req.user = decoded;
     next();
   } catch (error) {
