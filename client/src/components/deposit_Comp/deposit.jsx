@@ -1,19 +1,34 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
-import { useState } from "react";
-function Deposit() {
-  const [data,setData] = useState(null)
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../../utils/fetchData.js";
+import {
+  fetchStart,
+  fetchSucces,
+  fetchFailure,
+} from "../../store/slices/userDataSlice";
+import Loading from "../loading_Comp/loading.jsx";
+
+function Deposit({ data }) {
+  console.log("rendering deposit");
+  const dispatch = useDispatch();
+
+  if (!data) return <Loading />;
 
   return (
     <div>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
       <div className="mb-6 text-xl">
-        <h3>User Balance</h3>
-        <div className="flex justify-between border-b-2">
-          <p>Account xxxx-xxxx-xxxxxxxxxxx</p>
-          <p>3000</p>
-        </div>
+        <h3 className="mb-4">User Balance</h3>
+        {data.bankAccounts.map((acc, index) => {
+          return (
+            <div key={index} className="flex justify-between border-b-2">
+              <p>{acc.bankAccountNumber}</p>
+              <p>{acc.AccountBalance}</p>
+            </div>
+          );
+        })}
       </div>
       <Formik
         initialValues={{
@@ -27,37 +42,31 @@ function Deposit() {
           amount: Yup.number()
             .positive("Enter a positive amount")
             .required("Required"),
-          destinationAccount: Yup.string()
-            .required("Required")
-            .length(11, "Enter 11 digits"),
+          destinationAccount: Yup.string().required("Required"),
           depositDate: Yup.string(),
           description: Yup.string(),
         })}
-        onSubmit={(values) => {
+        onSubmit={async (values, { resetForm }) => {
           console.log(values);
+
           try {
-            fetch("http://localhost:3000/api/user/transactions/deposit", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(values),
-              credentials: 'include'
-            }).then(res => {
-              if (!res.ok) throw new Error('Server response wasn\'t OK');
-              return res.json()
-            }).then(data => {
-              console.log(data)
-              alert(`Deposited successfully! Transaction ID is ${data.message}`)
-
-            })
-          
-
-            
+            const data = await fetchData(
+              "http://localhost:3000/api/user/transactions/deposit",
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+                credentials: "include",
+              }
+            );
+            console.log("Rendering response", data);
+            dispatch(fetchSucces(data));
+            resetForm();
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
-
         }}
       >
         {(formik) => (
@@ -77,16 +86,28 @@ function Deposit() {
                   <ErrorMessage name="amount" />
                 </div>
               </div>
+
               <div className="flex flex-col my-4 text-xl">
                 <label htmlFor="destinationAccount" className="my-2">
                   Destination Account
                 </label>
+
                 <Field
-                  type="text"
+                  as="select"
                   id="destinationAccount"
                   name="destinationAccount"
                   className="px-4 py-1 outline-none text-right"
-                />
+                >
+                  <option value="">Select an Account</option>
+                  {data.bankAccounts.map((acc, index) => {
+                    return (
+                      <option key={index} value={acc.bankAccountNumber}>
+                        {acc.bankAccountNumber}
+                      </option>
+                    );
+                  })}
+                </Field>
+
                 <div className="text-red-500 mt-1 text-sm font-light h-3">
                   <ErrorMessage name="destinationAccount" />
                 </div>
