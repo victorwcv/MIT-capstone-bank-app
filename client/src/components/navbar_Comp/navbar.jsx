@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import icons from "../../data/icons_Data";
 import { signout } from "../../store/slices/userSlice";
+import { clearData } from "../../store/slices/userDataSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
 
@@ -14,6 +15,7 @@ function Navbar() {
   const handleSignout = async () => {
     try {
       await fetch("http://localhost:3000/api/auth/signout");
+      dispatch(clearData());
       dispatch(signout());
     } catch (error) {
       console.log(error);
