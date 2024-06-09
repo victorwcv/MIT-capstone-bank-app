@@ -1,54 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Footer from "../../components/footer_Comp/footer";
-import Deposit from "../../components/deposit_Comp/deposit";
-import Withdrawal from "../../components/withdraw_Comp/withdrawal";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchStart,
+  fetchEnd,
   fetchSucces,
   fetchFailure,
 } from "../../store/slices/userDataSlice";
-import { fetchData } from "../../utils/fetchData";
-import Loading from "../../components/loading_Comp/loading";
 
 const transactionsOptions = [
-  { id: "deposit", label: "Deposit" },
-  { id: "withdrawal", label: "Withdrawal" },
+  { path: "/transactions/deposit", label: "Deposit" },
+  { path: "/transactions/withdrawal", label: "Withdrawal" },
+  { path: "/transactions/history", label: "Last Transactions" },
 ];
 
 function Transactions() {
-  const { data, loading, error } = useSelector((state) => state.userData);
-  const [panelPage, setPanelPage] = useState("deposit");
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
-    const loadData = async () => {
+    const fetchData = async () => {
       try {
-        dispatch(fetchStart());
-        const data = await fetchData(
-          "http://localhost:3000/api/user/transactions/user-data",
-          { method: "GET", credentials: "include" }
-        );
+        let link = "http://localhost:3000/api/user/transactions/user-data";
+        let options = {
+          method: "GET",
+          credentials: "include",
+        };
+        const response = await fetch(link, options);
+        const data = await response.json();
+        console.log(data);
         dispatch(fetchSucces(data));
-        console.log("User data fetched correctly!", data);
       } catch (error) {
-        dispatch(fetchFailure());
-        console.error("Eror loading data:", error);
+        dispatch(fetchFailure(error));
+      } finally {
+        dispatch(fetchEnd());
       }
     };
-    loadData();
-  }, [dispatch]);
+    fetchData();
+  }, []);
 
   console.log("rendering transactions!");
-
-  const handleClick = (e) => {
-    setPanelPage(e.target.id);
-  };
-
-  const componentsMap = {
-    deposit: <Deposit data={data} />,
-    withdrawal: <Withdrawal data={data} />,
-  };
 
   return (
     <>
@@ -57,24 +48,23 @@ function Transactions() {
           <div className="bg-[var(--secondary-color)] text-white font-medium">
             {transactionsOptions.map((transaction, index) => {
               return (
-                <button
+                <Link
+                  to={transaction.path}
                   key={index}
-                  onClick={handleClick}
-                  id={transaction.id}
                   className={`${
-                    panelPage === transaction.id
-                      ? "bg-[#15151584] border-l-8"
+                    location.pathname === transaction.path
+                      ? "bg-[#15151584] "
                       : ""
-                  } block w-full text-center text-xl py-6 hover:bg-[#15151584]`}
+                  } block w-full border-b-2  text-center text-xl py-6 hover:bg-[#15151584]`}
                 >
                   {transaction.label}
-                </button>
+                </Link>
               );
             })}
           </div>
 
-          <div className="flex justify-center items-center bg-neutral-100 col-span-3">
-            {loading ? <Loading /> : componentsMap[panelPage]}
+          <div className="flex justify-center items-center bg-neutral-100 col-span-3 p-6 overflow-hidden">
+            <Outlet />
           </div>
         </div>
       </section>
