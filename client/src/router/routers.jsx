@@ -10,6 +10,9 @@ import AdminRoute from "../auth/adminRoute";
 import AdminPanel from "../pages/adminPanel_Page/adminPanel";
 import Transactions from "../pages/transactions_Page/transactions";
 import AllData from "../components/allData_Comp/allData";
+import Deposit from "../components/deposit_Comp/deposit";
+import Withdrawal from "../components/withdraw_Comp/withdrawal";
+import HistoryTransactions from "../components/historyTransactions_Comp/historyTransactions";
 
 const Router = createBrowserRouter([
   {
@@ -55,7 +58,25 @@ const Router = createBrowserRouter([
         children: [
           {
             path: '',
-            element: <Transactions />
+            element: <Transactions />,
+            children:[
+              {
+                path:'',
+                element: <div>Please Choose a transaction</div>,
+              },
+              {
+                path: "/transactions/deposit",
+                element: <Deposit />
+              },
+              {
+                path: "/transactions/withdrawal",
+                element: <Withdrawal />
+              },
+              {
+                path: "/transactions/history",
+                element: <HistoryTransactions />
+              },
+            ]
           }
         ]
       }
