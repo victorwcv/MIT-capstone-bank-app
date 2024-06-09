@@ -17,13 +17,15 @@ const transactionSchema = new Schema({
   },
   destinationAccount: {
     type: String,
-    require: true,
   },
-  depositDate: {
+  originAccount: {
+    type: String,
+  },
+  transactionDate: {
     type: String,
     require: true,
   },
-  depositHour: {
+  transactionTime: {
     type: String,
     require: true,
   },
