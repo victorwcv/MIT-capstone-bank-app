@@ -29,8 +29,13 @@ export const deposit = async (req, res, next) => {
     return next(errorHandler(403, "You are not authorized"));
   }
 
-  const { amount, destinationAccount, depositDate, depositHour, description } =
-    req.body;
+  const {
+    amount,
+    destinationAccount,
+    transactionDate,
+    transactionTime,
+    description,
+  } = req.body;
 
   const userID = req.user._id;
 
@@ -44,8 +49,8 @@ export const deposit = async (req, res, next) => {
       type: "deposit",
       amount,
       destinationAccount,
-      depositDate,
-      depositHour,
+      transactionDate,
+      transactionTime,
       description,
     };
 
@@ -60,6 +65,61 @@ export const deposit = async (req, res, next) => {
     }
 
     account.AccountBalance += amount;
+
+    await user.save();
+    console.log("Transaction added succesfully", transaction);
+    res.status(200).json(user.banking);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const withdrawal = async (req, res, next) => {
+  if (req.user.role !== "user") {
+    return next(errorHandler(403, "You are not authorized"));
+  }
+
+  const {
+    amount,
+    originAccount,
+    transactionDate,
+    transactionTime,
+    description,
+  } = req.body;
+
+  const userID = req.user._id;
+
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+      return next(errorHandler(401, "User not found"));
+    }
+
+    const transaction = {
+      type: "withdrawal",
+      amount,
+      originAccount,
+      transactionDate,
+      transactionTime,
+      description,
+    };
+
+    user.banking.transactions.push(transaction);
+
+    const account = user.banking.bankAccounts.find(
+      (account) => account.bankAccountNumber === originAccount
+    );
+
+    if (!account) {
+      return next(errorHandler(404, "Origin account not found"));
+    }
+
+    if (account.AccountBalance === 0 || account.AccountBalance - amount < 0) {
+      return next(errorHandler(404, "Not enough founds"));
+    } else {
+      account.AccountBalance -= amount;
+      console.log("Withdrawal Success");
+    }
 
     await user.save();
     console.log("Transaction added succesfully", transaction);
