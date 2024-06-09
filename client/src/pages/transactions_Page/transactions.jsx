@@ -21,25 +21,23 @@ function Transactions() {
   const [panelPage, setPanelPage] = useState("deposit");
   const dispatch = useDispatch();
 
- 
-    useEffect(() => {
-      const loadData = async () => {
-        try {
-          dispatch(fetchStart());
-          const data = await fetchData(
-            "http://localhost:3000/api/user/transactions/user-data",
-            { method: "GET", credentials: "include" }
-          );
-          dispatch(fetchSucces(data));
-          console.log("User data fetched correctly!", data);
-        } catch (error) {
-          dispatch(fetchFailure());
-          console.error("Eror loading data:", error);
-        }
-      };
-      loadData();
-    }, [dispatch]);
- 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        dispatch(fetchStart());
+        const data = await fetchData(
+          "http://localhost:3000/api/user/transactions/user-data",
+          { method: "GET", credentials: "include" }
+        );
+        dispatch(fetchSucces(data));
+        console.log("User data fetched correctly!", data);
+      } catch (error) {
+        dispatch(fetchFailure());
+        console.error("Eror loading data:", error);
+      }
+    };
+    loadData();
+  }, [dispatch]);
 
   console.log("rendering transactions!");
 
@@ -49,7 +47,7 @@ function Transactions() {
 
   const componentsMap = {
     deposit: <Deposit data={data} />,
-    withdrawal: <Withdrawal />,
+    withdrawal: <Withdrawal data={data} />,
   };
 
   return (
