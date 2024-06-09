@@ -34,8 +34,8 @@ function Deposit({ data }) {
         initialValues={{
           amount: "",
           destinationAccount: "",
-          depositDate: getCurrentDateTime().onlyDate,
-          depositHour: getCurrentDateTime().timeOnly,
+          transactionDate: getCurrentDateTime().onlyDate,
+          transactionTime: getCurrentDateTime().timeOnly,
           description: "",
         }}
         validationSchema={Yup.object({
@@ -43,7 +43,8 @@ function Deposit({ data }) {
             .positive("Enter a positive amount")
             .required("Required"),
           destinationAccount: Yup.string().required("Required"),
-          depositDate: Yup.string(),
+          transactionDate: Yup.string(),
+          transactionTime: Yup.string(),
           description: Yup.string(),
         })}
         onSubmit={async (values, { resetForm }) => {
@@ -114,18 +115,18 @@ function Deposit({ data }) {
               </div>
 
               <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="depositDate" className="my-2">
+                <label htmlFor="transactionDate" className="my-2">
                   Deposit Date
                 </label>
                 <Field
                   type="text"
-                  id="depositDate"
-                  name="depositDate"
+                  id="transactionDate"
+                  name="transactionDate"
                   className="px-4 py-1 outline-none text-right"
                   readOnly
                 />
                 <div className="text-red-500 mt-1 text-sm font-light h-3">
-                  <ErrorMessage name="depositDate" />
+                  <ErrorMessage name="transactionDate" />
                 </div>
               </div>
             </div>
@@ -147,7 +148,7 @@ function Deposit({ data }) {
                 disabled={formik.isSubmitting}
                 className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
               >
-                Submit
+                Deposit
               </button>
             </div>
           </Form>
