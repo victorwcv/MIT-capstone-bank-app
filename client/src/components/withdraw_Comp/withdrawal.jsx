@@ -1,30 +1,58 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { fetchData } from "../../utils/fetchData.js";
-import { fetchSucces } from "../../store/slices/userDataSlice";
-import Loading from "../loading_Comp/loading.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchFailure,
+  fetchSucces,
+  fetchStart,
+} from "../../store/slices/userDataSlice";
 
-function Withdrawal({ data }) {
+function Withdrawal() {
+  const { loading, data, error } = useSelector((state) => state.userData);
+
   console.log("rendering withdrawal");
   const dispatch = useDispatch();
 
-  if (!data) return <Loading />;
+  const handleSubmit = async (values, reset) => {
+    try {
+      dispatch(fetchStart());
+      const link = "http://localhost:3000/api/user/transactions/withdrawal";
+      const options = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      };
+      const response = await fetch(link, options);
+      const data = await response.json();
+      if (data.success === false) {
+        dispatch(fetchFailure(data));
+        return;
+      }
+      dispatch(fetchSucces(data));
+      reset();
+    } catch (error) {
+      dispatch(fetchFailure(error));
+    }
+  };
 
   return (
     <div>
       <h2 className="text-3xl text-center font-bold mb-10">Withdrawal</h2>
       <div className="mb-6 text-xl">
         <h3 className="mb-4">User Balance</h3>
-        {data.bankAccounts.map((acc, index) => {
-          return (
-            <div key={index} className="flex justify-between border-b-2">
-              <p>{acc.bankAccountNumber}</p>
-              <p>{acc.AccountBalance}</p>
-            </div>
-          );
-        })}
+        {data &&
+          data.bankAccounts?.map((acc, index) => {
+            return (
+              <div key={index} className="flex justify-between border-b-2">
+                <p>{acc.bankAccountNumber}</p>
+                <p>{acc.AccountBalance}</p>
+              </div>
+            );
+          })}
       </div>
       <Formik
         initialValues={{
@@ -44,26 +72,7 @@ function Withdrawal({ data }) {
           description: Yup.string(),
         })}
         onSubmit={async (values, { resetForm }) => {
-          console.log(values);
-
-          try {
-            const data = await fetchData(
-              "http://localhost:3000/api/user/transactions/withdrawal",
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-                credentials: "include",
-              }
-            );
-            console.log("Rendering response", data);
-            dispatch(fetchSucces(data));
-            resetForm();
-          } catch (error) {
-            console.log(error);
-          }
+          handleSubmit(values, resetForm);
         }}
       >
         {(formik) => (
@@ -96,7 +105,7 @@ function Withdrawal({ data }) {
                   className="px-4 py-1 outline-none text-right"
                 >
                   <option value="">Select an Account</option>
-                  {data.bankAccounts.map((acc, index) => {
+                  {data.bankAccounts?.map((acc, index) => {
                     return (
                       <option key={index} value={acc.bankAccountNumber}>
                         {acc.bankAccountNumber}
@@ -144,8 +153,11 @@ function Withdrawal({ data }) {
                 disabled={formik.isSubmitting}
                 className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
               >
-                Withdraw
+                {loading ? "Loading..." : "Withdraw"}
               </button>
+              <p className="text-red-500 text-right mt-4">
+                {error && error.message}
+              </p>
             </div>
           </Form>
         )}
