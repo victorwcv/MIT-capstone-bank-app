@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: null,
   loading: false,
-  error: false,
+  error: null,
 };
 
 const userDataSlice = createSlice({
@@ -16,17 +16,16 @@ const userDataSlice = createSlice({
     fetchSucces(state, action) {
       state.data = action.payload;
       state.loading = false;
-      state.error = false;
+      state.error = null;
     },
     fetchFailure(state, action) {
-      state.data = null;
       state.loading = false;
       state.error = action.payload;
     },
     clearData(state) {
       state.data = null;
-      state.loading = false;
-      state.error = false;
+      state.loading = true;
+      state.error = null;
     },
   },
 });
