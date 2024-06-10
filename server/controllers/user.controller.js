@@ -115,7 +115,7 @@ export const withdrawal = async (req, res, next) => {
     }
 
     if (account.AccountBalance === 0 || account.AccountBalance - amount < 0) {
-      return next(errorHandler(404, "Not enough founds"));
+      return next(errorHandler(400, "Insufficient funds"));
     } else {
       account.AccountBalance -= amount;
       console.log("Withdrawal Success");

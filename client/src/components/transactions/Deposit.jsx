@@ -3,21 +3,21 @@ import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchFailure,
-  fetchSucces,
   fetchStart,
-} from "../../store/slices/userDataSlice";
+  fetchSucces,
+  fetchFailure,
+} from "../../store/slices/userDataSlice.js";
 
-function Withdrawal() {
-  const { loading, data, error } = useSelector((state) => state.userData);
+function Deposit() {
+  const { loading, error, data } = useSelector((state) => state.userData);
 
-  console.log("rendering withdrawal");
+  console.log("rendering deposit");
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values, reset) => {
+  const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/user/transactions/withdrawal";
+      const link = "http://localhost:3000/api/user/transactions/deposit";
       const options = {
         method: "PATCH",
         headers: {
@@ -28,36 +28,31 @@ function Withdrawal() {
       };
       const response = await fetch(link, options);
       const data = await response.json();
-      if (data.success === false) {
-        dispatch(fetchFailure(data));
-        return;
-      }
       dispatch(fetchSucces(data));
-      reset();
     } catch (error) {
+      console.log("error,hapening", error);
       dispatch(fetchFailure(error));
     }
   };
 
   return (
     <div>
-      <h2 className="text-3xl text-center font-bold mb-10">Withdrawal</h2>
+      <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
       <div className="mb-6 text-xl">
         <h3 className="mb-4">User Balance</h3>
-        {data &&
-          data.bankAccounts?.map((acc, index) => {
-            return (
-              <div key={index} className="flex justify-between border-b-2">
-                <p>{acc.bankAccountNumber}</p>
-                <p>{acc.AccountBalance}</p>
-              </div>
-            );
-          })}
+        {data.bankAccounts?.map((acc, index) => {
+          return (
+            <div key={index} className="flex justify-between border-b-2">
+              <p>{acc.bankAccountNumber}</p>
+              <p>{acc.AccountBalance}</p>
+            </div>
+          );
+        })}
       </div>
       <Formik
         initialValues={{
           amount: "",
-          originAccount: "",
+          destinationAccount: "",
           transactionDate: getCurrentDateTime().onlyDate,
           transactionTime: getCurrentDateTime().timeOnly,
           description: "",
@@ -66,13 +61,15 @@ function Withdrawal() {
           amount: Yup.number()
             .positive("Enter a positive amount")
             .required("Required"),
-          originAccount: Yup.string().required("Required"),
+          destinationAccount: Yup.string().required("Required"),
           transactionDate: Yup.string(),
           transactionTime: Yup.string(),
           description: Yup.string(),
         })}
-        onSubmit={async (values, { resetForm }) => {
-          handleSubmit(values, resetForm);
+        onSubmit={(values, { resetForm }) => {
+          console.log(values);
+          handleSubmit(values);
+          resetForm();
         }}
       >
         {(formik) => (
@@ -80,7 +77,7 @@ function Withdrawal() {
             <div>
               <div className="flex flex-col my-4 text-xl">
                 <label htmlFor="amount" className="my-2">
-                  Amount to Withdraw
+                  Amount to Deposit
                 </label>
                 <Field
                   type="number"
@@ -94,14 +91,14 @@ function Withdrawal() {
               </div>
 
               <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="originAccount" className="my-2">
-                  Origin Account
+                <label htmlFor="destinationAccount" className="my-2">
+                  Destination Account
                 </label>
 
                 <Field
                   as="select"
-                  id="originAccount"
-                  name="originAccount"
+                  id="destinationAccount"
+                  name="destinationAccount"
                   className="px-4 py-1 outline-none text-right"
                 >
                   <option value="">Select an Account</option>
@@ -115,13 +112,13 @@ function Withdrawal() {
                 </Field>
 
                 <div className="text-red-500 mt-1 text-sm font-light h-3">
-                  <ErrorMessage name="originAccount" />
+                  <ErrorMessage name="destinationAccount" />
                 </div>
               </div>
 
               <div className="flex flex-col my-4 text-xl">
                 <label htmlFor="transactionDate" className="my-2">
-                  Withdrawal Date
+                  Deposit Date
                 </label>
                 <Field
                   type="text"
@@ -153,7 +150,7 @@ function Withdrawal() {
                 disabled={formik.isSubmitting}
                 className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
               >
-                {loading ? "Loading..." : "Withdraw"}
+                {loading ? "Loading..." : "Deposit"}
               </button>
               <p className="text-red-500 text-right mt-4">
                 {error && error.message}
@@ -166,4 +163,4 @@ function Withdrawal() {
   );
 }
 
-export default Withdrawal;
+export default Deposit;

@@ -1,7 +1,7 @@
-import AllData from "../../components/allData_Comp/allData";
+import AllData from "../../components/adminPanel/AllData";
 import { useState } from "react";
-import CreateNewAdmin from "../../components/createNewAdmin_Comp/createNewAdmin";
-import Footer from "../../components/footer_Comp/footer";
+import CreateNewAdmin from "../../components/adminPanel/CreateNewAdmin";
+import Footer from "../../components/footer_Comp/Footer";
 
 const adminOptions = [
   {

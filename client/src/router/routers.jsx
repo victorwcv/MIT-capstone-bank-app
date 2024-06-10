@@ -1,18 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import ErrorPage from "../errorPage";
-import OnlineBanking from "../pages/onlineBanking_Page/onlineBanking";
-import CreateAccount from "../pages/createAccount_Page/createAccount";
-import Layout from "../layouts/layout";
-import Dashboard from "../pages/dashBoard_Page/dashboard";
-import PrivateRoute from "../auth/privateRoute";
-import AdminRoute from "../auth/adminRoute";
-import AdminPanel from "../pages/adminPanel_Page/adminPanel";
-import Transactions from "../pages/transactions_Page/transactions";
-import AllData from "../components/allData_Comp/allData";
-import Deposit from "../components/deposit_Comp/deposit";
-import Withdrawal from "../components/withdraw_Comp/withdrawal";
-import HistoryTransactions from "../components/historyTransactions_Comp/historyTransactions";
+import ErrorPage from "../components/ErrorPage";
+import OnlineBanking from "../pages/onlineBanking_Page/OnlineBanking";
+import CreateAccount from "../pages/createAccount_Page/CreateAccount";
+import Layout from "../layouts/Layout";
+import Dashboard from "../pages/dashBoard_Page/Dashboard";
+import PrivateRoute from "../auth/PrivateRoute";
+import AdminRoute from "../auth/AdminRoute";
+import AdminPanel from "../pages/adminPanel_Page/AdminPanel";
+import AllData from "../components/adminPanel/AllData";
+import Transactions from "../pages/transactions_Page/Transactions";
+import HistoryTransactions from "../components/transactions/HistoryTransactions";
+import Withdrawal from "../components/transactions/Withdrawal";
+import Deposit from "../components/transactions/Deposit";
 
 const Router = createBrowserRouter([
   {
@@ -26,7 +26,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <PrivateRoute/>,
+        element: <PrivateRoute />,
         children: [
           {
             path: "",
@@ -44,7 +44,7 @@ const Router = createBrowserRouter([
       },
       {
         path: "/admin-panel",
-        element: <AdminRoute/>,
+        element: <AdminRoute />,
         children: [
           {
             path: "",
@@ -53,33 +53,35 @@ const Router = createBrowserRouter([
         ],
       },
       {
-        path: '/transactions',
+        path: "/transactions",
         element: <PrivateRoute />,
         children: [
           {
-            path: '',
+            path: "",
             element: <Transactions />,
-            children:[
+            children: [
               {
-                path:'',
-                element: <div>Please Choose a transaction</div>,
+                path: "",
+                element: (
+                  <div className="text-2xl">Please choose an option</div>
+                ),
               },
               {
                 path: "/transactions/deposit",
-                element: <Deposit />
+                element: <Deposit />,
               },
               {
                 path: "/transactions/withdrawal",
-                element: <Withdrawal />
+                element: <Withdrawal />,
               },
               {
                 path: "/transactions/history",
-                element: <HistoryTransactions />
+                element: <HistoryTransactions />,
               },
-            ]
-          }
-        ]
-      }
+            ],
+          },
+        ],
+      },
     ],
   },
 ]);

@@ -6,7 +6,6 @@ import { signout } from "../../store/slices/userSlice";
 import { clearData } from "../../store/slices/userDataSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
-
   let isUser = currentUser && currentUser.role === "user";
   let isAdmin = currentUser && currentUser.role === "admin";
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import Footer from "../../components/footer_Comp/footer";
+import Footer from "../../components/footer_Comp/Footer";
 import {
   fetchStart,
   fetchSucces,
@@ -33,7 +33,7 @@ function Transactions() {
         dispatch(fetchSucces(data));
       } catch (error) {
         dispatch(fetchFailure(error));
-      } 
+      }
     };
     fetchData();
   }, []);
