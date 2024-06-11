@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import Footer from "../../components/footer_Comp/Footer";
+import { signout } from "../../store/slices/userSlice";
 import {
   fetchStart,
   fetchSucces,
@@ -29,6 +29,10 @@ function Transactions() {
         };
         const response = await fetch(link, options);
         const data = await response.json();
+        if (data.statusCode === 401) {
+          dispatch(clearData());
+          dispatch(signout());
+        }
         console.log(data);
         dispatch(fetchSucces(data));
       } catch (error) {
@@ -67,7 +71,6 @@ function Transactions() {
           </div>
         </div>
       </section>
-      <Footer />
     </>
   );
 }

@@ -3,7 +3,6 @@ import App from "../App";
 import ErrorPage from "../components/ErrorPage";
 import OnlineBanking from "../pages/onlineBanking_Page/OnlineBanking";
 import CreateAccount from "../pages/createAccount_Page/CreateAccount";
-import Layout from "../layouts/Layout";
 import Dashboard from "../pages/dashBoard_Page/Dashboard";
 import PrivateRoute from "../auth/PrivateRoute";
 import AdminRoute from "../auth/AdminRoute";
@@ -13,16 +12,17 @@ import Transactions from "../pages/transactions_Page/Transactions";
 import HistoryTransactions from "../components/transactions/HistoryTransactions";
 import Withdrawal from "../components/transactions/Withdrawal";
 import Deposit from "../components/transactions/Deposit";
+import Home from "../pages/home_Page/Home";
 
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "",
-        element: <App />,
+        element: <Home />,
       },
       {
         path: "/dashboard",

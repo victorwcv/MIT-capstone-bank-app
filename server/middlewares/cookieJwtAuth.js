@@ -4,7 +4,10 @@ import { errorHandler } from '../utils/error.js';
 export const cookieJwtAuth = (req, res, next) => {
   // Get token from header
   const {token} = req.cookies;
-  if (!token) return res.status(401).json({ message: 'No Token provided.', link:'/' });
+  if (!token) {
+    next(errorHandler(401, 'Unauthorized, no token provided'))
+    return;
+  } 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("Authenticate correctly");

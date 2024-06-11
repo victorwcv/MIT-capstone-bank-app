@@ -63,10 +63,13 @@ export const onlineBanking = async (req, res, next) => {
       .json({
         _id: validUser._id,
         username: validUser.username,
+        email: validUser.email,
+        phones:validUser.phone,
+        address: validUser.address,
         role: validUser.role,
       });
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
 

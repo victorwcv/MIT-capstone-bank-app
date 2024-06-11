@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import adminRoute from "./routes/admin.route.js";
-import { cookieJwtAuth } from "./middlewares/cookieJWTAuth.js";
 
 dotenv.config();
 
@@ -34,6 +33,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT ?? 3000;
 
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
@@ -47,9 +50,3 @@ app.use((err, req, res, next) => {
     statusCode,
   });
 });
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-
-//
