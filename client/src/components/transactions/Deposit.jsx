@@ -44,7 +44,7 @@ function Deposit() {
           return (
             <div key={index} className="flex justify-between border-b-2">
               <p>{acc.bankAccountNumber}</p>
-              <p>{acc.AccountBalance}</p>
+              <p>{acc.accountBalance}</p>
             </div>
           );
         })}

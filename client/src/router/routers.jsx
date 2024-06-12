@@ -61,12 +61,6 @@ const Router = createBrowserRouter([
             element: <Transactions />,
             children: [
               {
-                path: "",
-                element: (
-                  <div className="text-2xl">Please choose an option</div>
-                ),
-              },
-              {
                 path: "/transactions/deposit",
                 element: <Deposit />,
               },

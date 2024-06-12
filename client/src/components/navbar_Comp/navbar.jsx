@@ -23,7 +23,7 @@ function Navbar() {
 
   return (
     <nav className="sticky top-0 z-10 bg-neutral-100 p-4 shadow-lg">
-      <div className="container mx-auto flex justify-around items-center">
+      <div className="container mx-auto flex justify-between items-center font-medium">
         <div>
           <h1 className="font-bold text-2xl inline mr-10">
             <Link to="/">

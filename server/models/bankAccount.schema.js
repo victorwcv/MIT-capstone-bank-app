@@ -11,7 +11,7 @@ const bankAccountSchema = new Schema(
       trim: true,
       match: [/^\d{2}-\d{4}-\d{15}$/, "Invalid Format"],
     },
-    AccountBalance: {
+    accountBalance: {
       type: Number,
       default: 0,
       min: [0, "Account balance cannot be negative"],

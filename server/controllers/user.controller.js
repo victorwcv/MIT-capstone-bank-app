@@ -64,7 +64,7 @@ export const deposit = async (req, res, next) => {
       return next(errorHandler(404, "Destination account not found"));
     }
 
-    account.AccountBalance += amount;
+    account.accountBalance += amount;
 
     await user.save();
     console.log("Transaction added succesfully", transaction);
@@ -114,10 +114,10 @@ export const withdrawal = async (req, res, next) => {
       return next(errorHandler(404, "Origin account not found"));
     }
 
-    if (account.AccountBalance === 0 || account.AccountBalance - amount < 0) {
+    if (account.accountBalance === 0 || account.accountBalance - amount < 0) {
       return next(errorHandler(400, "Insufficient funds"));
     } else {
-      account.AccountBalance -= amount;
+      account.accountBalance -= amount;
       console.log("Withdrawal Success");
     }
 

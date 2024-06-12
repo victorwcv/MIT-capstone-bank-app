@@ -64,7 +64,7 @@ export const onlineBanking = async (req, res, next) => {
         _id: validUser._id,
         username: validUser.username,
         email: validUser.email,
-        phones:validUser.phone,
+        phone:validUser.phone,
         address: validUser.address,
         role: validUser.role,
       });
