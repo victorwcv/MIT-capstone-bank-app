@@ -10,12 +10,11 @@ import {
   fetchFailure,
   clearData,
 } from "../../store/slices/userDataSlice";
-import LoadingSpinner from "../../components/Loading";
 import { signout } from "../../store/slices/userSlice";
 
 function Dashboard() {
   const currentUser = useUser();
-  const { data, loading } = useData();
+  const { data } = useData();
   const balance = useUserBalance();
   const dispatch = useDispatch();
 
@@ -35,7 +34,6 @@ function Dashboard() {
           dispatch(signout());
           return;
         }
-        console.log(data);
         dispatch(fetchSucces(data));
       } catch (error) {
         dispatch(fetchFailure(error));
@@ -45,14 +43,12 @@ function Dashboard() {
   }, []);
 
   const userInfo = [
-    { label: "User ID", value: currentUser._id },
-    { label: "User name", value: currentUser.username },
-    { label: "Email", value: currentUser.email },
-    { label: "Phone Number", value: currentUser.phone },
-    { label: "Address", value: currentUser.address },
+    { label: "User ID", value: currentUser?._id },
+    { label: "User name", value: currentUser?.username },
+    { label: "Email", value: currentUser?.email },
+    { label: "Phone Number", value: currentUser?.phone },
+    { label: "Address", value: currentUser?.address },
   ];
-
-  if (loading) return <LoadingSpinner />;
 
   console.log("rendering Dashboard!!");
   return (
@@ -60,8 +56,7 @@ function Dashboard() {
       <div className="bg-neutral-100 my-10 p-10">
         <div className="flex w-full justify-around font-bold text-3xl my-5 ">
           <h2>
-            <span>Client: </span>
-            {currentUser.username}
+            {currentUser?.username}
           </h2>
           <h2>
             <span>Total Balance:</span> $ {balance}
@@ -70,7 +65,7 @@ function Dashboard() {
         <div className="xl:mx-20">
           <section className="my-12">
             <h3 className="text-xl font-medium m-6">User Bank Accounts:</h3>
-            {data.bankAccounts?.map((acc, index) => {
+            {data?.bankAccounts?.map((acc, index) => {
               return (
                 <article
                   key={index}
@@ -113,7 +108,7 @@ function Dashboard() {
                 </thead>
                 <tbody className="text-left divide-y divide-gray-200 dark:divide-dark-eval-2">
                   <tr></tr>
-                  {data.transactions
+                  {data?.transactions
                     ?.slice(-20)
                     .reverse()
                     .map((transaction, index) => {
@@ -122,25 +117,29 @@ function Dashboard() {
                           key={index}
                           className=" hover:bg-yellow-200 cursor-pointer text-center"
                         >
-                          <td className="p-3">{transaction._id}</td>
-                          <td className="p-3">{transaction.type}</td>
+                          <td className="p-3">{transaction?._id}</td>
+                          <td className="p-3">{transaction?.type}</td>
                           <td className="p-3">
-                            {transaction.originAccount ||
-                              transaction.destinationAccount}
+                            {transaction?.originAccount ||
+                              transaction?.destinationAccount}
                           </td>
                           <td
                             className={`p-3 ${
-                              transaction.type === "deposit"
+                              transaction?.type === "deposit"
                                 ? "text-green-500"
                                 : "text-red-500"
                             }`}
                           >
-                            $ {transaction.amount}
+                            $ {transaction?.amount}
                           </td>
-                          <td className="p-3">{transaction.transactionDate}</td>
-                          <td className="p-3">{transaction.transactionTime}</td>
                           <td className="p-3">
-                            {transaction.description || "No description"}
+                            {transaction?.transactionDate}
+                          </td>
+                          <td className="p-3">
+                            {transaction?.transactionTime}
+                          </td>
+                          <td className="p-3">
+                            {transaction?.description || "No description"}
                           </td>
                         </tr>
                       );
