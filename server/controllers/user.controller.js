@@ -21,7 +21,8 @@ export const userData = async (req, res, next) => {
     res.status(200).json(user.banking);
     console.log("Response data successfully");
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return next(errorHandler(500, "Internal Server Error"));
   }
 };
 
@@ -68,10 +69,11 @@ export const deposit = async (req, res, next) => {
     account.accountBalance += amount;
 
     await user.save();
-    console.log("Transaction added succesfully", transaction);
+    console.log("Transaction added succesfully");
     res.status(200).json(user.banking);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return next(errorHandler(500, "Internal Server Error"));
   }
 };
 
@@ -126,7 +128,8 @@ export const withdrawal = async (req, res, next) => {
     console.log("Transaction added succesfully", transaction);
     res.status(200).json(user.banking);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return next(errorHandler(500, "Internal Server Error"));
   }
 };
 
@@ -147,8 +150,9 @@ export const newAccount = async (req, res, next) => {
       banking: user.banking,
       newAccount,
     });
-    console.log("Create Account Success");
+    console.log("Create Bank Account Success");
   } catch (error) {
-    console.log(error.message);
+    console.error(error);
+    return next(errorHandler(500, "Internal Server Error"));
   }
 }
