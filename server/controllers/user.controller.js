@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
+import generateBankAccNum from "../utils/generateBankAccNum.js";
 
 export const test = (req, res) => {
   res.json({
@@ -128,3 +129,26 @@ export const withdrawal = async (req, res, next) => {
     console.log(error);
   }
 };
+
+export const newAccount = async (req, res, next) => {
+  if (req.user.role !== "user") {
+    return next(errorHandler(403, "You are not authorized"));
+  }
+  const userID = req.user._id;
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+      return next(errorHandler(401, "User not found"));
+    }
+    const newAccount = generateBankAccNum();
+    user.banking.bankAccounts.push({ bankAccountNumber: newAccount });
+    await user.save();
+    res.status(200).json({
+      banking: user.banking,
+      newAccount,
+    });
+    console.log("Create Account Success");
+  } catch (error) {
+    console.log(error.message);
+  }
+}

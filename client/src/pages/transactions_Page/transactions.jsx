@@ -9,16 +9,17 @@ import {
   clearData,
 } from "../../store/slices/userDataSlice";
 import Layout from "../../layouts/Layout";
-import LoadingSpinner from "../../components/Loading";
-import { useData } from "../../hooks/useData";
 
 const transactionsOptions = [
+  { path: "/transactions/new-bank-account", label: "New Bank Account" },
   { path: "/transactions/deposit", label: "Deposit" },
   { path: "/transactions/withdrawal", label: "Withdrawal" },
+  { path: "/transactions/bank-transfer", label: "Bank Transfer" },
+  { path: "/transactions/pay-bills", label: "Pay Bills" },
+  { path: "/transactions/cards", label: "Cards" },
 ];
 
 function Transactions() {
-  const { loading } = useData();
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -34,7 +35,7 @@ function Transactions() {
         const response = await fetch(link, options);
         const data = await response.json();
         if (data.statusCode === 401 || data.statusCode === 403) {
-          console.log(data)
+          console.log(data);
           dispatch(clearData());
           dispatch(signout());
           return;
@@ -49,8 +50,6 @@ function Transactions() {
 
   console.log("rendering transactions!");
 
-  if (loading) return <LoadingSpinner />;
-
   return (
     <Layout>
       <div
@@ -61,8 +60,8 @@ function Transactions() {
             {transactionsOptions.map((option, index) => {
               return (
                 <Link to={option.path} key={index}>
-                  <div className="flex justify-center items-center rounded-lg bg-[var(--secondary-color)] text-white text-2xl size-52 hover:scale-105 hover:shadow-xl transition-transform">
-                    <p>{option.label}</p>
+                  <div className="flex justify-center items-center p-6 rounded-lg bg-[var(--secondary-color)] text-white text-2xl size-52 hover:scale-105 hover:shadow-xl transition-transform">
+                    <p className="text-center">{option.label}</p>
                   </div>
                 </Link>
               );
@@ -70,22 +69,24 @@ function Transactions() {
           </div>
         ) : (
           <>
-            <div className="absolute h-full left-0 flex justify-center   flex-col gap-1 bg-neutral-300">
+            <div className="absolute w-full top-0 flex justify-center gap-1">
               {transactionsOptions.map((option, index) => {
                 return (
                   <Link to={option.path} key={index}>
                     <div
-                      className={`flex justify-center shadow-lg items-center bg-[var(--secondary-color)] text-white text-lg w-52 py-3 ${
-                        location.pathname === option.path ? "translate-x-3" : ""
+                      className={`flex justify-center  items-center bg-[var(--secondary-color)] text-white text-xl w-52 h-16 ${
+                        location.pathname === option.path
+                          ? "scale-110 shadow-xl"
+                          : ""
                       } transition-transform`}
                     >
-                      <p>{option.label}</p>
+                      <p className="text-center">{option.label}</p>
                     </div>
                   </Link>
                 );
               })}
             </div>
-            <div className="ml-52">
+            <div className="mt-16">
               <Outlet />
             </div>
           </>
@@ -96,31 +97,3 @@ function Transactions() {
 }
 
 export default Transactions;
-
-// <>
-//   <section className="flex justify-center items-center min-h-[calc(100vh-65px)]">
-//     <div className="container grid grid-cols-4 gap-3 p-3 h-[700px]">
-//       <div className="bg-[var(--secondary-color)] text-white font-medium">
-//         {transactionsOptions.map((transaction, index) => {
-//           return (
-//             <Link
-//               to={transaction.path}
-//               key={index}
-//               className={`${
-//                 location.pathname === transaction.path
-//                   ? "bg-[#15151584] "
-//                   : ""
-//               } block w-full border-b-2  text-center text-xl py-6 hover:bg-[#15151584]`}
-//             >
-//               {transaction.label}
-//             </Link>
-//           );
-//         })}
-//       </div>
-
-//       <div className="flex justify-center items-center bg-neutral-100 col-span-3 p-6 overflow-hidden">
-//         <Outlet />
-//       </div>
-//     </div>
-//   </section>
-// </>

@@ -9,10 +9,13 @@ import AdminRoute from "../auth/AdminRoute";
 import AdminPanel from "../pages/adminPanel_Page/AdminPanel";
 import AllData from "../components/adminPanel/AllData";
 import Transactions from "../pages/transactions_Page/Transactions";
-import HistoryTransactions from "../components/transactions/HistoryTransactions";
 import Withdrawal from "../components/transactions/Withdrawal";
 import Deposit from "../components/transactions/Deposit";
 import Home from "../pages/home_Page/Home";
+import NewBankAccount from "../components/transactions/NewBankAccount";
+import BankTransfer from "../components/transactions/BankTransfer";
+import PayBills from "../components/transactions/PayBills";
+import UserCards from "../components/transactions/UserCards";
 
 const Router = createBrowserRouter([
   {
@@ -69,9 +72,21 @@ const Router = createBrowserRouter([
                 element: <Withdrawal />,
               },
               {
-                path: "/transactions/history",
-                element: <HistoryTransactions />,
+                path: "/transactions/new-bank-account",
+                element: <NewBankAccount />,
               },
+              {
+                path: "/transactions/bank-transfer",
+                element: <BankTransfer />,
+              },
+              {
+                path: "/transactions/pay-bills",
+                element: <PayBills />
+              },
+              {
+                path: "/transactions/cards",
+                element: <UserCards />
+              }
             ],
           },
         ],

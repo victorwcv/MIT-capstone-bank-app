@@ -7,9 +7,11 @@ import {
   fetchSucces,
   fetchFailure,
 } from "../../store/slices/userDataSlice.js";
+import { useUserBalance } from "../../hooks/useUserBalance.js";
 
 function Deposit() {
   const { loading, error, data } = useSelector((state) => state.userData);
+  const userBalance = useUserBalance();
 
   console.log("rendering deposit");
   const dispatch = useDispatch();
@@ -36,18 +38,11 @@ function Deposit() {
   };
 
   return (
-    <div>
+    <div className="w-2/3 mx-auto">
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
-      <div className="mb-6 text-xl">
-        <h3 className="mb-4">User Balance</h3>
-        {data.bankAccounts?.map((acc, index) => {
-          return (
-            <div key={index} className="flex justify-between border-b-2">
-              <p>{acc.bankAccountNumber}</p>
-              <p>{acc.accountBalance}</p>
-            </div>
-          );
-        })}
+      <div className="mb-6 font-medium flex justify-around text-xl border-b-2">
+        <h3 >Current balance:</h3>
+        <p>$ {userBalance}</p>
       </div>
       <Formik
         initialValues={{
@@ -141,7 +136,7 @@ function Deposit() {
                   as="textarea"
                   id="description"
                   name="description"
-                  className="w-96 h-32 px-4 py-1 outline-none rounded-lg resize-none"
+                  className="w-full h-32 px-4 py-1 outline-none rounded-lg resize-none"
                 />
                 <ErrorMessage name="description" />
               </div>
@@ -159,6 +154,14 @@ function Deposit() {
           </Form>
         )}
       </Formik>
+
+      <p className="text-lg text-center">
+        Depositing money involves providing personal information, agreeing to the
+        bank’s terms, and understanding associated fees. It offers secure
+        money management, access to various banking services, and the ability
+        to build financial history. Ensure you meet the bank’s requirements and
+        consider the benefits and responsibilities before proceeding. 
+      </p>
     </div>
   );
 }

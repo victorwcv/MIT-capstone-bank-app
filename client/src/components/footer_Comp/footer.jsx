@@ -14,21 +14,21 @@ function Footer() {
         </p>
       </aside>
       <div className='section-container'>
-        <h6 >Services</h6>
+        <h3 >Services</h3>
         <a>Branding</a>
         <a>Design</a>
         <a>Marketing</a>
         <a>Advertisement</a>
       </div>
       <div className='section-container'>
-        <h6 >Company</h6>
+        <h3 >Company</h3>
         <a>About us</a>
         <a>Contact</a>
         <a>Jobs</a>
         <a>Press kit</a>
       </div>
       <div className='section-container'>
-        <h6 >Legal</h6>
+        <h3 >Legal</h3>
         <a>Terms of use</a>
         <a>Privacy policy</a>
         <a>Cookie policy</a>

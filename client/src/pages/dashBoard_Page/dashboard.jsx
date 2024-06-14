@@ -13,7 +13,7 @@ import {
 import { signout } from "../../store/slices/userSlice";
 
 function Dashboard() {
-  const currentUser = useUser();
+  const {currentUser} = useUser();
   const { data } = useData();
   const balance = useUserBalance();
   const dispatch = useDispatch();

@@ -1,9 +1,42 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useUser } from "../../hooks/useUser";
 import * as Yup from "yup";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  fetchStart,
+  fetchSucces,
+  fetchFailure,
+} from "../../store/slices/userDataSlice.js";
+import { useData } from "../../hooks/useData.js";
 
 function NewBankAccount() {
   const { currentUser } = useUser();
+  const { loading } = useData();
+  const dispatch = useDispatch();
+  const [newAccount, setNewAccount] = useState('XX-XXXX-XXXXXXXXXXXXXXX');
+
+  const handleSubmit = async (values) => {
+    try {
+      dispatch(fetchStart());
+      const link = "http://localhost:3000/api/user/transactions/new-account";
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      }
+      const response = await fetch(link, options);
+      const data = await response.json();
+      console.log(data);
+      dispatch(fetchSucces(data?.banking));
+      setNewAccount(data?.newAccount);
+    } catch (error) {
+      console.log("error,hapening", error);
+    }
+  }
 
   return (
     <div className="w-2/3 mx-auto">
@@ -45,7 +78,7 @@ function NewBankAccount() {
                 type="submit"
                 className="bg-blue-500 text-white rounded-lg px-8 py-3 active:scale-95 transition-transform"
               >
-                Create Account
+                {loading ? 'Loading...' : 'Create Account'}
               </button>
             </div>
             <div className="h-6">
@@ -60,7 +93,7 @@ function NewBankAccount() {
       </Formik>
       <div className="flex justify-between text-lg border-b-2 mt-10">
         <p>Your New Account Number is: </p>
-        <p>xx-xxx-xxxxxxxxxxxxxxx</p>
+        <p>{newAccount}</p>
       </div>
     </div>
   );
