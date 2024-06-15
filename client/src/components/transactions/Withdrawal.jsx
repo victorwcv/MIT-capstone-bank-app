@@ -7,9 +7,14 @@ import {
   fetchSucces,
   fetchStart,
 } from "../../store/slices/userDataSlice.js";
+import { useUserBalance } from "../../hooks/useUserBalance.js";
+import { useState } from "react";
 
 function Withdrawal() {
   const { loading, data, error } = useSelector((state) => state.userData);
+  const [transactionError, setTransactionError] = useState(null);
+  const userBalance = useUserBalance();
+
 
   console.log("rendering withdrawal");
   const dispatch = useDispatch();
@@ -30,29 +35,23 @@ function Withdrawal() {
       const data = await response.json();
       if (data.success === false) {
         dispatch(fetchFailure(data));
+        setTransactionError(data);
         return;
       }
       dispatch(fetchSucces(data));
       reset();
     } catch (error) {
       dispatch(fetchFailure(error));
+      setTransactionError(error);
     }
   };
 
   return (
-    <div>
+    <>
       <h2 className="text-3xl text-center font-bold mb-10">Withdrawal</h2>
-      <div className="mb-6 text-xl">
-        <h3 className="mb-4">User Balance</h3>
-        {data &&
-          data.bankAccounts?.map((acc, index) => {
-            return (
-              <div key={index} className="flex justify-between border-b-2">
-                <p>{acc.bankAccountNumber}</p>
-                <p>{acc.accountBalance}</p>
-              </div>
-            );
-          })}
+      <div className="mb-6 font-medium flex justify-around text-xl border-b-2">
+        <h3 >Current balance:</h3>
+        <p>$ {userBalance}</p>
       </div>
       <Formik
         initialValues={{
@@ -73,10 +72,11 @@ function Withdrawal() {
         })}
         onSubmit={async (values, { resetForm }) => {
           handleSubmit(values, resetForm);
+          console.log(values);
         }}
       >
         {(formik) => (
-          <Form className="grid grid-cols-2 gap-10">
+          <Form className="grid grid-cols-2 gap-20">
             <div>
               <div className="flex flex-col my-4 text-xl">
                 <label htmlFor="amount" className="my-2">
@@ -108,7 +108,7 @@ function Withdrawal() {
                   {data.bankAccounts?.map((acc, index) => {
                     return (
                       <option key={index} value={acc.bankAccountNumber}>
-                        {acc.bankAccountNumber}
+                        {`$ ${acc.accountBalance} / ${acc.bankAccountNumber}`}
                       </option>
                     );
                   })}
@@ -144,7 +144,7 @@ function Withdrawal() {
                   as="textarea"
                   id="description"
                   name="description"
-                  className="w-96 h-32 px-4 py-1 outline-none rounded-lg resize-none"
+                  className="w-full h-32 px-4 py-1 outline-none rounded-lg resize-none"
                 />
                 <ErrorMessage name="description" />
               </div>
@@ -156,13 +156,13 @@ function Withdrawal() {
                 {loading ? "Loading..." : "Withdraw"}
               </button>
               <p className="text-red-500 text-right mt-4">
-                {error && error.message}
+                {transactionError && transactionError.message}
               </p>
             </div>
           </Form>
         )}
       </Formik>
-    </div>
+    </>
   );
 }
 

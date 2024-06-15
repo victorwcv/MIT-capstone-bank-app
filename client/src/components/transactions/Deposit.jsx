@@ -8,9 +8,12 @@ import {
   fetchFailure,
 } from "../../store/slices/userDataSlice.js";
 import { useUserBalance } from "../../hooks/useUserBalance.js";
+import { useState } from "react";
 
 function Deposit() {
   const { loading, error, data } = useSelector((state) => state.userData);
+  const [transactionError, setTransactionError] = useState(null);
+
   const userBalance = useUserBalance();
 
   console.log("rendering deposit");
@@ -30,18 +33,23 @@ function Deposit() {
       };
       const response = await fetch(link, options);
       const data = await response.json();
+      if (data.success === false) {
+        dispatch(fetchFailure(data));
+        setTransactionError(data);
+        return;
+      }
       dispatch(fetchSucces(data));
     } catch (error) {
-      console.log("error,hapening", error);
+      setTransactionError(error);
       dispatch(fetchFailure(error));
     }
   };
 
   return (
-    <div className="w-2/3 mx-auto">
+    <>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
       <div className="mb-6 font-medium flex justify-around text-xl border-b-2">
-        <h3 >Current balance:</h3>
+        <h3>Current balance:</h3>
         <p>$ {userBalance}</p>
       </div>
       <Formik
@@ -68,7 +76,7 @@ function Deposit() {
         }}
       >
         {(formik) => (
-          <Form className="grid grid-cols-2 gap-10">
+          <Form className="grid grid-cols-2 gap-20">
             <div>
               <div className="flex flex-col my-4 text-xl">
                 <label htmlFor="amount" className="my-2">
@@ -100,7 +108,7 @@ function Deposit() {
                   {data.bankAccounts?.map((acc, index) => {
                     return (
                       <option key={index} value={acc.bankAccountNumber}>
-                        {acc.bankAccountNumber}
+                        {`$ ${acc.accountBalance} / ${acc.bankAccountNumber}`}
                       </option>
                     );
                   })}
@@ -148,21 +156,13 @@ function Deposit() {
                 {loading ? "Loading..." : "Deposit"}
               </button>
               <p className="text-red-500 text-right mt-4">
-                {error && error.message}
+                {transactionError && transactionError.message}
               </p>
             </div>
           </Form>
         )}
       </Formik>
-
-      <p className="text-lg text-center">
-        Depositing money involves providing personal information, agreeing to the
-        bank’s terms, and understanding associated fees. It offers secure
-        money management, access to various banking services, and the ability
-        to build financial history. Ensure you meet the bank’s requirements and
-        consider the benefits and responsibilities before proceeding. 
-      </p>
-    </div>
+    </>
   );
 }
 
