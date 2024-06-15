@@ -14,7 +14,7 @@ function NewBankAccount() {
   const { currentUser } = useUser();
   const { loading } = useData();
   const dispatch = useDispatch();
-  const [newAccount, setNewAccount] = useState('XX-XXXX-XXXXXXXXXXXXXXX');
+  const [newAccount, setNewAccount] = useState(null);
 
   const handleSubmit = async (values) => {
     try {
@@ -27,7 +27,7 @@ function NewBankAccount() {
         },
         body: JSON.stringify(values),
         credentials: "include",
-      }
+      };
       const response = await fetch(link, options);
       const data = await response.json();
       console.log(data);
@@ -36,10 +36,10 @@ function NewBankAccount() {
     } catch (error) {
       console.log("error,hapening", error);
     }
-  }
+  };
 
   return (
-    <div className="w-2/3 mx-auto">
+    <>
       <h2 className="text-3xl text-center font-bold mb-10">
         Create a New Bank Account
       </h2>
@@ -76,9 +76,10 @@ function NewBankAccount() {
               </div>
               <button
                 type="submit"
+                disabled={formik.isSubmitting}
                 className="bg-blue-500 text-white rounded-lg px-8 py-3 active:scale-95 transition-transform"
               >
-                {loading ? 'Loading...' : 'Create Account'}
+                {loading ? "Loading..." : "Create Account"}
               </button>
             </div>
             <div className="h-6">
@@ -91,11 +92,15 @@ function NewBankAccount() {
           </Form>
         )}
       </Formik>
-      <div className="flex justify-between text-lg border-b-2 mt-10">
-        <p>Your New Account Number is: </p>
-        <p>{newAccount}</p>
+      <div className="h-7">
+        {newAccount && (
+          <div className="text-lg flex items-center justify-evenly">
+            <p className="font-medium">Your New Account Number is: </p>
+            <p>{newAccount}</p>
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 

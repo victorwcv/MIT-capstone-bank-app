@@ -53,7 +53,7 @@ function Dashboard() {
   console.log("rendering Dashboard!!");
   return (
     <Layout>
-      <div className="bg-neutral-100 my-10 p-10">
+      <div className="bg-neutral-100 w-full my-10 p-10 shadow-xl">
         <div className="flex w-full justify-around font-bold text-3xl my-5 ">
           <h2>
             {currentUser?.username}
@@ -69,7 +69,7 @@ function Dashboard() {
               return (
                 <article
                   key={index}
-                  className="flex justify-between border-b-2 mx-12"
+                  className="flex justify-between border-b-2 mx-12 my-6"
                 >
                   <p>{acc.bankAccountNumber}</p>
                   <p>$ {acc.accountBalance}</p>
@@ -107,7 +107,13 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="text-left divide-y divide-gray-200 dark:divide-dark-eval-2">
-                  <tr></tr>
+                  {data?.transactions?.length === 0 && (
+                    <tr>
+                      <td colSpan={7} className="text-center py-6">
+                        No transactions found
+                      </td>
+                    </tr>
+                  )}
                   {data?.transactions
                     ?.slice(-20)
                     .reverse()
