@@ -20,3 +20,8 @@ body {
   font-family: "Roboto", sans-serif;
   color: var(--primary-text-color);
 }
+
+input, select {
+  border-radius: 8px;
+}
+
