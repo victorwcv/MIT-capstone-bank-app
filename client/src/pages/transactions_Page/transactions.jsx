@@ -11,12 +11,13 @@ import {
 import Layout from "../../layouts/Layout";
 
 const transactionsOptions = [
-  { path: "/transactions/new-bank-account", label: "New Bank Account" },
   { path: "/transactions/deposit", label: "Deposit" },
   { path: "/transactions/withdrawal", label: "Withdrawal" },
   { path: "/transactions/bank-transfer", label: "Bank Transfer" },
   { path: "/transactions/pay-bills", label: "Pay Bills" },
   { path: "/transactions/cards", label: "Cards" },
+  { path: "/transactions/new-bank-account", label: "New Bank Account" },
+  { path: "/transactions/delete-bank-account", label: "Delete Bank Account" },
 ];
 
 function Transactions() {
@@ -53,7 +54,7 @@ function Transactions() {
   return (
     <Layout>
       <div
-        className={`flex items-center justify-center relative w-full min-h-[80vh] my-12   bg-neutral-100`}
+        className={`flex items-center justify-center relative w-full min-h-[80vh] my-12 bg-neutral-100 shadow-lg`}
       >
         {location.pathname === "/transactions" ? (
           <div className="flex w-full justify-center flex-wrap gap-6">
@@ -69,15 +70,15 @@ function Transactions() {
           </div>
         ) : (
           <>
-            <div className="absolute w-full top-0 flex justify-center gap-1">
+            <div className="absolute h-full left-0 flex flex-col justify-center gap-1 bg-[var(--secondary-color)]">
               {transactionsOptions.map((option, index) => {
                 return (
                   <Link to={option.path} key={index}>
                     <div
-                      className={`flex justify-center  items-center bg-[var(--secondary-color)] text-white text-xl w-52 h-16 ${
+                      className={`flex justify-center  items-center bg-[var(--secondary-color)] text-white text-xl w-60 h-16  ${
                         location.pathname === option.path
-                          ? "scale-110 shadow-xl"
-                          : ""
+                          ? "translate-x-10 border-2 border-neutral-800 shadow-xl"
+                          : "hover:underline hover:underline-offset-8"
                       } transition-transform`}
                     >
                       <p className="text-center">{option.label}</p>
@@ -86,7 +87,7 @@ function Transactions() {
                 );
               })}
             </div>
-            <div className="mt-16">
+            <div className="ml-60 w-full px-36">
               <Outlet />
             </div>
           </>
