@@ -57,7 +57,7 @@ function Transactions() {
         className={`flex items-center justify-center relative w-full min-h-[80vh] my-12 bg-neutral-100 shadow-lg`}
       >
         {location.pathname === "/transactions" ? (
-          <div className="flex w-full justify-center flex-wrap gap-6">
+          <div className="flex w-9/12 my-20 justify-center flex-wrap gap-6">
             {transactionsOptions.map((option, index) => {
               return (
                 <Link to={option.path} key={index}>

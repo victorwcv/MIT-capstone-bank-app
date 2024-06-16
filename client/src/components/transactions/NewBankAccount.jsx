@@ -82,11 +82,9 @@ function NewBankAccount() {
                 {loading ? "Loading..." : "Create Account"}
               </button>
             </div>
-            <div className="h-6">
+            <div className="h-6 text-red-500 text-right">
               <ErrorMessage
                 name="agreeTerms"
-                component="p"
-                className="text-red-500 text-right"
               />
             </div>
           </Form>

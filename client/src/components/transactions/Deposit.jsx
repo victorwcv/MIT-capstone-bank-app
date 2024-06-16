@@ -16,9 +16,8 @@ function Deposit() {
 
   const userBalance = useUserBalance();
 
-  console.log("rendering deposit");
   const dispatch = useDispatch();
-
+  
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
@@ -48,7 +47,7 @@ function Deposit() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
-      <div className="mb-6 font-medium flex justify-around text-xl border-b-2">
+      <div className="mb-6 mx-12 font-medium flex justify-between text-xl border-b-2">
         <h3>Current balance:</h3>
         <p>$ {userBalance}</p>
       </div>
