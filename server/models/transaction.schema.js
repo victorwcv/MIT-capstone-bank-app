@@ -9,7 +9,7 @@ const transactionSchema = new Schema({
   type: {
     type: String,
     require: true,
-    enum: ["deposit", "withdrawal"],
+    enum: ["deposit", "withdrawal", "transfer"],
   },
   amount: {
     type: Number,
@@ -17,9 +17,11 @@ const transactionSchema = new Schema({
   },
   destinationAccount: {
     type: String,
+    default:"-",
   },
   originAccount: {
     type: String,
+    default: "-",
   },
   transactionDate: {
     type: String,

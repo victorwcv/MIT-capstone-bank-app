@@ -56,7 +56,6 @@ export const deposit = async (req, res, next) => {
       description,
     };
 
-    user.banking.transactions.push(transaction);
 
     const account = user.banking.bankAccounts.find(
       (account) => account.bankAccountNumber === destinationAccount
@@ -68,6 +67,7 @@ export const deposit = async (req, res, next) => {
 
     account.accountBalance += amount;
 
+    user.banking.transactions.push(transaction);
     await user.save();
     console.log("Transaction added succesfully");
     res.status(200).json(user.banking);
@@ -107,7 +107,6 @@ export const withdrawal = async (req, res, next) => {
       description,
     };
 
-    user.banking.transactions.push(transaction);
 
     const account = user.banking.bankAccounts.find(
       (account) => account.bankAccountNumber === originAccount
@@ -124,6 +123,7 @@ export const withdrawal = async (req, res, next) => {
       console.log("Withdrawal Success");
     }
 
+    user.banking.transactions.push(transaction);
     await user.save();
     console.log("Transaction added succesfully", transaction);
     res.status(200).json(user.banking);
@@ -151,6 +151,86 @@ export const newAccount = async (req, res, next) => {
       newAccount,
     });
     console.log("Create Bank Account Success");
+  } catch (error) {
+    console.error(error);
+    return next(errorHandler(500, "Internal Server Error"));
+  }
+}
+
+export const bankTransfer = async (req, res, next) => {
+  if (req.user.role !== "user") {
+    return next(errorHandler(403, "You are not authorized"));
+  }
+  const { _id: userID } = req.user;
+  const { amount, originAccount, destinationAccount, typeAccount, transactionDate, transactionTime, description } = req.body;
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+      return next(errorHandler(401, "User not found"));
+    }
+    const transaction = {
+      type: "transfer",
+      amount,
+      originAccount,
+      destinationAccount,
+      transactionDate,
+      transactionTime,
+      description,
+    };
+
+    if (originAccount === destinationAccount) {
+      return next(errorHandler(400, "Origin and destination account cannot be the same"));
+    }
+
+    const oAccount = user.banking.bankAccounts.find(
+      (account) => account.bankAccountNumber === originAccount
+    );
+    if (!oAccount) {
+      return next(errorHandler(404, "Origin account not found"));
+    }
+    if (oAccount.accountBalance < amount) {
+      return next(errorHandler(400, "Insufficient funds"));
+    } else {
+      oAccount.accountBalance -= amount;
+    }
+
+    if (typeAccount === "own") {
+      const dAccount = user.banking.bankAccounts.find(
+        (account) => account.bankAccountNumber === destinationAccount
+      );
+      if (!dAccount) {
+        return next(errorHandler(404, "Destination account not found"));
+      } else {
+        dAccount.accountBalance += amount;
+      }
+    } else {
+
+      const dUser = await User.findOne({
+        "banking.bankAccounts": {
+          $elemMatch: {
+            bankAccountNumber: destinationAccount,
+          },
+        }
+      })
+      if (!dUser) {
+        return next(errorHandler(404, "Destination account not found"));
+      }
+      const dAccount = dUser.banking.bankAccounts.find(
+        (account) => account.bankAccountNumber === destinationAccount
+      );
+      if (!dAccount) {
+        return next(errorHandler(404, "Destination account not found"));
+      } else {
+        dAccount.accountBalance += amount;
+      }
+      dUser.banking.transactions.push(transaction);
+      await dUser.save();
+    }
+
+    user.banking.transactions.push(transaction);
+    await user.save();
+    res.status(200).json(user.banking);
+    console.log("Bank Transfer Success");
   } catch (error) {
     console.error(error);
     return next(errorHandler(500, "Internal Server Error"));

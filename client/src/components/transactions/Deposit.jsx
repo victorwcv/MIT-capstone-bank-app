@@ -44,6 +44,8 @@ function Deposit() {
     }
   };
 
+  console.log('rendering deposit');
+
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>

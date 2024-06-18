@@ -3,11 +3,19 @@ import { useData } from "../../hooks/useData";
 import { useUserBalance } from "../../hooks/useUserBalance";
 import * as Yup from "yup";
 import getCurrentDateTime from "../../utils/dates";
+import {
+  fetchStart,
+  fetchSucces,
+  fetchFailure,
+} from "../../store/slices/userDataSlice.js";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 function BankTransfer() {
   const { data } = useData();
   const userBalance = useUserBalance();
+  const dispatch = useDispatch();
+  const [transactionError, setTransactionError] = useState(null);
   const [accountBalances, setAccountBalances] = useState({});
 
   useEffect(() => {
@@ -30,7 +38,6 @@ function BankTransfer() {
         <Formik
           initialValues={{
             originAccount: "",
-            originAccountBalance: 0,
             destinationAccount: "",
             typeAccount: "own",
             amount: "",
@@ -40,7 +47,8 @@ function BankTransfer() {
           }}
           validate={(values) => {
             const errors = {};
-            const originAccountBalance = accountBalances[values.originAccount] || 0;
+            const originAccountBalance =
+              accountBalances[values.originAccount] || 0;
             if (
               values.originAccount === values.destinationAccount &&
               values.originAccount
@@ -48,7 +56,7 @@ function BankTransfer() {
               errors.destinationAccount = "Cannot transfer to same account";
             }
             if (values.amount && values.amount > originAccountBalance) {
-              errors.amount = `Amount exceeds available balance of the account`;
+              errors.amount = `Insufficient funds`;
             }
 
             return errors;
@@ -61,8 +69,32 @@ function BankTransfer() {
               .required("Required")
               .positive("Cannot be negative"),
           })}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values, { resetForm }) => {
+            try {
+              dispatch(fetchStart());
+              const link =
+                "http://localhost:3000/api/user/transactions/bank-transfer";
+              const options = {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+                credentials: "include",
+              };
+              const response = await fetch(link, options);
+              const data = await response.json();
+              console.log(data);
+              if (data.success === false) {
+                dispatch(fetchFailure(data));
+                setTransactionError(data);
+                return;
+              }
+              dispatch(fetchSucces(data));
+            } catch (error) {
+              setTransactionError(error);
+              dispatch(fetchFailure(error));
+            }
           }}
         >
           {(formik) => (
@@ -196,8 +228,11 @@ function BankTransfer() {
                   disabled={formik.isSubmitting}
                   className="px-8 py-4 mt-6 rounded-lg text-white font-medium text-xl bg-blue-500"
                 >
-                  Transfer
+                  Complete Transfer
                 </button>
+                <p className="text-red-500 text-right mt-4">
+                {transactionError && transactionError.message}
+              </p>
               </div>
             </Form>
           )}

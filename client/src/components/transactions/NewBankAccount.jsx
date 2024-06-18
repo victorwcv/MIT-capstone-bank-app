@@ -21,7 +21,7 @@ function NewBankAccount() {
       dispatch(fetchStart());
       const link = "http://localhost:3000/api/user/transactions/new-account";
       const options = {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },

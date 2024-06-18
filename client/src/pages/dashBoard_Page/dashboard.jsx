@@ -13,7 +13,7 @@ import {
 import { signout } from "../../store/slices/userSlice";
 
 function Dashboard() {
-  const {currentUser} = useUser();
+  const { currentUser } = useUser();
   const { data } = useData();
   const balance = useUserBalance();
   const dispatch = useDispatch();
@@ -55,9 +55,7 @@ function Dashboard() {
     <Layout>
       <div className="bg-neutral-100 w-full my-10 p-10 shadow-xl">
         <div className="flex w-full justify-around font-bold text-3xl my-5 ">
-          <h2>
-            {currentUser?.username}
-          </h2>
+          <h2>{currentUser?.username}</h2>
           <h2>
             <span>Total Balance:</span> $ {balance}
           </h2>
@@ -97,9 +95,10 @@ function Dashboard() {
               <table className="w-full">
                 <thead className="bg-[var(--secondary-color)] sticky top-0">
                   <tr className="text-center font-medium text-gray-700">
-                    <th className="py-3 text-white ">Transaction ID</th>
-                    <th className="py-3 text-white ">Type</th>
-                    <th className="py-3 text-white ">Origin/Desti Account</th>
+                    <th className="py-3 text-white ">N</th>
+                    <th className="py-3 text-white ">Transaction</th>
+                    <th className="py-3 text-white ">Origin Acc</th>
+                    <th className="py-3 text-white ">Destination Acc</th>
                     <th className="py-3 text-white ">Amount</th>
                     <th className="py-3 text-white ">Date</th>
                     <th className="py-3 text-white ">Time</th>
@@ -122,19 +121,16 @@ function Dashboard() {
                         <tr
                           key={index}
                           className=" hover:bg-yellow-200 cursor-pointer text-center"
+                          title={`Transaction ID: ${transaction._id}`}
                         >
-                          <td className="p-3">{transaction?._id}</td>
+                          <td className="p-3">{index + 1}</td>
                           <td className="p-3">{transaction?.type}</td>
+                          <td className="p-3">{transaction?.originAccount}</td>
                           <td className="p-3">
-                            {transaction?.originAccount ||
-                              transaction?.destinationAccount}
+                            {transaction?.destinationAccount}
                           </td>
                           <td
-                            className={`p-3 ${
-                              transaction?.type === "deposit"
-                                ? "text-green-500"
-                                : "text-red-500"
-                            }`}
+                            className="p-3"
                           >
                             $ {transaction?.amount}
                           </td>
