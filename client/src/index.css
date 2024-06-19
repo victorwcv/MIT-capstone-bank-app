@@ -21,7 +21,22 @@ body {
   color: var(--primary-text-color);
 }
 
-input, select {
-  border-radius: 8px;
+label {
+  font-weight: 500;
 }
 
+label, input, select {
+  font-size: 1.25rem;
+}
+
+input, select, textarea {
+  border-radius: 8px;
+  border: 2px solid transparent;
+  outline: none;
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+}
+
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white text-xl py-4 px-8 font-medium rounded-full;
+}
