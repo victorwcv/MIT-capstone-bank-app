@@ -7,13 +7,12 @@ import {
   fetchSucces,
   fetchStart,
 } from "../../store/slices/userDataSlice.js";
-import { useUserBalance } from "../../hooks/useUserBalance.js";
 import { useState } from "react";
+import TotalUserBalance from "../TotalUserBalance.jsx";
 
 function Withdrawal() {
   const { loading, data, error } = useSelector((state) => state.userData);
   const [transactionError, setTransactionError] = useState(null);
-  const userBalance = useUserBalance();
 
 
   console.log("rendering withdrawal");
@@ -49,10 +48,7 @@ function Withdrawal() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Withdrawal</h2>
-      <div className="mb-6 mx-12 font-medium flex justify-between text-xl border-b-2">
-        <h3 >Current balance:</h3>
-        <p>$ {userBalance}</p>
-      </div>
+      <TotalUserBalance />
       <Formik
         initialValues={{
           amount: "",

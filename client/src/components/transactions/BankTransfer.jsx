@@ -1,6 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useData } from "../../hooks/useData";
-import { useUserBalance } from "../../hooks/useUserBalance";
 import * as Yup from "yup";
 import getCurrentDateTime from "../../utils/dates";
 import {
@@ -10,10 +9,10 @@ import {
 } from "../../store/slices/userDataSlice.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import TotalUserBalance from "../TotalUserBalance.jsx";
 
 function BankTransfer() {
   const { data } = useData();
-  const userBalance = useUserBalance();
   const dispatch = useDispatch();
   const [transactionError, setTransactionError] = useState(null);
   const [accountBalances, setAccountBalances] = useState({});
@@ -30,10 +29,7 @@ function BankTransfer() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Bank transfer</h2>
-      <div className="mb-6 mx-12 font-medium flex justify-between text-xl border-b-2">
-        <h3>Current balance:</h3>
-        <p>$ {userBalance}</p>
-      </div>
+      <TotalUserBalance />
       <div>
         <Formik
           initialValues={{

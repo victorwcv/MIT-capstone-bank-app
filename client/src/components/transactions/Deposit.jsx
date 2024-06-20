@@ -7,17 +7,15 @@ import {
   fetchSucces,
   fetchFailure,
 } from "../../store/slices/userDataSlice.js";
-import { useUserBalance } from "../../hooks/useUserBalance.js";
 import { useState } from "react";
+import TotalUserBalance from "../TotalUserBalance.jsx";
 
 function Deposit() {
   const { loading, error, data } = useSelector((state) => state.userData);
   const [transactionError, setTransactionError] = useState(null);
 
-  const userBalance = useUserBalance();
-
   const dispatch = useDispatch();
-  
+
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
@@ -44,15 +42,12 @@ function Deposit() {
     }
   };
 
-  console.log('rendering deposit');
+  console.log("rendering deposit");
 
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
-      <div className="mb-6 mx-12 font-medium flex justify-between text-xl border-b-2">
-        <h3>Current balance:</h3>
-        <p>$ {userBalance}</p>
-      </div>
+      <TotalUserBalance />
       <Formik
         initialValues={{
           amount: "",
