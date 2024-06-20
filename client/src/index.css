@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -25,11 +25,15 @@ label {
   font-weight: 500;
 }
 
-label, input, select {
+label,
+input,
+select {
   font-size: 1.25rem;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   border-radius: 8px;
   border: 2px solid transparent;
   outline: none;
@@ -38,5 +42,19 @@ input, select, textarea {
 }
 
 .btn-primary {
-  @apply bg-blue-500 hover:bg-blue-600 text-white text-xl py-4 px-8 font-medium rounded-full;
+  background-color: #3b82f6; 
+  color: white; 
+  font-size: 1.25rem; 
+  padding: 1rem 2rem; 
+  font-weight: 500; 
+  border-radius: 9999px; 
+  transition: background-color 0.2s, transform 0.2s; 
+}
+
+.btn-primary:hover {
+  background-color: #2563eb; 
+}
+
+.btn-primary:active {
+  transform: scale(0.95); 
 }
