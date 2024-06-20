@@ -1,7 +1,7 @@
 import { Field } from "formik";
 import { useData } from "../hooks/useData";
 
-function AccountsField({ name, formik }) {
+function AccountsField({ name, formik, balance = true }) {
   const { data } = useData();
   return (
     <>
@@ -9,8 +9,8 @@ function AccountsField({ name, formik }) {
         as="select"
         id={name}
         name={name}
-        className={`${
-          formik.errors.service && formik.touched.service
+        className={`flex-1${
+          formik.errors[name] && formik.touched[name]
             ? " border-2 border-red-500"
             : ""
         }`}
@@ -19,7 +19,7 @@ function AccountsField({ name, formik }) {
         {data.bankAccounts?.map((acc, index) => {
           return (
             <option key={index} value={acc.bankAccountNumber}>
-              {`${acc.bankAccountNumber} - $ ${acc.accountBalance}`}
+              {acc.bankAccountNumber} {balance && `- $ ${acc.accountBalance}`}
             </option>
           );
         })}
