@@ -58,3 +58,10 @@ textarea {
 .btn-primary:active {
   transform: scale(0.95); 
 }
+
+.btn-primary:disabled {
+  opacity: 0.5; 
+  background-color: #9ca3af;
+  transform: none;
+  cursor: not-allowed; 
+}
