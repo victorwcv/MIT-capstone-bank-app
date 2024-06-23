@@ -19,7 +19,7 @@ function NewBankAccount() {
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/user/transactions/new-account";
+      const link = "http://localhost:3000/api/transaction/new-account";
       const options = {
         method: "PATCH",
         headers: {
@@ -77,7 +77,7 @@ function NewBankAccount() {
               <button
                 type="submit"
                 disabled={formik.isSubmitting}
-                className="bg-blue-500 text-white rounded-lg px-8 py-3 active:scale-95 transition-transform"
+                className="btn-primary"
               >
                 {loading ? "Loading..." : "Create Account"}
               </button>

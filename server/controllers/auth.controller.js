@@ -50,7 +50,7 @@ export const onlineBanking = async (req, res, next) => {
     const token = jwt.sign(
       { _id: validUser._id, role: validUser.role }, //Payload
       process.env.JWT_SECRET, //Secret Key
-      { expiresIn: "1h" } //Options
+      { expiresIn: "12h" } //Options
     );
     res
       .cookie("token", token, {

@@ -19,7 +19,7 @@ function Deposit() {
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/user/transactions/deposit";
+      const link = "http://localhost:3000/api/transaction/deposit";
       const options = {
         method: "PATCH",
         headers: {
@@ -146,8 +146,8 @@ function Deposit() {
               </div>
               <button
                 type="submit"
-                disabled={formik.isSubmitting}
-                className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
+                disabled={loading}
+                className="btn-primary"
               >
                 {loading ? "Loading..." : "Deposit"}
               </button>

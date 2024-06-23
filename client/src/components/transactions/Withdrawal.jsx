@@ -21,7 +21,7 @@ function Withdrawal() {
   const handleSubmit = async (values, reset) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/user/transactions/withdrawal";
+      const link = "http://localhost:3000/api/transaction/withdrawal";
       const options = {
         method: "PATCH",
         headers: {
@@ -147,7 +147,7 @@ function Withdrawal() {
               <button
                 type="submit"
                 disabled={formik.isSubmitting}
-                className="mx-10 mt-10 py-4 rounded-lg text-white font-medium text-2xl bg-blue-500"
+                className="btn-primary"
               >
                 {loading ? "Loading..." : "Withdraw"}
               </button>

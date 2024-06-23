@@ -15,7 +15,10 @@ import Home from "../pages/home_Page/Home";
 import NewBankAccount from "../components/transactions/NewBankAccount";
 import BankTransfer from "../components/transactions/BankTransfer";
 import PayBills from "../components/transactions/PayBills";
-import UserCards from "../components/transactions/UserCards";
+import CloseAccount from "../components/transactions/CloseAccount";
+import CreateNewAdmin from "../components/adminPanel/CreateNewAdmin";
+import AdminData from "../components/adminPanel/AdminData";
+import StarAdminRoute from "../auth/StarAdminRoute";
 
 const Router = createBrowserRouter([
   {
@@ -27,6 +30,44 @@ const Router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      // Admin Routes
+      {
+        path: "/admin-panel",
+        element: <AdminRoute />,
+        children: [
+          {
+            path: "",
+            element: <AdminPanel />,
+            children: [
+              {
+                path: "",
+                element: <AdminData />,},
+              {
+                path: "/admin-panel/all-data",
+                element: <StarAdminRoute />,
+                children: [
+                  {
+                    path: "",
+                    element: <AllData />,
+                  },
+                ],
+              },
+              {
+                path: "/admin-panel/create-new-admin",
+                element: <StarAdminRoute />,
+                children: [
+                  {
+                    path: "",
+                    element: <CreateNewAdmin />,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      // Dashboard Routes
       {
         path: "/dashboard",
         element: <PrivateRoute />,
@@ -43,18 +84,10 @@ const Router = createBrowserRouter([
       },
       {
         path: "/online-banking",
-        element: <OnlineBanking />, //  Redirect to /onlineBanking_Page when not logged in.
+        element: <OnlineBanking />, 
       },
-      {
-        path: "/admin-panel",
-        element: <AdminRoute />,
-        children: [
-          {
-            path: "",
-            element: <AdminPanel />,
-          },
-        ],
-      },
+
+      // Transaction Routes
       {
         path: "/transactions",
         element: <PrivateRoute />,
@@ -81,12 +114,12 @@ const Router = createBrowserRouter([
               },
               {
                 path: "/transactions/pay-bills",
-                element: <PayBills />
+                element: <PayBills />,
               },
               {
-                path: "/transactions/cards",
-                element: <UserCards />
-              }
+                path: "/transactions/delete-bank-account",
+                element: <CloseAccount />,
+              },
             ],
           },
         ],

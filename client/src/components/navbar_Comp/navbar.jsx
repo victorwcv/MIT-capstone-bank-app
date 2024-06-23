@@ -1,19 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import icons from "../../data/icons_Data";
 import { signout } from "../../store/slices/userSlice";
 import { clearData } from "../../store/slices/userDataSlice";
+import { adminReset } from "../../store/slices/adminSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
-  let isUser = currentUser && currentUser.role === "user";
-  let isAdmin = currentUser && currentUser.role === "admin";
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleSignout = async () => {
     try {
       await fetch("http://localhost:3000/api/auth/signout");
+      dispatch(adminReset());
       dispatch(clearData());
       dispatch(signout());
     } catch (error) {
@@ -36,50 +37,52 @@ function Navbar() {
               Bank
             </Link>
           </h1>
-          <div className="space-x-4 inline">
-            <Link to="/" className="text-neutral-600 hover:text-neutral-800 ">
-              Home
-            </Link>
-            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
-              Products
-            </Link>
-            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
-              Suport
-            </Link>
-
-            {isUser && (
-              <Link
-                to="/transactions"
-                className="text-neutral-600 hover:text-neutral-800"
-              >
-                Transactions
+          {location.pathname !== "/admin-panel" && (
+            <div className="space-x-4 inline">
+              <Link to="/" className="text-neutral-600 hover:text-neutral-800 ">
+                Home
               </Link>
-            )}
-
-            {isAdmin && (
-              <Link
-                to="/admin-panel"
-                className="text-red-500 hover:text-red-700"
-              >
-                Admin Panel
+              <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
+                Products
               </Link>
-            )}
-          </div>
+              <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
+                Suport
+              </Link>
+
+              {currentUser?.role === "user" && (
+                <Link
+                  to="/transactions"
+                  className="text-neutral-600 hover:text-neutral-800"
+                >
+                  Transactions
+                </Link>
+              )}
+            </div>
+          )}
         </div>
 
-        <div className="space-x-4">
+        <div className="flex items-center gap-4">
           {currentUser ? (
             <>
               <Link
-                to="/dashboard"
-                className="hover:underline underline-offset-4"
+                to={
+                  currentUser.role === "admin"
+                    ? "/admin-panel"
+                    : currentUser.role === "user"
+                    ? "/dashboard"
+                    : "/"
+                }
+                className="inline-flex  gap-3 items-center bg-neutral-600 text-white px-3 py-1 rounded-lg hover:bg-inherit hover:text-neutral-600 transition-colors"
               >
-                {currentUser && currentUser.username}
+                <span>
+                  {currentUser.role === "admin" ? icons.admin : icons.user}
+                </span>
+                {currentUser.username}
               </Link>
 
               <button
                 onClick={handleSignout}
-                className="inline-flex gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg"
+                className="inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg active:scale-95"
               >
                 Sign out <span>{icons.signout}</span>
               </button>

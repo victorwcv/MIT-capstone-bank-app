@@ -22,7 +22,7 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         dispatch(fetchStart());
-        let link = "http://localhost:3000/api/user/transactions/user-data";
+        let link = "http://localhost:3000/api/transaction";
         let options = {
           method: "GET",
           credentials: "include",
@@ -97,8 +97,8 @@ function Dashboard() {
                   <tr className="text-center font-medium text-gray-700">
                     <th className="py-3 text-white ">N</th>
                     <th className="py-3 text-white ">Transaction</th>
-                    <th className="py-3 text-white ">Origin Acc</th>
-                    <th className="py-3 text-white ">Destination Acc</th>
+                    <th className="py-3 text-white ">Origin </th>
+                    <th className="py-3 text-white ">Destination </th>
                     <th className="py-3 text-white ">Amount</th>
                     <th className="py-3 text-white ">Date</th>
                     <th className="py-3 text-white ">Time</th>
@@ -127,13 +127,11 @@ function Dashboard() {
                           <td className="p-3">{transaction?.type}</td>
                           <td className="p-3">{transaction?.originAccount}</td>
                           <td className="p-3">
-                            {transaction?.destinationAccount}
+                            {transaction?.type === "bill payment"
+                              ? transaction?.provider
+                              : transaction?.destinationAccount}
                           </td>
-                          <td
-                            className="p-3"
-                          >
-                            $ {transaction?.amount}
-                          </td>
+                          <td className="p-3">$ {transaction?.amount}</td>
                           <td className="p-3">
                             {transaction?.transactionDate}
                           </td>

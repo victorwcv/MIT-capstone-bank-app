@@ -3,10 +3,12 @@ import userReducer from "./slices/userSlice.js";
 import userDataReducer from "./slices/userDataSlice.js";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import adminReducer from "./slices/adminSlice.js";
 
 const rootReducer = combineReducers({
   user: userReducer,
   userData: userDataReducer,
+  admin: adminReducer,
 });
 
 const persistConfig = {

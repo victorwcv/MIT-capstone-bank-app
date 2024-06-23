@@ -9,7 +9,7 @@ const transactionSchema = new Schema({
   type: {
     type: String,
     require: true,
-    enum: ["deposit", "withdrawal", "transfer"],
+    enum: ["deposit", "withdrawal", "transfer", "bill payment"],
   },
   amount: {
     type: Number,
@@ -17,7 +17,7 @@ const transactionSchema = new Schema({
   },
   destinationAccount: {
     type: String,
-    default:"-",
+    default: "-",
   },
   originAccount: {
     type: String,
@@ -33,6 +33,16 @@ const transactionSchema = new Schema({
   },
   description: {
     type: String,
+    max: 20,
+  },
+  provider: {
+    type: String,
+    default: "-",
+    max: 20,
+  },
+  invoiceNumber: {
+    type: String,
+    default: "-",
     max: 20,
   },
 });

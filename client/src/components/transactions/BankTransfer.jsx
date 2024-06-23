@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import TotalUserBalance from "../TotalUserBalance.jsx";
 
 function BankTransfer() {
-  const { data } = useData();
+  const { data, loading } = useData();
   const dispatch = useDispatch();
   const [transactionError, setTransactionError] = useState(null);
   const [accountBalances, setAccountBalances] = useState({});
@@ -69,7 +69,7 @@ function BankTransfer() {
             try {
               dispatch(fetchStart());
               const link =
-                "http://localhost:3000/api/user/transactions/bank-transfer";
+                "http://localhost:3000/api/transaction/bank-transfer";
               const options = {
                 method: "PATCH",
                 headers: {
@@ -221,8 +221,8 @@ function BankTransfer() {
               <div className="flex justify-center">
                 <button
                   type="submit"
-                  disabled={formik.isSubmitting}
-                  className="px-8 py-4 mt-6 rounded-lg text-white font-medium text-xl bg-blue-500"
+                  disabled={loading}
+                  className="btn-primary"
                 >
                   Complete Transfer
                 </button>

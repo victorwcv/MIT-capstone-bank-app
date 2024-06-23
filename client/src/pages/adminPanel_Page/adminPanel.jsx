@@ -1,71 +1,62 @@
-import AllData from "../../components/adminPanel/AllData";
-import { useState } from "react";
-import CreateNewAdmin from "../../components/adminPanel/CreateNewAdmin";
-import Footer from "../../components/footer_Comp/Footer";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { signout } from "../../store/slices/userSlice";
+import {
+  fetchStart,
+  fetchSucces,
+  fetchFailure,
+  clearData,
+} from "../../store/slices/userDataSlice";
+import Layout from "../../layouts/Layout";
+import { useData } from "../../hooks/useData";
+import LoadingSpinner from "../../components/Loading";
+import icons from "../../data/icons_Data";
 
-const adminOptions = [
-  {
-    title: "All Data",
-    id: "all-data",
-  },
-  {
-    title: "Create New Admin",
-    id: "new-admin",
-  },
-  {
-    title: "User Details",
-    id: "user-details",
-  },
-  {
-    title: "Delete Users",
-    id: "delete-users",
-  },
+const transactionsOptions = [
+  { path: "/admin-panel", label: "Admin Panel" },
+  { path: "/admin-panel/all-data", label: "All Data" },
+  { path: "/admin-panel/create-new-admin", label: "Create Admin" },
 ];
 
 function AdminPanel() {
-  const [panelPage, SetPanelPge] = useState("all-data");
+  const { administering } = useSelector((state) => state.admin);
+  const { loading } = useData();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-  console.log("rendering!");
+  console.log("rendering transactions!");
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    SetPanelPge(e.target.id);
-  };
   return (
-    <>
-      <section className="flex flex-col min-h-[calc(100vh-65px)]">
-        <h1 className="text-center text-4xl font-bold my-10">Admin Panel</h1>
-        <div className="container mx-auto grid grid-cols-4 gap-3 p-3 h-[700px]">
-          <div className="bg-neutral-100">
-            {adminOptions.map((option, index) => {
-              return (
-                <button
-                  key={index}
-                  onClick={handleClick}
-                  id={option.id}
-                  className={`${
-                    panelPage === option.id ? "bg-neutral-200" : ""
-                  } block w-full text-center text-xl py-6 hover:bg-neutral-200`}
+    <Layout>
+      <div
+        className={`flex items-center justify-center relative w-full min-h-[80vh] my-12 bg-neutral-100 shadow-lg`}
+      >
+        <div className="absolute h-full left-0 flex flex-col p-3 justify-center gap-1 bg-[var(--secondary-color)]">
+          {transactionsOptions.map((option, index) => {
+            return (
+              <Link to={administering ? option.path : ""} key={index}>
+                <div
+                  className={`flex pl-6  items-center border-2 border-transparent hover:border-neutral-700 rounded-md bg-[var(--secondary-color)] text-white text-xl w-60 h-16  ${
+                    location.pathname === option.path
+                      ? "translate-x-10 bg-slate-500 border-neutral-800 shadow-xl"
+                      : " hover:translate-x-5 hover:bg-slate-600 "
+                  } transition-all`}
                 >
-                  {option.title}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="bg-neutral-200 col-span-3">
-            {panelPage === "all-data" ? (
-              <AllData />
-            ) : panelPage === "create" ? (
-              <CreateNewAdmin />
-            ) : (
-              ""
-            )}
-          </div>
+                  <p className="text-center mr-2">{option.label}</p>
+                  {option.label !== "Admin Panel" &&
+                    !administering &&
+                    icons.lock}{" "}
+                </div>
+              </Link>
+            );
+          })}
         </div>
-      </section>
-      <Footer />
-    </>
+        <div className="ml-60 w-full px-36">
+          <Outlet />
+        </div>
+      </div>
+    </Layout>
   );
 }
 

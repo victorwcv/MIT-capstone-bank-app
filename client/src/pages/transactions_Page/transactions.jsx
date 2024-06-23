@@ -17,7 +17,6 @@ const transactionsOptions = [
   { path: "/transactions/withdrawal", label: "Withdrawal" },
   { path: "/transactions/bank-transfer", label: "Bank Transfer" },
   { path: "/transactions/pay-bills", label: "Pay Bills" },
-  { path: "/transactions/cards", label: "Cards" },
   { path: "/transactions/new-bank-account", label: "New Bank Account" },
   { path: "/transactions/delete-bank-account", label: "Delete Bank Account" },
 ];
@@ -31,7 +30,7 @@ function Transactions() {
     const fetchData = async () => {
       try {
         dispatch(fetchStart());
-        let link = "http://localhost:3000/api/user/transactions/user-data";
+        let link = "http://localhost:3000/api/transaction";
         let options = {
           method: "GET",
           credentials: "include",
@@ -68,7 +67,7 @@ function Transactions() {
             {transactionsOptions.map((option, index) => {
               return (
                 <Link to={option.path} key={index}>
-                  <div className="flex justify-center items-center p-6 rounded-lg bg-[var(--secondary-color)] text-white text-2xl size-52 hover:scale-105 hover:shadow-xl transition-transform">
+                  <div className="flex justify-center items-center p-6 rounded-lg bg-[var(--secondary-color)] text-white text-2xl size-52 hover:scale-105 hover:shadow-xl xl:w-80 transition-transform">
                     <p className="text-center">{option.label}</p>
                   </div>
                 </Link>
@@ -82,7 +81,7 @@ function Transactions() {
                 return (
                   <Link to={option.path} key={index}>
                     <div
-                      className={`flex justify-center  items-center bg-[var(--secondary-color)] text-white text-xl w-60 h-16  ${
+                      className={`flex justify-center  items-center bg-[var(--secondary-color)] rounded-md text-white text-xl w-60 h-16  ${
                         location.pathname === option.path
                           ? "translate-x-10 border-2 border-neutral-800 shadow-xl"
                           : "hover:underline hover:underline-offset-8"
