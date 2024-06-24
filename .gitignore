@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 .env
 createSuperAdmin.js
+createUser.js
+mockUsers.js
