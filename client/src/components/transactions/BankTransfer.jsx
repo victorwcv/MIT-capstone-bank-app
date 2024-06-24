@@ -29,7 +29,7 @@ function BankTransfer() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Bank transfer</h2>
-      <TotalUserBalance />
+      <TotalUserBalance data={data} />
       <div>
         <Formik
           initialValues={{

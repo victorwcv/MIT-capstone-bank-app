@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import {
   fetchStart,
   fetchSucces,
@@ -9,9 +9,10 @@ import {
 } from "../../store/slices/userDataSlice.js";
 import { useState } from "react";
 import TotalUserBalance from "../TotalUserBalance.jsx";
+import { useData } from "../../hooks/useData.js";
 
 function Deposit() {
-  const { loading, error, data } = useSelector((state) => state.userData);
+  const { loading, error, data } = useData();
   const [transactionError, setTransactionError] = useState(null);
 
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function Deposit() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
-      <TotalUserBalance />
+      <TotalUserBalance data={data} />
       <Formik
         initialValues={{
           amount: "",

@@ -10,15 +10,17 @@ import {
   fetchFailure,
 } from "../../store/slices/userDataSlice";
 import getCurrentDateTime from "../../utils/dates";
+import { useData } from "../../hooks/useData";
 
 function PayBills() {
+  const { data } = useData();
   const [errorPayBills, setErrorPayBills] = useState(null);
   const dispatch = useDispatch();
 
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Pay Bills</h2>
-      <TotalUserBalance />
+      <TotalUserBalance data={data} />
       <Formik
         initialValues={{
           provider: "",

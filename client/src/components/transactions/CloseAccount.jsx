@@ -16,7 +16,6 @@ function CloseAccount() {
   const { currentUser } = useUser();
   const { loading } = useData();
   const dispatch = useDispatch();
-  console.log(opError);
   const handleSubmit = async (values, reset) => {
     try {
       // dispatch(fetchStart());
