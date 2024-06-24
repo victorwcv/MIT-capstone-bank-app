@@ -1,58 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AllData() {
   const [usersData, setUsersData] = useState(null);
   console.log(usersData);
 
-  const handleClick = (e) => {
-    try {
-      fetch("http://localhost:3000/api/admin/all-data", {
-        method: "GET",
-        credentials: "include", // Incluir cookies en la solicitud
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Bad Request");
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setUsersData(data);
-        });
-    } catch (error) {
-      alert(error.message ?? "Something went wrong");
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const link = "http://localhost:3000/api/admin/all-data";
+        const options = {
+          method: "GET",
+          credentials: "include",
+        };
+        const response = await fetch(link, options);
+        const data = await response.json();
+        setUsersData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  function userBalance(user) {
+
+    const balance = user?.bankAccounts
+      ?.map((account) => account.accountBalance)
+      .reduce((prev, act) => prev + act, 0) || 0;
+  
+    return balance;
+  
+  }
 
   return (
     <>
-      <div className="flex justify-center my-10 items-center gap-10">
-        <button
-          onClick={handleClick}
-          className="px-6 py-3 w-40 rounded-full text-white bg-[var(--secondary-color)] active:scale-105"
-        >
-          Show All Data
-        </button>
-        <button
-          onClick={() => setUsersData(null)}
-          className="px-6 py-3 w-40 rounded-full text-white bg-[var(--secondary-color)] active:scale-105"
-        >
-          Clear
-        </button>
-      </div>
-      <div className={`flex flex-col mx-5 space-y-2 overflow-auto`}>
-        <h2
-          colSpan="6"
-          className={`${usersData !== null ? "hidden" : ""} p-3 text-center`}
-        >
-          No Data to Show
-        </h2>
+      <div className={`flex flex-col h-[600px] mx-5 space-y-2 overflow-auto`}>
+        
         <table
           className={`${usersData === null ? "hidden" : ""} w-full shadow-md`}
         >
           <thead className="bg-[#EBECF0] dark:bg-dark-eval-2">
             <tr className="text-center font-medium text-gray-700">
               <th className="py-3">ID</th>
+              <th className="py-3">Role</th>
               <th className="py-3">Name</th>
               <th className="py-3">Email</th>
               <th className="py-3">Phone Number</th>
@@ -65,13 +55,17 @@ function AllData() {
             {usersData &&
               usersData.map((user, index) => {
                 return (
-                  <tr key={index} className="bg-white cursor-pointer hover:bg-yellow-300 ">
+                  <tr
+                    key={index}
+                    className="bg-white cursor-pointer hover:bg-yellow-300 "
+                  >
                     <td className="p-3">{index + 1}</td>
+                    <td className="p-3">{user.role}</td>
                     <td className="p-3">{user.username}</td>
                     <td className="p-3">{user.email}</td>
                     <td className="p-3">{user.phone}</td>
                     <td className="p-3">{user.address}</td>
-                    <td className="p-3 text-right">{user.balance || 0}</td>
+                    <td className="p-3 text-right">$ {userBalance(user.banking)}</td>
                   </tr>
                 );
               })}
@@ -83,3 +77,5 @@ function AllData() {
 }
 
 export default AllData;
+
+
