@@ -7,9 +7,9 @@ import { clearData } from "../../store/slices/userDataSlice";
 import { adminReset } from "../../store/slices/adminSlice";
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
+  const { administering } = useSelector((state) => state.admin);
 
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const handleSignout = async () => {
     try {
@@ -37,28 +37,27 @@ function Navbar() {
               Bank
             </Link>
           </h1>
-          {location.pathname !== "/admin-panel" && (
-            <div className="flex items-center gap-4">
-              <Link to="/" className="text-neutral-600 hover:text-neutral-800 ">
-                Home
-              </Link>
-              <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
-                Products
-              </Link>
-              <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
-                Suport
-              </Link>
 
-              {currentUser?.role === "user" && (
-                <Link
-                  to="/transactions"
-                  className="text-neutral-600 hover:text-neutral-800"
-                >
-                  Transactions
-                </Link>
-              )}
-            </div>
-          )}
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-neutral-600 hover:text-neutral-800 ">
+              Home
+            </Link>
+            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
+              Products
+            </Link>
+            <Link to="#" className="text-neutral-600 hover:text-neutral-800 ">
+              Suport
+            </Link>
+
+            {currentUser?.role === "user" && (
+              <Link
+                to="/transactions"
+                className="text-neutral-600 hover:text-neutral-800"
+              >
+                Transactions
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -81,8 +80,12 @@ function Navbar() {
               </Link>
 
               <button
-                onClick={handleSignout}
-                className="inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg hover:scale-95 transition-all"
+                onClick={administering ? null : handleSignout}
+                className={`inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg  transition-all ${
+                  administering
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:scale-95"
+                }`}
               >
                 Sign out <span>{icons.signout}</span>
               </button>
