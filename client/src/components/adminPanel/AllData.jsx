@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { totalUserBalance } from "../../utils/totalUserBalance";
 
 function AllData() {
   const [usersData, setUsersData] = useState(null);
@@ -22,24 +23,14 @@ function AllData() {
     fetchData();
   }, []);
 
-  function userBalance(user) {
-
-    const balance = user?.bankAccounts
-      ?.map((account) => account.accountBalance)
-      .reduce((prev, act) => prev + act, 0) || 0;
-  
-    return balance;
-  
-  }
-
   return (
     <>
       <div className={`flex flex-col h-[600px] mx-5 space-y-2 overflow-auto`}>
         
         <table
-          className={`${usersData === null ? "hidden" : ""} w-full shadow-md`}
+          className={`${usersData === null ? "hidden" : ""} relative w-full shadow-md`}
         >
-          <thead className="bg-[#EBECF0] dark:bg-dark-eval-2">
+          <thead className="bg-[#EBECF0] sticky top-0 dark:bg-dark-eval-2">
             <tr className="text-center font-medium text-gray-700">
               <th className="py-3">ID</th>
               <th className="py-3">Role</th>
@@ -65,7 +56,7 @@ function AllData() {
                     <td className="p-3">{user.email}</td>
                     <td className="p-3">{user.phone}</td>
                     <td className="p-3">{user.address}</td>
-                    <td className="p-3 text-right">$ {userBalance(user.banking)}</td>
+                    <td className="p-3 text-right">$ {totalUserBalance(user.banking)}</td>
                   </tr>
                 );
               })}
