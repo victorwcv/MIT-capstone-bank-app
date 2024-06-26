@@ -1,28 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { signout } from "../../store/slices/userSlice";
-import {
-  fetchStart,
-  fetchSucces,
-  fetchFailure,
-  clearData,
-} from "../../store/slices/userDataSlice";
 import Layout from "../../layouts/Layout";
-import { useData } from "../../hooks/useData";
-import LoadingSpinner from "../../components/Loading";
 import icons from "../../data/icons_Data";
 
 const transactionsOptions = [
   { path: "/admin-panel", label: "Admin Panel" },
-  { path: "/admin-panel/all-data", label: "All Data" },
   { path: "/admin-panel/create-new-admin", label: "Create Admin" },
+  { path: "/admin-panel/search-user", label: "Search User" },
+  { path: "/admin-panel/all-data", label: "All Data" },
+  { path: "/admin-panel/admin-log", label: "Admin Log" },
 ];
 
 function AdminPanel() {
   const { administering } = useSelector((state) => state.admin);
-  const { loading } = useData();
-  const dispatch = useDispatch();
   const location = useLocation();
 
   console.log("rendering transactions!");
