@@ -18,7 +18,7 @@ function AdminData() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">
-        Welcome to Admin Dashboard
+        Welcome to Admin Panel
       </h2>
 
       <h3 className="text-2xl font-bold mb-3">General Information</h3>
@@ -36,9 +36,6 @@ function AdminData() {
           </li>
           <li>
             <strong>Email:</strong> {currentUser.email}
-          </li>
-          <li>
-            <strong>Role:</strong> {currentUser.role}
           </li>
           <li>
             <strong>Date:</strong> {date}
