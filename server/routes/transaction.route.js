@@ -1,5 +1,5 @@
 import express from "express";
-import { cookieJwtAuth } from "../middlewares/cookieJWTAuth.js";
+import { cookieJwtAuth } from "../middlewares/cookieJwtAuth.js";
 import { bankTransfer, closeAccount, deposit, newAccount, payBill, userData, withdrawal } from "../controllers/transaction.controller.js";
 
 const router = express.Router();

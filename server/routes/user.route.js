@@ -1,5 +1,5 @@
 import express from "express";
-import { cookieJwtAuth } from "../middlewares/cookieJWTAuth.js";
+import { cookieJwtAuth } from "../middlewares/cookieJwtAuth.js";
 import { test } from "../controllers/user.controller.js";
 
 const router = express.Router();
