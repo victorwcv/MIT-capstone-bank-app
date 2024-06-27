@@ -6,8 +6,6 @@ const bankAccountSchema = new Schema(
   {
     bankAccountNumber: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
       match: [/^\d{2}-\d{4}-\d{15}$/, "Invalid Format"],
     },
