@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx";
 import ErrorPage from "../components/ErrorPage.jsx";
 import OnlineBanking from "../pages/online_banking_page/OnlineBanking.jsx";
+import CreateAccount from "../pages/create_account_Page/CreateAccount.jsx";
 import Dashboard from "../pages/dashBoard_Page/Dashboard.jsx";
 import PrivateRoute from "../auth/PrivateRoute.jsx";
 import AdminRoute from "../auth/AdminRoute.jsx";
@@ -21,7 +22,6 @@ import OperateAdminRoute from "../auth/OperateAdminRoute.jsx";
 import SearchUser from "../components/adminPanel/SearchUser.jsx";
 import AdminLog from "../components/adminPanel/AdminLog.jsx";
 import PublicRoute from "../auth/PublicRoute.jsx";
-import CreateAccount from "../pages/create_account_Page/CreateAccount.jsx";
 
 const Router = createBrowserRouter([
   {
