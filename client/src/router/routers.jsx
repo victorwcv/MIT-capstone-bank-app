@@ -18,7 +18,10 @@ import PayBills from "../components/transactions/PayBills";
 import CloseAccount from "../components/transactions/CloseAccount";
 import CreateNewAdmin from "../components/adminPanel/CreateNewAdmin";
 import AdminData from "../components/adminPanel/AdminData";
-import StarAdminRoute from "../auth/StarAdminRoute";
+import OperateAdminRoute from "../auth/OperateAdminRoute";
+import SearchUser from "../components/adminPanel/SearchUser";
+import AdminLog from "../components/adminPanel/AdminLog";
+import PublicRoute from "../auth/PublicRoute";
 
 const Router = createBrowserRouter([
   {
@@ -30,6 +33,22 @@ const Router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      {
+        // Public Routes
+        path: "",
+        element: <PublicRoute />,
+        children: [
+          {
+            path: "/create-account",
+            element: <CreateAccount />,
+          },
+          {
+            path: "/online-banking",
+            element: <OnlineBanking />,
+          },
+        ],
+      },
+
       // Admin Routes
       {
         path: "/admin-panel",
@@ -41,24 +60,27 @@ const Router = createBrowserRouter([
             children: [
               {
                 path: "",
-                element: <AdminData />,},
-              {
-                path: "/admin-panel/all-data",
-                element: <StarAdminRoute />,
-                children: [
-                  {
-                    path: "",
-                    element: <AllData />,
-                  },
-                ],
+                element: <AdminData />,
               },
               {
-                path: "/admin-panel/create-new-admin",
-                element: <StarAdminRoute />,
+                path: "",
+                element: <OperateAdminRoute />,
                 children: [
                   {
-                    path: "",
+                    path: "all-data",
+                    element: <AllData />,
+                  },
+                  {
+                    path: "create-new-admin",
                     element: <CreateNewAdmin />,
+                  },
+                  {
+                    path: "search-user",
+                    element: <SearchUser />,
+                  },
+                  {
+                    path: "admin-log",
+                    element: <AdminLog />,
                   },
                 ],
               },
@@ -77,14 +99,6 @@ const Router = createBrowserRouter([
             element: <Dashboard />,
           },
         ],
-      },
-      {
-        path: "/create-account",
-        element: <CreateAccount />,
-      },
-      {
-        path: "/online-banking",
-        element: <OnlineBanking />, 
       },
 
       // Transaction Routes
