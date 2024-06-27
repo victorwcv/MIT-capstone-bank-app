@@ -8,4 +8,4 @@ function PublicRoute() {
   return currentUser ? <Navigate to="/" /> : <Outlet />
 }
 
-export default PublicRoute
+export default PublicRoute;

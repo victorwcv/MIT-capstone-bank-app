@@ -4,7 +4,7 @@ import ErrorPage from "../components/ErrorPage.jsx";
 import OnlineBanking from "../pages/online_banking.page/OnlineBanking.jsx";
 import CreateAccount from "../pages/create_account.page/CreateAccount.jsx";
 import Dashboard from "../pages/dashboard.page/Dashboard.jsx";
-import PrivateRoute from "../auth/PrivateRoute.jsx";
+import PrivateRoute from "../auth/private_route.jsx";
 import AdminRoute from "../auth/AdminRoute.jsx";
 import AdminPanel from "../pages/admin_panel.page/AdminPanel.jsx";
 import AllData from "../components/admin_panel/AllData.jsx";

@@ -8,4 +8,4 @@ function PrivateRoute() {
   return currentUser ? <Outlet /> : <Navigate to='/online-banking'/>
 }
 
-export default PrivateRoute
+export default PrivateRoute;
