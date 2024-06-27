@@ -24,7 +24,7 @@ mongoose
 const app = express();
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL ?? "http://localhost:3000",
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
   credentials: true,
 };
 
@@ -32,7 +32,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-const PORT = process.env.PORT ?? 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
