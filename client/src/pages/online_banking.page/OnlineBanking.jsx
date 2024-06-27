@@ -24,14 +24,16 @@ function OnlineBanking() {
 
     try {
       dispatch(authStart());
-      const res = await fetch("http://3.134.238.10/api/auth/online-banking", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
         credentials: 'include'
-      });
-      let data = await res.json();
-      if (!res.ok) {
+      };
+      const response = await fetch(`${apiUrl}/api/auth/login`, options);
+      const data = await response.json();
+      if (!response.ok) {
         dispatch(authFailure(data));
         return;
       }
