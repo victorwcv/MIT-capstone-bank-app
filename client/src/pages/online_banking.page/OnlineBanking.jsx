@@ -31,7 +31,7 @@ function OnlineBanking() {
         body: JSON.stringify(formData),
         credentials: 'include'
       };
-      const response = await fetch(`${apiUrl}/api/auth/login`, options);
+      const response = await fetch(`${apiUrl}/api/auth/online-banking`, options);
       const data = await response.json();
       if (!response.ok) {
         dispatch(authFailure(data));
