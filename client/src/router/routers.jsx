@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import ErrorPage from "../components/ErrorPage";
+import App from "../App.jsx";
+import ErrorPage from "../components/ErrorPage.jsx";
 import OnlineBanking from "../pages/onlineBanking_Page/OnlineBanking.jsx";
 import CreateAccount from "../pages/createAccount_Page/CreateAccount.jsx";
 import Dashboard from "../pages/dashBoard_Page/Dashboard.jsx";
