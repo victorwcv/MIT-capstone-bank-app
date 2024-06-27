@@ -3,24 +3,24 @@ import App from "../App.jsx";
 import ErrorPage from "../components/ErrorPage.jsx";
 import OnlineBanking from "../pages/online_banking_page/OnlineBanking.jsx";
 import CreateAccount from "../pages/create_account_page/CreateAccount.jsx";
-import Dashboard from "../pages/dashBoard_Page/Dashboard.jsx";
+import Dashboard from "../pages/dashboard_page/Dashboard.jsx";
 import PrivateRoute from "../auth/PrivateRoute.jsx";
 import AdminRoute from "../auth/AdminRoute.jsx";
-import AdminPanel from "../pages/adminPanel_Page/AdminPanel.jsx";
-import AllData from "../components/adminPanel/AllData.jsx";
-import Transactions from "../pages/transactions_Page/Transactions.jsx";
+import AdminPanel from "../pages/admin_panel_page/AdminPanel.jsx";
+import AllData from "../components/admin_panel/AllData.jsx";
+import Transactions from "../pages/transactions_page/Transactions.jsx";
 import Withdrawal from "../components/transactions/Withdrawal.jsx";
 import Deposit from "../components/transactions/Deposit.jsx";
-import Home from "../pages/home_Page/Home.jsx";
+import Home from "../pages/home_page/Home.jsx";
 import NewBankAccount from "../components/transactions/NewBankAccount.jsx";
 import BankTransfer from "../components/transactions/BankTransfer.jsx";
 import PayBills from "../components/transactions/PayBills.jsx";
 import CloseAccount from "../components/transactions/CloseAccount.jsx";
-import CreateNewAdmin from "../components/adminPanel/CreateNewAdmin.jsx";
-import AdminData from "../components/adminPanel/AdminData.jsx";
+import CreateNewAdmin from "../components/admin_panel/CreateNewAdmin.jsx";
+import AdminData from "../components/admin_panel/AdminData.jsx";
 import OperateAdminRoute from "../auth/OperateAdminRoute.jsx";
-import SearchUser from "../components/adminPanel/SearchUser.jsx";
-import AdminLog from "../components/adminPanel/AdminLog.jsx";
+import SearchUser from "../components/admin_panel/SearchUser.jsx";
+import AdminLog from "../components/admin_panel/AdminLog.jsx";
 import PublicRoute from "../auth/PublicRoute.jsx";
 
 const Router = createBrowserRouter([
@@ -40,7 +40,7 @@ const Router = createBrowserRouter([
         children: [
           {
             path: "/create-account",
-            element: <CreateAccount />,
+            element: <CreateAccount />
           },
           {
             path: "/online-banking",
