@@ -24,7 +24,7 @@ function OnlineBanking() {
 
     try {
       dispatch(authStart());
-      const res = await fetch("http://localhost:3000/api/auth/online-banking", {
+      const res = await fetch("http://3.134.238.10/api/auth/online-banking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
