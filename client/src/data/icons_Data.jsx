@@ -5,7 +5,6 @@ import {
   RiAdminFill,
   RiSecurePaymentFill,
   RiHandCoinLine,
-  RiShieldUserFill,
 } from "react-icons/ri";
 import { PiSignOutBold } from "react-icons/pi";
 
@@ -16,7 +15,6 @@ const icons = {
   user: <FaUser />,
   secure: <RiSecurePaymentFill />,
   service: <RiHandCoinLine />,
-  secure: <RiShieldUserFill />,
   signout: <PiSignOutBold />,
   admin: <RiAdminFill />,
   lock: <FaLock />,
