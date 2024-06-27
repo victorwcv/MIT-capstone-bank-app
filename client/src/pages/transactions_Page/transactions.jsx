@@ -10,7 +10,6 @@ import {
 } from "../../store/slices/userDataSlice";
 import Layout from "../../layouts/Layout";
 import { useData } from "../../hooks/useData";
-import LoadingSpinner from "../../components/Loading";
 
 const transactionsOptions = [
   { path: "/transactions/deposit", label: "Deposit" },
@@ -22,7 +21,6 @@ const transactionsOptions = [
 ];
 
 function Transactions() {
-  const { loading } = useData();
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -51,10 +49,6 @@ function Transactions() {
     fetchData();
   }, []);
 
-  
-  if (loading) {
-    return <LoadingSpinner />;
-  }
   console.log("rendering transactions!");
 
   return (
