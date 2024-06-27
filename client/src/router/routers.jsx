@@ -15,12 +15,12 @@ import OperateAdminRoute from "../auth/operation_route.jsx";
 import PublicRoute from "../auth/public_route.jsx";
 // components
 import AllData from "../components/admin_panel.components/AllData.jsx";
-import Withdrawal from "../components/transactions/Withdrawal.jsx";
-import Deposit from "../components/transactions/Deposit.jsx";
-import NewBankAccount from "../components/transactions/NewBankAccount.jsx";
-import BankTransfer from "../components/transactions/BankTransfer.jsx";
-import PayBills from "../components/transactions/PayBills.jsx";
-import CloseAccount from "../components/transactions/CloseAccount.jsx";
+import Withdrawal from "../components/transactions.components/Withdrawal.jsx";
+import Deposit from "../components/transactions.components/Deposit.jsx";
+import NewBankAccount from "../components/transactions.components/NewBankAccount.jsx";
+import BankTransfer from "../components/transactions.components/BankTransfer.jsx";
+import PayBills from "../components/transactions.components/PayBills.jsx";
+import CloseAccount from "../components/transactions.components/CloseAccount.jsx";
 import CreateNewAdmin from "../components/admin_panel.components/CreateNewAdmin.jsx";
 import AdminData from "../components/admin_panel.components/AdminData.jsx";
 import SearchUser from "../components/admin_panel.components/SearchUser.jsx";
