@@ -31,39 +31,11 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      validate: [
-        {
-          validator: function (v) {
-            if (this.role === "user" && (!v || v.trim().length === 0)) {
-              return false;
-            }
-            return true;
-          },
-          message: (props) => "Phone number is required",
-        },
-        {
-          validator: function (v) {
-            if (this.role === 'user') {
-              const phoneRegex = /^[0-9]{8,11}$/;
-              return phoneRegex.test(v);
-            }
-            return true;
-          },
-          message: (props) => 'Phone number is 8 to 11 digits'
-        }
-      ],
+      trim: true,
     },
     address: {
       type: String,
-      validate: {
-        validator: function (v) {
-          if (this.role === 'user' && (!v || v.trim().length === 0)) {
-            return false;
-          }
-          return true;
-        },
-        message: props => 'Address is required'
-      }
+      trim: true,
     },
     banking: {
       transactions: [transactionSchema],
@@ -74,6 +46,37 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre('validate', function (next) {
+  if (this.role === 'admin') {
+    // Remove the banking property if the role is admin
+    this.banking = undefined;
+  } else if (this.role === 'user') {
+    // Validate required fields for user
+    if (!this.phone || this.phone.trim().length === 0) {
+      return next(new Error('Phone number is required for regular users'));
+    }
+    if (!this.address || this.address.trim().length === 0) {
+      return next(new Error('Address is required for regular users'));
+    }
+    if (!this.banking || this.banking.transactions.length === 0 || this.banking.bankAccounts.length === 0) {
+      return next(new Error('Banking transactions and bank accounts are required for regular users'));
+    }
+    // Validate bankAccountNumber format
+    if (this.banking.bankAccounts.some(account => !account.bankAccountNumber || !/^\d{2}-\d{4}-\d{15}$/.test(account.bankAccountNumber))) {
+      return next(new Error('Valid bank account number is required for regular users'));
+    }
+  }
+  next();
+});
+
+userSchema.pre('save', function (next) {
+  if (this.role === 'admin') {
+    // Ensure banking is not saved for admin
+    this.banking = undefined;
+  }
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 
