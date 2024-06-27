@@ -1,27 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx";
 import ErrorPage from "../components/ErrorPage.jsx";
+import Home from "../pages/home.page/Home.jsx";
 import OnlineBanking from "../pages/online_banking.page/OnlineBanking.jsx";
 import CreateAccount from "../pages/create_account.page/CreateAccount.jsx";
 import Dashboard from "../pages/dashboard.page/Dashboard.jsx";
-import PrivateRoute from "../auth/private_route.jsx";
-import AdminRoute from "../auth/AdminRoute.jsx";
 import AdminPanel from "../pages/admin_panel.page/AdminPanel.jsx";
-import AllData from "../components/admin_panel/AllData.jsx";
 import Transactions from "../pages/transactions.page/Transactions.jsx";
+import PrivateRoute from "../auth/private_route.jsx";
+import AdminRoute from "../auth/admin_route.jsx";
+import OperateAdminRoute from "../auth/operation_route.jsx";
+import PublicRoute from "../auth/public_route.jsx";
+import AllData from "../components/admin_panel/AllData.jsx";
 import Withdrawal from "../components/transactions/Withdrawal.jsx";
 import Deposit from "../components/transactions/Deposit.jsx";
-import Home from "../pages/home.page/Home.jsx";
 import NewBankAccount from "../components/transactions/NewBankAccount.jsx";
 import BankTransfer from "../components/transactions/BankTransfer.jsx";
 import PayBills from "../components/transactions/PayBills.jsx";
 import CloseAccount from "../components/transactions/CloseAccount.jsx";
 import CreateNewAdmin from "../components/admin_panel/CreateNewAdmin.jsx";
 import AdminData from "../components/admin_panel/AdminData.jsx";
-import OperateAdminRoute from "../auth/OperateAdminRoute.jsx";
 import SearchUser from "../components/admin_panel/SearchUser.jsx";
 import AdminLog from "../components/admin_panel/AdminLog.jsx";
-import PublicRoute from "../auth/PublicRoute.jsx";
 
 const Router = createBrowserRouter([
   {
