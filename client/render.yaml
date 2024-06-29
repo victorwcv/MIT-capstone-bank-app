@@ -2,7 +2,7 @@ services:
   - type: web
     name: client
     env: static
-    staticPublishPath: build
+    staticPublishPath: dist
     routes:
       - src: /*
         dest: /index.html
