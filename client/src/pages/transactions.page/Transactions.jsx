@@ -28,7 +28,8 @@ function Transactions() {
     const fetchData = async () => {
       try {
         dispatch(fetchStart());
-        let link = "http://localhost:3000/api/transaction";
+        let apiUrl = import.meta.env.VITE_API_URL;
+        let link = `${apiUrl}/api/transaction/`;
         let options = {
           method: "GET",
           credentials: "include",
