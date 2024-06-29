@@ -1,37 +1,37 @@
-import './footer.scss'
 
 function Footer() {
   return (
-    <footer className="footer">
-      <aside>
-        <h2>VWCV <span>BANK</span></h2>
+    <footer className="flex flex-wrap gap-12 justify-evenly py-10 bg-neutral-100 text-neutral-500">
+      <aside className="min-w-[300px] flex flex-col justify-center">
+        <div className="mx-auto">
+
+        <h2>&copy; <span className="font-bold" style={{ fontFamily: "Poetsen One" }}>VWCV</span> <span>BANK</span>&trade;</h2>
         <p>
-          &copy; VWCV Bank&trade;
-          <br />
           Your bank since 1995
           <br />
           <small>By Victor Ccanchi - MIT xPro 2024</small>
         </p>
+        </div>
       </aside>
-      <div className='section-container'>
-        <h3 >Services</h3>
-        <a>Branding</a>
-        <a>Design</a>
-        <a>Marketing</a>
-        <a>Advertisement</a>
+      <div className='min-w-[300px] flex flex-col items-center'>
+        <h3 className="font-semibold underline underline-offset-2">Services</h3>
+        <a className="cursor-pointer hover:text-neutral-900">Branding</a>
+        <a className="cursor-pointer hover:text-neutral-900">Design</a>
+        <a className="cursor-pointer hover:text-neutral-900">Marketing</a>
+        <a className="cursor-pointer hover:text-neutral-900">Advertisement</a>
       </div>
-      <div className='section-container'>
-        <h3 >Company</h3>
-        <a>About us</a>
-        <a>Contact</a>
-        <a>Jobs</a>
-        <a>Press kit</a>
+      <div className='min-w-[300px] flex flex-col items-center'>
+        <h3 className="font-semibold underline underline-offset-2">Company</h3>
+        <a className="cursor-pointer hover:text-neutral-900">About us</a>
+        <a className="cursor-pointer hover:text-neutral-900">Contact</a>
+        <a className="cursor-pointer hover:text-neutral-900">Jobs</a>
+        <a className="cursor-pointer hover:text-neutral-900">Press kit</a>
       </div>
-      <div className='section-container'>
-        <h3 >Legal</h3>
-        <a>Terms of use</a>
-        <a>Privacy policy</a>
-        <a>Cookie policy</a>
+      <div className='min-w-[300px] flex flex-col items-center'>
+        <h3 className="font-semibold underline underline-offset-2">Legal</h3>
+        <a className="cursor-pointer hover:text-neutral-900">Terms of use</a>
+        <a className="cursor-pointer hover:text-neutral-900">Privacy policy</a>
+        <a className="cursor-pointer hover:text-neutral-900">Cookie policy</a>
       </div>
     </footer>
   );
