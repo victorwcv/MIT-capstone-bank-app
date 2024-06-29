@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: client
-    env: static
-    staticPublishPath: dist
-    routes:
-      - src: /*
-        dest: /index.html
