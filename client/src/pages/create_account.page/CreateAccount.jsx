@@ -38,9 +38,9 @@ function CreateAccount() {
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">
-        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 px-6 bg-[url('/bank.jpeg')] flex justify-center items-center">
+        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 px-6 bg-[url('/bank.jpeg')] bg-cover bg-no-repeat flex justify-center items-center">
           <div className="bg-neutral-500 bg-opacity-95 p-16 text-white min-w-[400px] text-xl size-[80%] flex flex-col justify-around">
-            <h2 className=" text-4xl font-bold text-center mb-12">
+            <h2 className="text-4xl font-bold text-center mb-12">
               Welcome to{" "}
               <span
                 className="text-[var(--secondary-color)]"
@@ -78,7 +78,7 @@ function CreateAccount() {
             </p>
           </div>
         </div>
-        <div className=" h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
+        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
           <h2 className="text-neutral-600 text-4xl font-bold text-center mx-10 mb-16">
             Create Account
           </h2>
@@ -90,7 +90,7 @@ function CreateAccount() {
               type="text"
               placeholder="Full Name"
               id="username"
-              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
+              className="bg-gray-100 p-3 w-full"
               onChange={handleChange}
               required
             />
@@ -98,7 +98,7 @@ function CreateAccount() {
               type="text"
               placeholder="Address"
               id="address"
-              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
+              className="bg-gray-100 p-3 w-full"
               onChange={handleChange}
               required
             />
@@ -106,7 +106,7 @@ function CreateAccount() {
               type="text"
               placeholder="Phone Number"
               id="phone"
-              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
+              className="bg-gray-100 p-3 w-full"
               onChange={handleChange}
               required
             />
@@ -114,7 +114,7 @@ function CreateAccount() {
               type="email"
               placeholder="Email"
               id="email"
-              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
+              className="bg-gray-100 p-3 w-full"
               onChange={handleChange}
               required
             />
@@ -122,7 +122,7 @@ function CreateAccount() {
               type="password"
               placeholder="Password"
               id="password"
-              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
+              className="bg-gray-100 p-3 w-full"
               onChange={handleChange}
               required
             />
