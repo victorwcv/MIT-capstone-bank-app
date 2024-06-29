@@ -50,13 +50,14 @@ export const onlineBanking = async (req, res, next) => {
     const token = jwt.sign(
       { _id: validUser._id, role: validUser.role }, //Payload
       process.env.JWT_SECRET, //Secret Key
-      { expiresIn: "12h" } //Options
+      { expiresIn: "1h" } //Options
     );
     res
       .cookie("token", token, {
         httpOnly: true,
-        // secure: false,
-        // maxAge: 1000000,
+        sameSite: "none",
+        secure: true,
+        maxAge: 3600000,
         // signed: true,
       })
       .status(200)
