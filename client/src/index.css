@@ -52,7 +52,7 @@ textarea {
 }
 
 .btn-primary:hover {
-  background-color: #2563eb; 
+  opacity: .95;
 }
 
 .btn-primary:active {

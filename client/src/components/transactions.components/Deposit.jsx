@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   fetchStart,
   fetchSucces,
@@ -20,7 +20,8 @@ function Deposit() {
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/transaction/deposit";
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const link = `${apiUrl}/api/transaction/deposit`;
       const options = {
         method: "PATCH",
         headers: {
@@ -145,11 +146,7 @@ function Deposit() {
                 />
                 <ErrorMessage name="description" />
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-primary"
-              >
+              <button type="submit" disabled={loading} className="btn-primary">
                 {loading ? "Loading..." : "Deposit"}
               </button>
               <p className="text-red-500 text-right mt-4">

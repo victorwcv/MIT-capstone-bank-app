@@ -1,10 +1,16 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import validationSchema from "../../validation/validationSchema";
 
-const schema = validationSchema.pick(["username", "email", "password", "confirmPassword"]);
+const schema = validationSchema.pick([
+  "username",
+  "email",
+  "password",
+  "confirmPassword",
+]);
 
 const handleSubmit = async (values, setSubmitting) => {
-  const link = "http://localhost:3000/api/admin/create-new-admin";
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const link = `${apiUrl}/api/admin/create-new-admin/`;
   const options = {
     method: "POST",
     headers: {
@@ -16,13 +22,12 @@ const handleSubmit = async (values, setSubmitting) => {
   try {
     const response = await fetch(link, options);
     const data = await response.json();
-    console.log(data);  
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
   setSubmitting(false);
 };
-
 
 function CreateNewAdmin() {
   return (
@@ -100,7 +105,8 @@ function CreateNewAdmin() {
                   name="confirmPassword"
                   type="password"
                   className={`${
-                    formik.errors.confirmPassword && formik.touched.confirmPassword
+                    formik.errors.confirmPassword &&
+                    formik.touched.confirmPassword
                       ? "  border-red-500"
                       : ""
                   }`}

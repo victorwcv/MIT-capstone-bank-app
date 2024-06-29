@@ -19,7 +19,8 @@ function NewBankAccount() {
   const handleSubmit = async (values) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/transaction/new-account";
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const link = `${apiUrl}/api/transaction/new-account/`;
       const options = {
         method: "PATCH",
         headers: {

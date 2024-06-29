@@ -24,10 +24,11 @@ mongoose
 const app = express();
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  origin: process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_ORIGIN : process.env.LOCAL_ORIGIN,
   credentials: true,
 };
 
+console.log(corsOptions.origin);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());

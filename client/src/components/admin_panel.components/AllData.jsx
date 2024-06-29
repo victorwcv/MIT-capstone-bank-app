@@ -8,7 +8,8 @@ function AllData() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const link = "http://localhost:3000/api/admin/all-data";
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const link = `${apiUrl}/api/admin/all-data/`;
         const options = {
           method: "GET",
           credentials: "include",
@@ -26,9 +27,10 @@ function AllData() {
   return (
     <>
       <div className={`flex flex-col h-[600px] mx-5 space-y-2 overflow-auto`}>
-        
         <table
-          className={`${usersData === null ? "hidden" : ""} relative w-full shadow-md`}
+          className={`${
+            usersData === null ? "hidden" : ""
+          } relative w-full shadow-md`}
         >
           <thead className="bg-[#EBECF0] sticky top-0 dark:bg-dark-eval-2">
             <tr className="text-center font-medium text-gray-700">
@@ -56,7 +58,9 @@ function AllData() {
                     <td className="p-3">{user.email}</td>
                     <td className="p-3">{user.phone}</td>
                     <td className="p-3">{user.address}</td>
-                    <td className="p-3 text-right">$ {totalUserBalance(user.banking)}</td>
+                    <td className="p-3 text-right">
+                      $ {totalUserBalance(user.banking)}
+                    </td>
                   </tr>
                 );
               })}
@@ -68,5 +72,3 @@ function AllData() {
 }
 
 export default AllData;
-
-

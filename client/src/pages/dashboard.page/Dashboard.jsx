@@ -108,7 +108,7 @@ function Dashboard() {
                 <tbody className="text-left divide-y divide-gray-200 dark:divide-dark-eval-2">
                   {data?.transactions?.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="text-center py-6">
+                      <td colSpan={8} className="text-center py-6">
                         No transactions found
                       </td>
                     </tr>

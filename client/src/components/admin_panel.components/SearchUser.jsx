@@ -9,7 +9,8 @@ function SearchUser() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const handleSubmit = async (values, setSubmitting) => {
-    const link = `http://localhost:3000/api/admin/search-user/${values.email}`;
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const link = `${apiUrl}/api/admin/search-user/${values.email}`;
     const options = {
       method: "GET",
       credentials: "include",

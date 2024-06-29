@@ -1,6 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import icons from "../../data/icons_Data";
 import { signout } from "../../store/slices/userSlice";
 import { clearData } from "../../store/slices/userDataSlice";
@@ -10,21 +9,22 @@ function Navbar() {
   const { administering } = useSelector((state) => state.admin);
 
   const dispatch = useDispatch();
-
   const handleSignout = async () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     try {
-      await fetch("http://localhost:3000/api/auth/signout");
+      await fetch(`${apiUrl}/api/auth/signout`);
       dispatch(adminReset());
       dispatch(clearData());
       dispatch(signout());
+      dispatch(adminReset());
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <nav className="sticky top-0 z-10 bg-neutral-100 h-16 flex justify-center items-center shadow-lg">
-      <div className="container flex justify-between font-medium">
+    <nav className="sticky top-0 z-50 bg-neutral-100 h-16 flex justify-center items-center shadow-lg">
+      <div className="container flex justify-between px-10 font-medium">
         <div className="flex items-center gap-4">
           <h1 className="font-bold text-2xl  mr-10">
             <Link to="/">

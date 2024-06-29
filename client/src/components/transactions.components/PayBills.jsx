@@ -40,7 +40,8 @@ function PayBills() {
         })}
         onSubmit={async (values, { resetForm }) => {
           try {
-            const link = "http://localhost:3000/api/transaction/pay-bill";
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const link = `${apiUrl}/api/transaction/pay-bills/`;
             const options = {
               method: "PATCH",
               headers: {

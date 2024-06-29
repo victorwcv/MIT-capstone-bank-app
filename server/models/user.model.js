@@ -59,9 +59,6 @@ userSchema.pre('validate', function (next) {
     if (!this.address || this.address.trim().length === 0) {
       return next(new Error('Address is required for regular users'));
     }
-    if (!this.banking || this.banking.transactions.length === 0 || this.banking.bankAccounts.length === 0) {
-      return next(new Error('Banking transactions and bank accounts are required for regular users'));
-    }
     // Validate bankAccountNumber format
     if (this.banking.bankAccounts.some(account => !account.bankAccountNumber || !/^\d{2}-\d{4}-\d{15}$/.test(account.bankAccountNumber))) {
       return next(new Error('Valid bank account number is required for regular users'));

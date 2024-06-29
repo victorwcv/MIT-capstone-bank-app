@@ -14,14 +14,14 @@ function Withdrawal() {
   const { loading, data, error } = useSelector((state) => state.userData);
   const [transactionError, setTransactionError] = useState(null);
 
-
   console.log("rendering withdrawal");
   const dispatch = useDispatch();
 
   const handleSubmit = async (values, reset) => {
     try {
       dispatch(fetchStart());
-      const link = "http://localhost:3000/api/transaction/withdrawal";
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const link = `${apiUrl}/api/transaction/withdrawal`;
       const options = {
         method: "PATCH",
         headers: {
@@ -48,7 +48,7 @@ function Withdrawal() {
   return (
     <>
       <h2 className="text-3xl text-center font-bold mb-10">Withdrawal</h2>
-      <TotalUserBalance data={data}/>
+      <TotalUserBalance data={data} />
       <Formik
         initialValues={{
           amount: "",

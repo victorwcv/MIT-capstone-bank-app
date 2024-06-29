@@ -19,7 +19,8 @@ function CloseAccount() {
   const handleSubmit = async (values, reset) => {
     try {
       // dispatch(fetchStart());
-      const link = "http://localhost:3000/api/transaction/close-account";
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const link = `${apiUrl}/api/transaction/close-account`;
       const options = {
         method: "PATCH",
         headers: {
@@ -78,7 +79,7 @@ function CloseAccount() {
         })}
         onSubmit={(values, { resetForm }) => {
           console.log(values);
-          handleSubmit(values,resetForm);
+          handleSubmit(values, resetForm);
         }}
       >
         {(formik) => (

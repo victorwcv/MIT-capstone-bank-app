@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./createAcount.scss";
 function CreateAccount() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ state: false, message: "" });
@@ -13,12 +12,15 @@ function CreateAccount() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/auth/create-account", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const link = `${apiUrl}/api/auth/create-account`;
+      const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      });
-      const data = await res.json();
+      };
+      const response = await fetch(link, options);
+      const data = await response.json();
       setLoading(false);
       if (!data.success) {
         setError({ state: !data.success, message: data.message });
@@ -35,44 +37,60 @@ function CreateAccount() {
 
   return (
     <>
-      <div className="create-account">
-        <div className="steps-container">
-          <h2>
-            Welcome to <span>VWCV</span> Bank
-          </h2>
-          <h4>
-            Creating an account is quick and easy, Just follow these simple
-            steps:
-          </h4>
-          <ul>
-            <li>
-              Personal Information:
-              <span>Provide your full name and adress.</span>
-            </li>
-            <li>
-              Contact Details:
-              <span>Enter your phone number and email address.</span>
-            </li>
-            <li>
-              Security:
-              <span>Create a secure password.</span>
-            </li>
-          </ul>
-          <p>
-            Once you complete these steps, you will have instant access to all
-            our banking services.
-          </p>
+      <div className="flex flex-wrap justify-center items-center">
+        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 px-6 bg-[url('/bank.jpeg')] flex justify-center items-center">
+          <div className="bg-neutral-500 bg-opacity-95 p-16 text-white min-w-[400px] text-xl size-[80%] flex flex-col justify-around">
+            <h2 className=" text-4xl font-bold text-center mb-12">
+              Welcome to{" "}
+              <span
+                className="text-[var(--secondary-color)]"
+                style={{ fontFamily: "Poetsen One" }}
+              >
+                VWCV
+              </span>{" "}
+              <span className="text-[var(--primary-text-color)]">Bank</span>
+            </h2>
+            <h4 className="text-center">
+              Creating an account is quick and easy, Just follow these simple
+              steps:
+            </h4>
+            <ul className="list-disc list-inside">
+              <li className="font-semibold">
+                Personal Information:
+                <p className="font-normal ml-12">
+                  Provide your full name and adress.
+                </p>
+              </li>
+              <li className="font-semibold">
+                Contact Details:
+                <p className="font-normal ml-12">
+                  Enter your phone number and email address.
+                </p>
+              </li>
+              <li className="font-semibold">
+                Security:
+                <p className="font-normal ml-12">Create a secure password.</p>
+              </li>
+            </ul>
+            <p>
+              Once you complete these steps, you will have instant access to all
+              our banking services.
+            </p>
+          </div>
         </div>
-        <div className="create-acc-form">
+        <div className=" h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
           <h2 className="text-neutral-600 text-4xl font-bold text-center mx-10 mb-16">
-            Create new Account
+            Create Account
           </h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center gap-4 w-[50%] min-w-[300px]"
+          >
             <input
               type="text"
               placeholder="Full Name"
               id="username"
-              className="bg-gray-100 p-3 rounded-lg outline-none"
+              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
               onChange={handleChange}
               required
             />
@@ -80,7 +98,7 @@ function CreateAccount() {
               type="text"
               placeholder="Address"
               id="address"
-              className="bg-gray-100 p-3 rounded-lg outline-none"
+              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
               onChange={handleChange}
               required
             />
@@ -88,7 +106,7 @@ function CreateAccount() {
               type="text"
               placeholder="Phone Number"
               id="phone"
-              className="bg-gray-100 p-3 rounded-lg outline-none"
+              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
               onChange={handleChange}
               required
             />
@@ -96,7 +114,7 @@ function CreateAccount() {
               type="email"
               placeholder="Email"
               id="email"
-              className="bg-gray-100 p-3 rounded-lg outline-none"
+              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
               onChange={handleChange}
               required
             />
@@ -104,13 +122,13 @@ function CreateAccount() {
               type="password"
               placeholder="Password"
               id="password"
-              className="bg-gray-100 p-3 rounded-lg outline-none"
+              className="bg-gray-100 p-3 rounded-lg outline-none w-full"
               onChange={handleChange}
               required
             />
             <button
               // disabled={loading}
-              className="bg-blue-500 font-bold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+              className="btn-primary mt-10 w-full shadow-md hover:shadow-lg"
             >
               {loading ? "Loading" : "Create Account"}
             </button>

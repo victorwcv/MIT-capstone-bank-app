@@ -68,8 +68,8 @@ function BankTransfer() {
           onSubmit={async (values, { resetForm }) => {
             try {
               dispatch(fetchStart());
-              const link =
-                "http://localhost:3000/api/transaction/bank-transfer";
+              const apiUrl = import.meta.env.VITE_API_URL;
+              const link = `${apiUrl}/api/transaction/bank-transfer`;
               const options = {
                 method: "PATCH",
                 headers: {
@@ -227,8 +227,8 @@ function BankTransfer() {
                   Complete Transfer
                 </button>
                 <p className="text-red-500 text-right mt-4">
-                {transactionError && transactionError.message}
-              </p>
+                  {transactionError && transactionError.message}
+                </p>
               </div>
             </Form>
           )}
