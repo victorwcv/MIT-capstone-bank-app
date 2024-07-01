@@ -3,9 +3,7 @@ import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchFailure,
   fetchSucces,
-  fetchStart,
 } from "../../store/slices/userDataSlice.js";
 import { useState } from "react";
 import TotalUserBalance from "../TotalUserBalance.jsx";

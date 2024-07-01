@@ -4,11 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchStart,
-  fetchSucces,
-  fetchFailure,
-} from "../../store/slices/userDataSlice.js";
+import { fetchSucces } from "../../store/slices/userDataSlice.js";
 import AccountsField from "../AccountsField.jsx";
 
 function CloseAccount() {

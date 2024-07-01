@@ -1,15 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { signout } from "../../store/slices/userSlice";
 import {
-  fetchStart,
   fetchSucces,
-  fetchFailure,
   clearData,
 } from "../../store/slices/userDataSlice";
 import Layout from "../../layouts/Layout";
-import { useData } from "../../hooks/useData";
 
 const transactionsOptions = [
   { path: "/transactions/deposit", label: "Deposit" },
@@ -21,13 +18,16 @@ const transactionsOptions = [
 ];
 
 function Transactions() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        dispatch(fetchStart());
+        setLoading(true);
+        setError(null);
         let apiUrl = import.meta.env.VITE_API_URL;
         let link = `${apiUrl}/api/transaction/`;
         let options = {
@@ -36,6 +36,7 @@ function Transactions() {
         };
         const response = await fetch(link, options);
         const data = await response.json();
+        setLoading(false);
         if (data.statusCode === 401 || data.statusCode === 403) {
           console.log(data);
           dispatch(clearData());
@@ -44,7 +45,8 @@ function Transactions() {
         }
         dispatch(fetchSucces(data));
       } catch (error) {
-        dispatch(fetchFailure(error));
+        setLoading(false);
+        setError('An error occured! Please try again later.');
       }
     };
     fetchData();

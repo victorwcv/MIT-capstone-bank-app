@@ -4,9 +4,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  fetchStart,
   fetchSucces,
-  fetchFailure,
 } from "../../store/slices/userDataSlice.js";
 import { useData } from "../../hooks/useData.js";
 

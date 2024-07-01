@@ -2,24 +2,22 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import {
-  fetchStart,
-  fetchSucces,
-  fetchFailure,
-} from "../../store/slices/userDataSlice.js";
+import { fetchSucces } from "../../store/slices/userDataSlice.js";
 import { useState } from "react";
 import TotalUserBalance from "../TotalUserBalance.jsx";
 import { useData } from "../../hooks/useData.js";
+import Alert from "../Alert.jsx";
 
 function Deposit() {
-  const { loading, error, data } = useData();
-  const [transactionError, setTransactionError] = useState(null);
+  const { data } = useData();
+  const [error, setError] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const dispatch = useDispatch();
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, setSubmitting) => {
     try {
-      dispatch(fetchStart());
+      setError(null);
       const apiUrl = import.meta.env.VITE_API_URL;
       const link = `${apiUrl}/api/transaction/deposit`;
       const options = {
@@ -32,22 +30,25 @@ function Deposit() {
       };
       const response = await fetch(link, options);
       const data = await response.json();
-      if (data.success === false) {
-        dispatch(fetchFailure(data));
-        setTransactionError(data);
+      setSubmitting(false);
+      if (!response.ok) {
+        setError(data?.message || "An error occured. Please try again later.");
+        setShowAlert(true);
         return;
       }
+      setShowAlert(true);
       dispatch(fetchSucces(data));
     } catch (error) {
-      setTransactionError(error);
-      dispatch(fetchFailure(error));
+      setSubmitting(false);
+      setError("An error occured. Please try again later.");
+      setShowAlert(true);
     }
   };
 
   console.log("rendering deposit");
 
   return (
-    <>
+    <div className="relative">
       <h2 className="text-3xl text-center font-bold mb-10">Deposit</h2>
       <TotalUserBalance data={data} />
       <Formik
@@ -67,40 +68,50 @@ function Deposit() {
           transactionTime: Yup.string(),
           description: Yup.string(),
         })}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={(values, { setSubmitting }) => {
           console.log(values);
-          handleSubmit(values);
-          resetForm();
+          handleSubmit(values, setSubmitting);
         }}
       >
         {(formik) => (
-          <Form className="grid grid-cols-2 gap-20">
-            <div>
-              <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="amount" className="my-2">
-                  Amount to Deposit
-                </label>
+          <Form>
+            <div
+              className={`flex items-center justify-center gap-x-10 flex-wrap max-h-[450px] ${
+                formik.isSubmitting ? "opacity-50" : ""
+              }`}
+            >
+              <div className="relative flex flex-1 flex-col pb-6  min-w-80">
+                <label htmlFor="amount">Amount to Deposit:</label>
                 <Field
                   type="number"
                   id="amount"
                   name="amount"
-                  className="px-4 py-1 outline-none text-right"
+                  className={`${
+                    formik.errors.amount && formik.touched.amount
+                      ? "  border-red-500"
+                      : ""
+                  }`}
                 />
-                <div className="text-red-500 mt-1 text-sm font-light h-3">
-                  <ErrorMessage name="amount" />
-                </div>
+                <ErrorMessage
+                  name="amount"
+                  component="div"
+                  className="absolute bottom-0 right-2 text-red-500"
+                />
               </div>
 
-              <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="destinationAccount" className="my-2">
-                  Destination Account
-                </label>
+              <div className="relative flex flex-1 flex-col pb-6 min-w-80">
+                <label htmlFor="destinationAccount">Destination Account:</label>
 
                 <Field
                   as="select"
                   id="destinationAccount"
                   name="destinationAccount"
-                  className="px-4 py-1 outline-none text-right"
+                  className={`${
+                    formik.errors.destinationAccount &&
+                    formik.touched.destinationAccount
+                      ? "  border-red-500"
+                      : ""
+                  }`}
                 >
                   <option value="">Select an Account</option>
                   {data.bankAccounts?.map((acc, index) => {
@@ -112,51 +123,61 @@ function Deposit() {
                   })}
                 </Field>
 
-                <div className="text-red-500 mt-1 text-sm font-light h-3">
-                  <ErrorMessage name="destinationAccount" />
-                </div>
+                <ErrorMessage
+                  name="destinationAccount"
+                  component="div"
+                  className="absolute bottom-0 right-2 text-red-500"
+                />
               </div>
 
-              <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="transactionDate" className="my-2">
-                  Deposit Date
-                </label>
+              <div className="relative flex flex-1 flex-col   min-w-80">
+                <label htmlFor="transactionDate">Deposit Date:</label>
                 <Field
                   type="text"
                   id="transactionDate"
                   name="transactionDate"
-                  className="px-4 py-1 outline-none text-right"
+                  className="text-right"
                   readOnly
                 />
                 <div className="text-red-500 mt-1 text-sm font-light h-3">
                   <ErrorMessage name="transactionDate" />
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col ">
-              <div className="flex flex-col my-4 text-xl">
-                <label htmlFor="description" className="my-2">
-                  Description or Note
-                </label>
-                <Field
-                  as="textarea"
-                  id="description"
-                  name="description"
-                  className="w-full h-32 px-4 py-1 outline-none rounded-lg resize-none"
-                />
+              <div className="relative flex flex-1 flex-col   min-w-80">
+                <label htmlFor="description">Description or Note:</label>
+                <Field type="text" id="description" name="description" />
                 <ErrorMessage name="description" />
               </div>
-              <button type="submit" disabled={loading} className="btn-primary">
-                {loading ? "Loading..." : "Deposit"}
-              </button>
-              <p className="text-red-500 text-right mt-4">
-                {transactionError && transactionError.message}
-              </p>
             </div>
+            <div className="flex justify-center mt-12">
+              <button
+                type="submit"
+                disabled={formik.isSubmitting}
+                className="btn-primary"
+              >
+                {formik.isSubmitting ? "Loading..." : "Complete deposit"}
+              </button>
+            </div>
+
+            {showAlert && (
+              <Alert
+                success={error === null}
+                message={error === null ? "Deposit successful" : error}
+                close={
+                  error === null
+                    ? () => {
+                        setShowAlert(false);
+                        setError(null);
+                        formik.resetForm();
+                      }
+                    : () => setShowAlert(false)
+                }
+              />
+            )}
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 

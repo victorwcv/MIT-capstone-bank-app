@@ -3,9 +3,7 @@ import { useData } from "../../hooks/useData";
 import * as Yup from "yup";
 import getCurrentDateTime from "../../utils/dates";
 import {
-  fetchStart,
   fetchSucces,
-  fetchFailure,
 } from "../../store/slices/userDataSlice.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

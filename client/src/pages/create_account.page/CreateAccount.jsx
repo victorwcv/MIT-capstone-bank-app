@@ -1,8 +1,10 @@
 import { useState } from "react";
+import Alert from "../../components/Alert";
 function CreateAccount() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ state: false, message: "" });
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({});
+  const [showAlert, setShowAlert] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -22,16 +24,15 @@ function CreateAccount() {
       const response = await fetch(link, options);
       const data = await response.json();
       setLoading(false);
-      if (!data.success) {
-        setError({ state: !data.success, message: data.message });
+      if (!response.ok) {
+        setError(data.message || "An error occured! Please try again later.");
         return;
       }
+      setError(null);
+      setShowAlert(data.message);
     } catch (error) {
       setLoading(false);
-      setError({
-        state: true,
-        message: "An error occured! Please try again later.",
-      });
+      setError('An error occured! Please try again later.');
     }
   };
 
@@ -78,7 +79,7 @@ function CreateAccount() {
             </p>
           </div>
         </div>
-        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
+        <div className="relative h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
           <h2 className="text-neutral-600 text-4xl font-bold text-center mx-10 mb-16">
             Create Account
           </h2>
@@ -130,12 +131,15 @@ function CreateAccount() {
               // disabled={loading}
               className="btn-primary mt-10 w-full shadow-md hover:shadow-lg"
             >
-              {loading ? "Loading" : "Create Account"}
+              {loading ? "Loading..." : "Create Account"}
             </button>
-            <p className="text-red-600 mt-2 text-sm h-4">
-              {error.state && error.message}
-            </p>
+            <div className="text-red-600 mt-2 text-md h-4 w-full text-right">
+              {error}
+            </div>
           </form>
+          {showAlert && (
+            <Alert message={showAlert} link="/online-banking" />
+          )}
         </div>
       </div>
     </>

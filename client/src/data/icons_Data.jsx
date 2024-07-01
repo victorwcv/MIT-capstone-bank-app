@@ -1,4 +1,5 @@
 import { FaLock, FaRegCreditCard, FaUnlock, FaUser } from "react-icons/fa";
+import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { LiaPiggyBankSolid } from "react-icons/lia";
 import {
@@ -18,7 +19,9 @@ const icons = {
   signout: <PiSignOutBold />,
   admin: <RiAdminFill />,
   lock: <FaLock />,
-  unlock: <FaUnlock /> 
+  unlock: <FaUnlock />,
+  check: <FaCircleCheck />,
+  xMarck: <FaCircleXmark />
 };
 
 export default icons;

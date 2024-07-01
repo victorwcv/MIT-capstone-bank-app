@@ -24,7 +24,8 @@ export const createAccount = async (req, res, next) => {
   try {
     await newUser.save();
     res.status(201).json({
-      message: "user created successfully",
+      status: "success",
+      message: "User created successfully",
     });
   } catch (error) {
     if (error.code === 11000 && error.keyValue.email) {
@@ -45,7 +46,7 @@ export const onlineBanking = async (req, res, next) => {
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "User not found"));
     const validPass = await bcryptjs.compare(password, validUser.password);
-    if (!validPass) return next(errorHandler(401, "Invalid Password"));
+    if (!validPass) return next(errorHandler(401, "Invalid credentials"));
     // Sign JWT and add to response header as token
     const token = jwt.sign(
       { _id: validUser._id, role: validUser.role }, //Payload

@@ -5,9 +5,7 @@ import { useUserBalance } from "../../hooks/useUserBalance";
 import Layout from "../../layouts/Layout";
 import { useDispatch } from "react-redux";
 import {
-  fetchStart,
   fetchSucces,
-  fetchFailure,
   clearData,
 } from "../../store/slices/userDataSlice";
 import { signout } from "../../store/slices/userSlice";
