@@ -1,12 +1,21 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import getCurrentDateTime from "../../utils/dates.js";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { fetchSucces } from "../../store/slices/userDataSlice.js";
 import { useState } from "react";
 import TotalUserBalance from "../TotalUserBalance.jsx";
 import { useData } from "../../hooks/useData.js";
 import Alert from "../Alert.jsx";
+import FormField from "./FormField.jsx";
+import validationSchema from "../../validation/validationSchema.js";
+
+const schema = validationSchema.pick([
+  "amount",
+  "destinationAccount",
+  "transactionDate",
+  "transactionTime",
+  "description",
+]);
 
 function Deposit() {
   const { data } = useData();
@@ -59,19 +68,10 @@ function Deposit() {
           transactionTime: getCurrentDateTime().timeOnly,
           description: "",
         }}
-        validationSchema={Yup.object({
-          amount: Yup.number()
-            .positive("Enter a positive amount")
-            .required("Required"),
-          destinationAccount: Yup.string().required("Required"),
-          transactionDate: Yup.string(),
-          transactionTime: Yup.string(),
-          description: Yup.string(),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          handleSubmit(values, setSubmitting);
-        }}
+        validationSchema={schema}
+        onSubmit={(values, { setSubmitting }) =>
+          handleSubmit(values, setSubmitting)
+        }
       >
         {(formik) => (
           <Form>
@@ -80,75 +80,51 @@ function Deposit() {
                 formik.isSubmitting ? "opacity-50" : ""
               }`}
             >
-              <div className="relative flex flex-1 flex-col pb-6  min-w-80">
-                <label htmlFor="amount">Amount to Deposit:</label>
-                <Field
-                  type="number"
-                  id="amount"
-                  name="amount"
-                  className={`${
-                    formik.errors.amount && formik.touched.amount
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="amount"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
+              <FormField
+                formik={formik}
+                type="number"
+                name="amount"
+                label="Amount to Deposit:"
+                textRight
+              />
 
-              <div className="relative flex flex-1 flex-col pb-6 min-w-80">
-                <label htmlFor="destinationAccount">Destination Account:</label>
+              <FormField
+                formik={formik}
+                as="select"
+                name="destinationAccount"
+                label="Destination Account:"
+                children={
+                  <>
+                    <option value="">Select an Account</option>
+                    {data.bankAccounts?.map((acc, index) => {
+                      return (
+                        <option key={index} value={acc.bankAccountNumber}>
+                          {`$ ${acc.accountBalance} / ${acc.bankAccountNumber}`}
+                        </option>
+                      );
+                    })}
+                  </>
+                }
+              />
 
-                <Field
-                  as="select"
-                  id="destinationAccount"
-                  name="destinationAccount"
-                  className={`${
-                    formik.errors.destinationAccount &&
-                    formik.touched.destinationAccount
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                >
-                  <option value="">Select an Account</option>
-                  {data.bankAccounts?.map((acc, index) => {
-                    return (
-                      <option key={index} value={acc.bankAccountNumber}>
-                        {`$ ${acc.accountBalance} / ${acc.bankAccountNumber}`}
-                      </option>
-                    );
-                  })}
-                </Field>
+              <FormField
+                formik={formik}
+                type="text"
+                name="transactionDate"
+                label="Deposit Date:"
+                textRight
+                readOnly
+              />
 
-                <ErrorMessage
-                  name="destinationAccount"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
+              <FormField
+                formik={formik}
+                type="text"
+                name="description"
+                label="Description or Note:"
+              />
 
-              <div className="relative flex flex-1 flex-col   min-w-80">
-                <label htmlFor="transactionDate">Deposit Date:</label>
-                <Field
-                  type="text"
-                  id="transactionDate"
-                  name="transactionDate"
-                  className="text-right"
-                  readOnly
-                />
-                <div className="text-red-500 mt-1 text-sm font-light h-3">
-                  <ErrorMessage name="transactionDate" />
-                </div>
-              </div>
-              <div className="relative flex flex-1 flex-col   min-w-80">
-                <label htmlFor="description">Description or Note:</label>
-                <Field type="text" id="description" name="description" />
-                <ErrorMessage name="description" />
-              </div>
             </div>
+
             <div className="flex justify-center mt-12">
               <button
                 type="submit"
