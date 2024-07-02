@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useData } from "../../hooks/useData";
 import { useUser } from "../../hooks/useUser";
-import { useUserBalance } from "../../hooks/useUserBalance";
 import Layout from "../../layouts/Layout";
 import { useDispatch } from "react-redux";
 import {
@@ -9,11 +8,11 @@ import {
   clearData,
 } from "../../store/slices/userDataSlice";
 import { signout } from "../../store/slices/userSlice";
+import { totalUserBalance } from "../../utils/totalUserBalance";
 
 function Dashboard() {
   const { currentUser } = useUser();
   const { data } = useData();
-  const balance = useUserBalance();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,7 +55,7 @@ function Dashboard() {
         <div className="flex w-full justify-around font-bold text-3xl my-5 ">
           <h2>{currentUser?.username}</h2>
           <h2>
-            <span>Total Balance:</span> $ {balance}
+            <span>Total Balance:</span> $ {totalUserBalance(data)}
           </h2>
         </div>
         <div className="xl:mx-20">
