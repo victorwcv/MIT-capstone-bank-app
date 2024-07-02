@@ -22,12 +22,25 @@ const validationSchema = Yup.object().shape({
     .required("Required")
     .max(20, "Must be 11 characters or less"),
   amount: Yup.number()
-    .required("Enter the amount")
-    .positive("Enter a positive amount"),
-  destinationAccount: Yup.string().required("Choose an account"),
+  .required("Enter the amount")
+  .positive("Enter a positive amount")
+    .test(
+      'is-decimal',
+      'max 2 decimals',
+      (value) => {
+        if (value === undefined || value === null) return true;
+        return /^\d+(\.\d{1,2})?$/.test(value.toString());
+      }
+    ),
+  originAccount: Yup.string().required("Choose an account"),
+  destinationAccount: Yup.string().required("Required"),
   transactionDate: Yup.string(),
   transactionTime: Yup.string(),
   description: Yup.string(),
+  typeAccount: Yup.string().required("Required"),
+  provider: Yup.string().required("Required field"),
+  invoiceNumber: Yup.string().required("Required field"),
+
 });
 
 export default validationSchema;
