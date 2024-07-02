@@ -6,8 +6,9 @@ import icons from "../../data/icons_Data";
 const transactionsOptions = [
   { path: "/admin-panel", label: "Admin Panel" },
   { path: "/admin-panel/create-new-admin", label: "Create Admin" },
-  { path: "/admin-panel/search-user", label: "Search User" },
+  { path: "/admin-panel/search-user", label: "User Information" },
   { path: "/admin-panel/all-data", label: "All Data" },
+  { path: "/admin-panel/delete-user", label: "Delete User" },
   { path: "/admin-panel/admin-log", label: "Admin Log" },
 ];
 
