@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import validationSchema from "../../validation/validationSchema";
+import FormField from "../FormField";
 
 const schema = validationSchema.pick([
   "username",
@@ -47,84 +48,38 @@ function CreateNewAdmin() {
         {(formik) => (
           <Form>
             <div className="flex items-center justify-center gap-x-10 flex-wrap max-h-[500px]">
-              <div className="relative flex flex-col w-1/2 pb-6  min-w-80">
-                <label htmlFor="username">Username:</label>
-                <Field
-                  name="username"
-                  type="text"
-                  className={`${
-                    formik.errors.username && formik.touched.username
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                />
-
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
-              <div className="relative flex  flex-col w-1/2 pb-6  min-w-80">
-                <label htmlFor="email">Email:</label>
-                <Field
-                  name="email"
-                  type="email"
-                  className={`${
-                    formik.errors.email && formik.touched.email
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
-              <div className="relative flex flex-col w-1/2 pb-6  min-w-80">
-                <label htmlFor="password">Password:</label>
-                <Field
-                  name="password"
-                  type="password"
-                  className={`${
-                    formik.errors.password && formik.touched.password
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
-              <div className="relative flex flex-col w-1/2 pb-6  min-w-80">
-                <label htmlFor="password">Confirm Password:</label>
-                <Field
-                  name="confirmPassword"
-                  type="password"
-                  className={`${
-                    formik.errors.confirmPassword &&
-                    formik.touched.confirmPassword
-                      ? "  border-red-500"
-                      : ""
-                  }`}
-                />
-                <ErrorMessage
-                  name="confirmPassword"
-                  component="div"
-                  className="absolute bottom-0 right-2 text-red-500"
-                />
-              </div>
+              <FormField
+                formik={formik}
+                type="text"
+                name="username"
+                label="Username:"
+              />
+              <FormField
+                formik={formik}
+                type="email"
+                name="email"
+                label="Email:"
+              />
+              <FormField
+                formik={formik}
+                type="password"
+                name="password"
+                label="Password:"
+              />
+              <FormField
+                formik={formik}
+                type="password"
+                name="confirmPassword"
+                label="Confirm Password:"
+              />
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-8">
               <button
                 type="submit"
                 disabled={formik.isSubmitting}
                 className="btn-primary"
               >
-                Create Admin
+                {formik.isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </div>
           </Form>
