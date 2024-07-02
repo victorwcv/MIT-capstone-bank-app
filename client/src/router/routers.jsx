@@ -25,6 +25,7 @@ import CreateNewAdmin from "../components/admin_panel.components/CreateNewAdmin.
 import AdminData from "../components/admin_panel.components/AdminData.jsx";
 import SearchUser from "../components/admin_panel.components/SearchUser.jsx";
 import AdminLog from "../components/admin_panel.components/AdminLog.jsx";
+import DeleteUser from "../components/admin_panel.components/DeleteUser.jsx";
 
 const Router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const Router = createBrowserRouter([
                     path: "admin-log",
                     element: <AdminLog />,
                   },
+                  {
+                    path: "delete-user",
+                    element: <DeleteUser />
+                  }
                 ],
               },
             ],
