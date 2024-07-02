@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import generateBankAccNum from "../utils/generateBankAccNum.js";
+import { addMoney, subtractMoney } from "../utils/moneyOperations.js";
 
 export const userData = async (req, res, next) => {
   if (req.user.role !== "user") {
@@ -59,7 +60,7 @@ export const deposit = async (req, res, next) => {
       return next(errorHandler(404, "Destination account not found"));
     }
 
-    account.accountBalance += amount;
+    account.accountBalance = addMoney(account.accountBalance, amount);
 
     user.banking.transactions.push(transaction);
     await user.save();
@@ -110,16 +111,15 @@ export const withdrawal = async (req, res, next) => {
       return next(errorHandler(404, "Origin account not found"));
     }
 
-    if (account.accountBalance === 0 || account.accountBalance - amount < 0) {
+    if (account.accountBalance - amount < 0) {
       return next(errorHandler(400, "Insufficient funds"));
     } else {
-      account.accountBalance -= amount;
+      account.accountBalance = subtractMoney(account.accountBalance, amount);
       console.log("Withdrawal Success");
     }
 
     user.banking.transactions.push(transaction);
     await user.save();
-    console.log("Transaction added succesfully", transaction);
     res.status(200).json(user.banking);
   } catch (error) {
     console.error(error);
@@ -185,7 +185,7 @@ export const bankTransfer = async (req, res, next) => {
     if (oAccount.accountBalance < amount) {
       return next(errorHandler(400, "Insufficient funds"));
     } else {
-      oAccount.accountBalance -= amount;
+      oAccount.accountBalance = subtractMoney(oAccount.accountBalance, amount);
     }
 
     if (typeAccount === "own") {
@@ -195,7 +195,7 @@ export const bankTransfer = async (req, res, next) => {
       if (!dAccount) {
         return next(errorHandler(404, "Destination account not found"));
       } else {
-        dAccount.accountBalance += amount;
+        dAccount.accountBalance = addMoney(dAccount.accountBalance, amount);
       }
     } else {
 
@@ -215,7 +215,7 @@ export const bankTransfer = async (req, res, next) => {
       if (!dAccount) {
         return next(errorHandler(404, "Destination account not found"));
       } else {
-        dAccount.accountBalance += amount;
+        dAccount.accountBalance = addMoney(dAccount.accountBalance, amount);
       }
       dUser.banking.transactions.push(transaction);
       await dUser.save();
@@ -269,7 +269,7 @@ export const payBill = async (req, res, next) => {
     if (oAccount.accountBalance < amount) {
       return next(errorHandler(400, "Insufficient funds"));
     } else {
-      oAccount.accountBalance -= amount;
+      oAccount.accountBalance = subtractMoney(oAccount.accountBalance, amount);
     }
     user.banking.transactions.push(transaction);
     await user.save();

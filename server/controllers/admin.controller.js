@@ -19,7 +19,7 @@ export const createNewAdmin = async (req, res, next) => {
   if (req.user.role !== "admin") {
     return next(errorHandler(403, "You are not authorized"));
   }
-  const {username,email,password,} = req.body;
+  const { username, email, password, } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newAdmin = new User({
     username,
@@ -44,7 +44,7 @@ export const searchUser = async (req, res, next) => {
   if (req.user.role !== "admin") {
     return next(errorHandler(403, "You are not authorized"));
   }
-  const email = req.params.email;
+  const { email } = req.params;
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -57,3 +57,27 @@ export const searchUser = async (req, res, next) => {
     next(errorHandler(500, "Error getting user from DB"));
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return next(errorHandler(403, "You are not authorized"));
+  }
+  const { _id } = req.params;
+  if (_id === '665e56fbb51a56cd858c1d45') {
+    return next(errorHandler(403, "You cannot delete this user"));
+  }
+  if (_id === req.user._id) {
+    return next(errorHandler(403, "You cannot delete yourself"));
+  }
+  try {
+    const user = await User.findOneAndDelete({ _id });
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    res.status(200).json({
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    next(errorHandler(500, "Error deleting user from DB"));
+  }
+}

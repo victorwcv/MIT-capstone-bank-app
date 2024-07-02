@@ -58,7 +58,7 @@ export const onlineBanking = async (req, res, next) => {
         httpOnly: true,
         sameSite: "none",
         secure: true,
-        maxAge: 3600000,
+        maxAge: 36000000,
         // signed: true,
       })
       .status(200)
