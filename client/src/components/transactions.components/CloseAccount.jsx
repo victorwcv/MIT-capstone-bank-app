@@ -6,15 +6,18 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchSucces } from "../../store/slices/userDataSlice.js";
 import AccountsField from "../AccountsField.jsx";
+import Alert from "../Alert.jsx";
 
 function CloseAccount() {
-  const [opError, setOpError] = useState(null);
+  const [error, setError] = useState(null);
   const { currentUser } = useUser();
-  const { loading } = useData();
+  const [showAlert, setShowAlert] = useState(false);
+
   const dispatch = useDispatch();
-  const handleSubmit = async (values, reset) => {
+
+  const handleSubmit = async (values) => {
     try {
-      // dispatch(fetchStart());
+      setError(null);
       const apiUrl = import.meta.env.VITE_API_URL;
       const link = `${apiUrl}/api/transaction/close-account`;
       const options = {
@@ -26,24 +29,24 @@ function CloseAccount() {
         credentials: "include",
       };
       const response = await fetch(link, options);
-      const data = await response.json();
-      if (data.success === false) {
-        // dispatch(fetchFailure(data));
-        setOpError(data);
+      if (!response.ok) {
+        const error = await response.json();
+        setError(error?.message || "An error occured. Please try again later.");
+        setShowAlert(true);
         return;
       }
-      setOpError(null);
+      const data = await response.json();
       dispatch(fetchSucces(data));
-      reset();
+      setShowAlert(true);
     } catch (error) {
-      setOpError("Something went wrong");
-      // dispatch(fetchFailure(error));
+      setError("An error occured. Please try again later.");
+      setShowAlert(true);
       console.log(error);
     }
   };
 
   return (
-    <>
+    <div  className="relative">
       <h2 className="text-3xl text-center font-bold mb-10">
         Close Bank Account
       </h2>
@@ -73,13 +76,15 @@ function CloseAccount() {
             .required("Confirm that your balance is zero"),
           bankAccountNumber: Yup.string().required("Select an account"),
         })}
-        onSubmit={(values, { resetForm }) => {
-          console.log(values);
-          handleSubmit(values, resetForm);
+        onSubmit={(values) => {
+          handleSubmit(values);
         }}
       >
         {(formik) => (
-          <Form>
+          <Form >
+            <div  className={`flex items-center justify-center gap-x-10 flex-wrap max-h-[450px] ${
+                formik.isSubmitting ? "opacity-50" : ""
+              }`}>
             <div className="relative flex flex-wrap justify-center items-center p-6 w-full gap-6 min-w-80">
               <label htmlFor="agreeTerms">Account Number to be closed:</label>
               <AccountsField
@@ -118,22 +123,42 @@ function CloseAccount() {
                   className="absolute bottom-0 right-2 text-red-500"
                 />
               </div>
+              </div>
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={formik.isSubmitting}
                 className="btn-primary mt-6"
               >
-                {loading ? "Loading..." : "Close Bank Account"}
+                {formik.isSubmitting ? "Loading..." : "Close Bank Account"}
               </button>
             </div>
             <div className="h-6 text-red-500 text-right">
-              {opError && opError.message}
+              {error}
             </div>
+            {showAlert && (
+              <Alert
+                success={error === null}
+                message={error === null ? "Account closed successfully!" : error}
+                close={
+                  error === null
+                    ? () => {
+                        setShowAlert(false);
+                        setError(null);
+                        formik.resetForm();
+                      }
+                    : () => {
+                        setShowAlert(false);
+                        setError(null);
+                        formik.setSubmitting(false);
+                      }
+                }
+              />
+            )}
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 }
 
