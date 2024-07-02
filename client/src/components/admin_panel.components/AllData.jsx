@@ -15,6 +15,11 @@ function AllData() {
           credentials: "include",
         };
         const response = await fetch(link, options);
+        if (!response.ok) {
+          const error = await response.json();
+          console.log(error);
+          return;
+        }
         const data = await response.json();
         setUsersData(data);
       } catch (error) {
