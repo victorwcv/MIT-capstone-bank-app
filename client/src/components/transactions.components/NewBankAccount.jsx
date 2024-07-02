@@ -3,9 +3,7 @@ import { useUser } from "../../hooks/useUser";
 import * as Yup from "yup";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchSucces,
-} from "../../store/slices/userDataSlice.js";
+import { fetchSucces } from "../../store/slices/userDataSlice.js";
 import { useData } from "../../hooks/useData.js";
 
 function NewBankAccount() {
@@ -16,9 +14,8 @@ function NewBankAccount() {
 
   const handleSubmit = async (values) => {
     try {
-      dispatch(fetchStart());
       const apiUrl = import.meta.env.VITE_API_URL;
-      const link = `${apiUrl}/api/transaction/new-account/`;
+      const link = `${apiUrl}/api/transaction/new-account`;
       const options = {
         method: "PATCH",
         headers: {
@@ -38,7 +35,7 @@ function NewBankAccount() {
   };
 
   return (
-    <>
+    <div className="relative">
       <h2 className="text-3xl text-center font-bold mb-10">
         Create a New Bank Account
       </h2>
@@ -82,22 +79,31 @@ function NewBankAccount() {
               </button>
             </div>
             <div className="h-6 text-red-500 text-right">
-              <ErrorMessage
-                name="agreeTerms"
-              />
+              <ErrorMessage name="agreeTerms" />
             </div>
           </Form>
         )}
       </Formik>
       <div className="h-7">
         {newAccount && (
-          <div className="text-lg flex items-center justify-evenly">
-            <p className="font-medium">Your New Account Number is: </p>
-            <p>{newAccount}</p>
+          <div className="text-lg flex flex-col items-center">
+            <div className="flex justify-around w-full my-8">
+              <p className="font-medium">Your New Account Number is: </p>
+              <p>{newAccount}</p>
+            </div>
+              <p>
+                Please save this number for future use.
+              </p>
+              <button
+                className="btn-primary"
+                onClick={() => setNewAccount(null)}
+              >
+                Accept
+              </button>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
