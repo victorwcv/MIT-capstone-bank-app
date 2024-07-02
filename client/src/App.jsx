@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/navbar.component/Navbar";
 import Footer from "./components/footer.component/Footer";
-import Disclaimer from "./components/Disclaimer";
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <Navbar />
       <Outlet />
       <Footer />
-      <Disclaimer />
     </div>
   );
 }
