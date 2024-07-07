@@ -7,8 +7,40 @@ import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import adminRoute from "./routes/admin.route.js";
 import transactionRoute from "./routes/transaction.route.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUI from "swagger-ui-express";
 
 dotenv.config();
+
+
+// Swagger Documentation
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Bank API Documentation',
+      version: '1.0.0',
+      description: 'API documentation for the Bank API',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Development Server'
+      },
+      {
+        url: 'https://mit-capstone-bank-app.onrender.com',
+        description: 'Production Server'
+      },
+    ],
+    
+  },
+  apis: ['./routes/*.js'], // files containing annotations
+};
+
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+
+
 
 // Mongo Database connection
 mongoose
@@ -28,7 +60,6 @@ const corsOptions = {
   credentials: true,
 };
 
-console.log(corsOptions.origin);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
@@ -39,6 +70,9 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+// Routes
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/admin", adminRoute);
@@ -55,3 +89,6 @@ app.use((err, req, res, next) => {
     statusCode,
   });
 });
+
+
+
