@@ -8,6 +8,12 @@ The Banking Application was developed as part of the capstone project for obtain
 - **Purpose**: To provide a secure and efficient platform for online banking.
 - **Problem Solved**: This application addresses the need for a digital banking solution that offers robust financial management tools and oversight capabilities for administrators.
 
+## Despliegue
+
+El proyecto está desplegado y accesible en el siguiente enlace:
+
+[Acceder a la aplicación](https://victor-ccanchifullstackbankingapplication.onrender.com/)
+
 ## Installation Guidelines
 
 To get your project up and running, follow these steps:
@@ -54,14 +60,17 @@ To get your project up and running, follow these steps:
 
 Here are some screenshots of the Banking Application in action:
 
-### Dashboard
-![Dashboard](#)
+### Home Page
+![Dashboard](images/BA_homePage.jpg)
 
-### Transaction History
-![Transaction History](#)
+### Create Account Page
+![Dashboard](images/BA_createAccount.jpg)
 
-### Add Transaction
-![Add Transaction](#)
+### Withdrawal 
+![Transaction History](images/BA_withdrawal.jpg)
+
+### Admin Panel
+![Add Transaction](images/BA_adminPanel.jpg)
 
 ## Technology Used
 
