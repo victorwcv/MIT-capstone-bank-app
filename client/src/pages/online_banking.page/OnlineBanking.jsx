@@ -48,7 +48,7 @@ function OnlineBanking() {
   return (
     <div className="flex flex-wrap justify-center items-center">
       <div className="h-[calc(100vh-64px)] min-w-[400px] flex-1 px-6 bg-[url('/bank_2.jpeg')] bg-cover bg-no-repeat flex justify-center items-center">
-        <div className="bg-neutral-500 bg-opacity-95 p-16 text-white lg:text-xl size-[80%] flex flex-col justify-around">
+        <div className="bg-neutral-500 bg-opacity-95 p-16 text-white min-w-[380px] lg:text-xl size-[80%] flex flex-col justify-around">
           <h2 className="md:text-4xl text-2xl font-bold text-center mb-12">
             {" "}
             Online Banking{" "}
