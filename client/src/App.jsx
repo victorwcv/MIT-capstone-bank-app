@@ -10,7 +10,6 @@ function App() {
       <Navbar />
       <Outlet />
       {location.pathname === "/" && <Footer />}
-      <Disclaimer />
     </div>
   );
 }
