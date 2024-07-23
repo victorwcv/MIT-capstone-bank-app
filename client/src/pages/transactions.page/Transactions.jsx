@@ -57,7 +57,7 @@ function Transactions() {
   return (
     <Layout>
       <div
-        className={`flex items-center justify-center relative w-full min-h-[80vh] my-12 bg-neutral-100 shadow-lg`}
+        className={`flex items-center justify-center relative w-full lg:min-h-[80vh] min-h-screen my-12 bg-neutral-100 shadow-lg`}
       >
         {location.pathname === "/transactions" ? (
           <div className="flex w-9/12 my-20 justify-center flex-wrap gap-6">
@@ -73,7 +73,7 @@ function Transactions() {
           </div>
         ) : (
           <>
-            <div className="absolute h-full left-0 flex flex-col justify-center gap-1 bg-[var(--secondary-color)]">
+            <div className="absolute  h-full left-0 hidden lg:flex lg:flex-col lg:justify-center gap-1 bg-[var(--secondary-color)]">
               {transactionsOptions.map((option, index) => {
                 return (
                   <Link to={option.path} key={index}>
@@ -90,7 +90,7 @@ function Transactions() {
                 );
               })}
             </div>
-            <div className="ml-60 w-full px-36">
+            <div className="lg:ml-60 w-full lg:px-36 px-16">
               <Outlet />
             </div>
           </>
