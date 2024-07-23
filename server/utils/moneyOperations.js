@@ -11,7 +11,7 @@ export const subtractMoney = (a, b) => {
 }
 
 const toCents = (num) => {
-  const cents = (num * 100)
+  const cents = Math.round(num * 100)
   return cents
 }
 
