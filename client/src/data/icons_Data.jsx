@@ -8,6 +8,7 @@ import {
   RiHandCoinLine,
 } from "react-icons/ri";
 import { PiSignOutBold } from "react-icons/pi";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const icons = {
   credit_card: <FaRegCreditCard />,
@@ -21,7 +22,8 @@ const icons = {
   lock: <FaLock />,
   unlock: <FaUnlock />,
   check: <FaCircleCheck />,
-  xMarck: <FaCircleXmark />
+  xMarck: <FaCircleXmark />,
+  menu: <GiHamburgerMenu />,
 };
 
 export default icons;
