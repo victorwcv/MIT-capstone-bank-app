@@ -39,9 +39,9 @@ function CreateAccount() {
   return (
     <>
       <div className="flex flex-wrap justify-center items-center">
-        <div className="h-[calc(100vh-64px)] min-w-[500px] flex-1 px-6 bg-[url('/bank.jpeg')] bg-cover bg-no-repeat flex justify-center items-center">
-          <div className="bg-neutral-500 bg-opacity-95 p-16 text-white min-w-[400px] text-xl size-[80%] flex flex-col justify-around">
-            <h2 className="text-4xl font-bold text-center mb-12">
+        <div className="h-[calc(100vh-64px)] min-w-[400px] flex-1 px-6 bg-[url('/bank.jpeg')] bg-cover bg-no-repeat flex justify-center items-center">
+          <div className="bg-neutral-500 bg-opacity-95 p-16 text-white min-w-[400px] xl:text-xl size-[80%] flex flex-col justify-around">
+            <h2 className="md:text-4xl text-2xl font-bold text-center mb-12">
               Welcome to{" "}
               <span
                 className="text-[var(--secondary-color)]"
@@ -79,7 +79,7 @@ function CreateAccount() {
             </p>
           </div>
         </div>
-        <div className="relative h-[calc(100vh-64px)] min-w-[500px] flex-1 flex flex-col items-center justify-center px-6">
+        <div className="relative h-[calc(100vh-64px)] min-w-[400px] flex-1 flex flex-col items-center justify-center px-6">
           <h2 className="text-neutral-600 text-4xl font-bold text-center mx-10 mb-16">
             Create Account
           </h2>
@@ -128,7 +128,7 @@ function CreateAccount() {
               required
             />
             <button
-              // disabled={loading}
+              disabled={loading}
               className="btn-primary mt-10 w-full shadow-md hover:shadow-lg"
             >
               {loading ? "Loading..." : "Create Account"}

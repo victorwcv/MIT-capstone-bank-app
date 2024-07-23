@@ -35,7 +35,7 @@ const swaggerOptions = {
     ],
     
   },
-  apis: ['./routes/*.js'], // files containing annotations
+  apis: ['./routes/*.js'],
 };
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
@@ -55,14 +55,20 @@ mongoose
 // Server app
 const app = express();
 
+// CORS configuration
+
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_ORIGIN : process.env.LOCAL_ORIGIN,
   credentials: true,
 };
 
+// Middlewares
+
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
+
+// Server 
 
 const PORT = process.env.PORT || 3000;
 
