@@ -5,6 +5,7 @@ import { signout } from "../../store/slices/userSlice";
 import { clearData } from "../../store/slices/userDataSlice";
 import { adminReset } from "../../store/slices/adminSlice";
 import { useState } from "react";
+
 function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
   const { administering } = useSelector((state) => state.admin);
@@ -30,10 +31,7 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <h1 className="font-bold text-2xl text-nowrap mr-10">
             <Link to="/">
-              <span
-                className="text-[var(--secondary-color)]"
-                style={{ fontFamily: "Poetsen One" }}
-              >
+              <span className="text-[var(--secondary-color)]" style={{ fontFamily: "Poetsen One" }}>
                 VWCV
               </span>{" "}
               Bank
@@ -52,10 +50,7 @@ function Navbar() {
             </Link>
 
             {currentUser?.role === "user" && (
-              <Link
-                to="/transactions"
-                className="text-neutral-600 hover:text-neutral-800"
-              >
+              <Link to="/transactions" className="text-neutral-600 hover:text-neutral-800">
                 Transactions
               </Link>
             )}
@@ -75,18 +70,14 @@ function Navbar() {
                 }
                 className="inline-flex  gap-3 items-center bg-neutral-600 text-white px-3 py-1 rounded-lg hover:bg-inherit hover:text-neutral-600 transition-colors"
               >
-                <span>
-                  {currentUser.role === "admin" ? icons.admin : icons.user}
-                </span>
+                <span>{currentUser.role === "admin" ? icons.admin : icons.user}</span>
                 {currentUser.username}
               </Link>
 
               <button
                 onClick={administering ? null : handleSignout}
                 className={`inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg  transition-all ${
-                  administering
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:scale-95"
+                  administering ? "opacity-50 cursor-not-allowed" : "hover:scale-95"
                 }`}
               >
                 Sign out <span>{icons.signout}</span>
@@ -100,10 +91,7 @@ function Navbar() {
               >
                 Create Account
               </Link>
-              <Link
-                to="/online-banking"
-                className="hover:underline underline-offset-4"
-              >
+              <Link to="/online-banking" className="hover:underline underline-offset-4">
                 Online Banking
               </Link>
             </>
@@ -116,8 +104,10 @@ function Navbar() {
           {icons.menu}
         </button>
         {showMenu && (
-          <div className="lg:hidden bg-neutral-100 w-full absolute left-0 top-16 flex flex-col items-center p-4"
-          onClick={() => setShowMenu(false)}>
+          <div
+            className="lg:hidden bg-neutral-100 w-full absolute left-0 top-16 flex flex-col items-center p-4"
+            onClick={() => setShowMenu(false)}
+          >
             <div className="flex flex-col items-center w-full gap-4 p-4 border-b-2">
               <Link to="/" className="text-neutral-600 hover:text-neutral-800 ">
                 Home
@@ -130,60 +120,50 @@ function Navbar() {
               </Link>
 
               {currentUser?.role === "user" && (
-                <Link
-                  to="/transactions"
-                  className="text-neutral-600 hover:text-neutral-800"
-                >
+                <Link to="/transactions" className="text-neutral-600 hover:text-neutral-800">
                   Transactions
                 </Link>
               )}
             </div>
             <div className="flex flex-col items-center w-full gap-4 p-4">
-            {currentUser ? (
-            <>
-              <Link
-                to={
-                  currentUser.role === "admin"
-                    ? "/admin-panel"
-                    : currentUser.role === "user"
-                    ? "/dashboard"
-                    : "/"
-                }
-                className="inline-flex  gap-3 items-center bg-neutral-600 text-white px-3 py-1 rounded-lg hover:bg-inherit hover:text-neutral-600 transition-colors"
-              >
-                <span>
-                  {currentUser.role === "admin" ? icons.admin : icons.user}
-                </span>
-                {currentUser.username}
-              </Link>
+              {currentUser ? (
+                <>
+                  <Link
+                    to={
+                      currentUser.role === "admin"
+                        ? "/admin-panel"
+                        : currentUser.role === "user"
+                        ? "/dashboard"
+                        : "/"
+                    }
+                    className="inline-flex  gap-3 items-center bg-neutral-600 text-white px-3 py-1 rounded-lg hover:bg-inherit hover:text-neutral-600 transition-colors"
+                  >
+                    <span>{currentUser.role === "admin" ? icons.admin : icons.user}</span>
+                    {currentUser.username}
+                  </Link>
 
-              <button
-                onClick={administering ? null : handleSignout}
-                className={`inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg  transition-all ${
-                  administering
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:scale-95"
-                }`}
-              >
-                Sign out <span>{icons.signout}</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/create-account"
-                className=" border-2 font-semibold rounded-full border-[var(--secondary-color)] py-2 px-10"
-              >
-                Create Account
-              </Link>
-              <Link
-                to="/online-banking"
-                className="hover:underline underline-offset-4"
-              >
-                Online Banking
-              </Link>
-            </>
-          )}
+                  <button
+                    onClick={administering ? null : handleSignout}
+                    className={`inline-flex  gap-3 items-center bg-red-600 text-white px-3 py-1 rounded-lg  transition-all ${
+                      administering ? "opacity-50 cursor-not-allowed" : "hover:scale-95"
+                    }`}
+                  >
+                    Sign out <span>{icons.signout}</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/create-account"
+                    className=" border-2 font-semibold rounded-full border-[var(--secondary-color)] py-2 px-10"
+                  >
+                    Create Account
+                  </Link>
+                  <Link to="/online-banking" className="hover:underline underline-offset-4">
+                    Online Banking
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

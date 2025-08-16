@@ -151,7 +151,7 @@ const Router = createBrowserRouter(
     },
   ],
   {
-    basename: "/MIT-capstone-bank-app",
+    basename: "/MIT-capstone-bank-app/",
   }
 );
 
