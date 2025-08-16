@@ -12,7 +12,7 @@ The Banking Application was developed as part of the capstone project for obtain
 
 The project is deployed and accessible at the following link:
 
-[Demo Banking App](https://victor-ccanchifullstackbankingapplication.onrender.com/)
+[Demo Banking App](https://victorwcv.github.io/MIT-capstone-bank-app/)
 
 ## Api Documentation
 
