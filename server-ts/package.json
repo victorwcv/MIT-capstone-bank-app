@@ -1,0 +1,34 @@
+{
+  "name": "bank-backend",
+  "version": "1.0.0",
+  "description": "Backend del proyecto capstone tipo banco en TypeScript con Express y MongoDB",
+  "main": "dist/index.js",
+  "keywords": [
+    "typescript",
+    "express",
+    "mongodb",
+    "backend",
+    "banking-app"
+  ],
+  "author": "Victor Ccanchi",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:prod": "npm run build && node dist/index.js",
+    "lint": "eslint . --ext .ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2"
+  }
+}
