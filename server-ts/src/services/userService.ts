@@ -8,3 +8,7 @@ export const createUser = async (data: Partial<IUser>) => {
 export const getAllUsers = async () => {
   return User.find();
 };
+
+export const findUserByEmail = async (email: string) => {
+  return User.findOne({ email });
+};

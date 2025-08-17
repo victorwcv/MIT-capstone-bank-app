@@ -1,20 +1,39 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { userService } from "@/services";
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, documentId, password } = req.body;
   try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
+    // Validate required fields
+    if (!email || !documentId || !password) {
+      res.error("Missing required fields", 400);
+      return;
+    }
+
+    // Check if user already exists
+    const existingUser = await userService.findUserByEmail(email);
+    if (existingUser) {
+      res.error("User already exists", 400);
+      return;
+    }
+
+    // Create new user
+    const userToCreate = {
+      email,
+      documentId,
+      password,
+    };
+    const user = await userService.createUser(userToCreate);  
+    res.success(user, "User created successfully", 201);
+    console.log("✅ User created successfully");
   } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
+    next(error);
   }
 };
 
-export const getAllUsersController = async (req: Request, res: Response) => {
+export const getAllUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getAllUsers();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
-  }
+    res.success(users, "Users retrieved successfully");
+  } catch (error) {}
 };
