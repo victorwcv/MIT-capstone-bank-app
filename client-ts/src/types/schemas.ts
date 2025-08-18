@@ -10,7 +10,7 @@ export const registerSchema = z
     email: z.email({ message: "Invalid email" }),
     password: z.string().min(6, { message: "Password must be at least 6 characters" }),
     confirmPassword: z.string(),
-    documentId: z.string().regex(/^\d{7}$/, { message: "Document ID must be exactly 7 digits" }),
+    documentId: z.string().regex(/^\d{8}$/, { message: "Document ID must be 8 digits" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",

@@ -23,8 +23,8 @@ export const createUserController = async (req: Request, res: Response, next: Ne
       documentId,
       password,
     };
-    const user = await userService.createUser(userToCreate);  
-    res.success(user, "User created successfully", 201);
+    await userService.createUser(userToCreate);  
+    res.success({}, "User created successfully", 201);
     console.log("✅ User created successfully");
   } catch (error) {
     next(error);

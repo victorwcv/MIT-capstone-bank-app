@@ -2,18 +2,34 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterFormData } from "@/types/schemas";
 import { Link } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { registerService } from "@/services";
 
 export const RegisterPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
 
+  const mutation = useMutation({
+    mutationFn: registerService,
+    onSuccess: () => {
+      alert("User registered successfully");
+      reset();
+    },
+    onError: (error: unknown) => {
+      alert(error.response.data.message || "An error occurred");
+      console.log(error);
+    },
+  });
+
   const onSubmit = (data: RegisterFormData) => {
     console.log(data);
+    mutation.mutate(data);
     // Integrar API / React Query luego
   };
 
@@ -63,14 +79,12 @@ export const RegisterPage = () => {
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm text-right mr-1">
-              {errors.confirmPassword.message}
-            </p>
+            <p className="text-red-500 text-sm text-right mr-1">{errors.confirmPassword.message}</p>
           )}
         </div>
 
-        <button type="submit" className="btn btn-primary w-full mt-4">
-          Register
+        <button type="submit" disabled={mutation.isPending} className="btn btn-primary w-full mt-4">
+          {mutation.isPending ? "Registering..." : "Register"}
         </button>
       </form>
       <p className="text-sm mt-4 text-center">

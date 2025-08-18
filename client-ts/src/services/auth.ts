@@ -1,6 +1,7 @@
 import { type LoginFormData } from "@/types/schemas";
+import api from "@/api/api";
 
-export const loginApi = async (data: LoginFormData) => {
+export const loginService = async (data: LoginFormData) => {
   // Simulación de API
   return new Promise<{ documentId: string }>((resolve, reject) => {
     setTimeout(() => {
@@ -11,4 +12,9 @@ export const loginApi = async (data: LoginFormData) => {
       }
     }, 1000);
   });
+};
+
+export const registerService = async (data: LoginFormData) => {
+  const response = await api.post("/users", data);
+  return response.data;
 };

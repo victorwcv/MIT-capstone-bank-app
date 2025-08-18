@@ -4,7 +4,7 @@ import { loginSchema, type LoginFormData } from "@/types/schemas";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores";
 import { useMutation } from "@tanstack/react-query";
-import { loginApi } from "@/services";
+import { loginService } from "@/services";
 
 export const LoginPage = () => {
   const {
@@ -20,7 +20,7 @@ export const LoginPage = () => {
   const login = useAuthStore((state) => state.login);
 
   const mutation = useMutation({
-    mutationFn: loginApi,
+    mutationFn: loginService,
     onSuccess: (user) => {
       login(user);
       navigate("/", { replace: true });
