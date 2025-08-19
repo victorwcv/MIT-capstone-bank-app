@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { userService } from "@/services";
 
-export const createUserController = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, documentId, password } = req.body;
+export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
+  const { fullName, email, documentId, password } = req.body;
   try {
     // Validate required fields
-    if (!email || !documentId || !password) {
+    if (!fullName || !email || !documentId || !password) {
       res.error("Missing required fields", 400);
       return;
     }
@@ -22,6 +22,7 @@ export const createUserController = async (req: Request, res: Response, next: Ne
       email,
       documentId,
       password,
+      fullName,
     };
     await userService.createUser(userToCreate);  
     res.success({}, "User created successfully", 201);
@@ -30,6 +31,7 @@ export const createUserController = async (req: Request, res: Response, next: Ne
     next(error);
   }
 };
+
 
 export const getAllUsersController = async (req: Request, res: Response, next: NextFunction) => {
   try {

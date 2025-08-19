@@ -1,1 +1,1 @@
-export { getAllUsersController, createUserController } from "./userController";
+export { getAllUsersController, registerUserController } from "./userController";

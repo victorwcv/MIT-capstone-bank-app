@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "@/config";
-import { testRoutes, userRoutes } from "@/routes";
+import { authRoutes, testRoutes, userRoutes } from "@/routes";
 import { responseHandler, errorHandler} from "@/middlewares";
 
 dotenv.config();
@@ -31,7 +31,8 @@ app.use(express.json());
 app.use(responseHandler);
 
 app.use("/api/v1/test", testRoutes);
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
 
 app.use(errorHandler);
 
