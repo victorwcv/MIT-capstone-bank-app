@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterFormData } from "@/types/schemas";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { registerService } from "@/services";
+import { CustomButton, CustomInput } from "@/components/ui";
 
 export const RegisterPage = () => {
   const {
@@ -15,11 +16,14 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
   });
 
+  const navigate = useNavigate();
+
   const mutation = useMutation({
     mutationFn: registerService,
     onSuccess: () => {
       alert("User registered successfully");
       reset();
+      navigate("/login");
     },
     onError: (error: unknown) => {
       alert(error.response.data.message || "An error occurred");
@@ -30,67 +34,81 @@ export const RegisterPage = () => {
   const onSubmit = (data: RegisterFormData) => {
     console.log(data);
     mutation.mutate(data);
-    // Integrar API / React Query luego
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            className="input input-bordered w-full"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.email.message}</p>
+      <h1 className="text-2xl font-bold mb-6 text-center Upppercase">Crear Cuenta</h1>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <CustomInput
+          {...register("fullName")}
+          type="fullName"
+          label="Nombre Completo"
+          placeholder="Nombre Completo"
+          error={errors.fullName?.message}
+        />
+
+        <CustomInput
+          {...register("email")}
+          type="email"
+          label="Email"
+          placeholder="Email"
+          error={errors.email?.message}
+        />
+
+        <CustomInput
+          {...register("documentId")}
+          type="text"
+          label="Documento de Identidad"
+          placeholder="Documento de Identidad"
+          error={errors.documentId?.message}
+        />
+
+        <CustomInput
+          {...register("password")}
+          type="password"
+          label="Contraseña"
+          placeholder="Contraseña"
+          error={errors.password?.message}
+        />
+
+        <CustomInput
+          {...register("confirmPassword")}
+          type="password"
+          label="Confirmar Contraseña"
+          placeholder="Confirmar Contraseña"
+          error={errors.confirmPassword?.message}
+        />
+
+        <div className="my-2">
+          <div>
+            <input {...register("terms")} type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
+            <span className="ml-2 text-sm ">Acepto los Terminos y Condiciones</span>
+          </div>
+          <div >
+            <input
+              {...register("conditions")}
+              type="checkbox"
+              className="checkbox checkbox-primary checkbox-sm"
+            />
+            <span className="ml-2 text-sm">Acepto la Política de Privacidad</span>
+          </div>
+          {errors.terms && (
+            <p className="text-[var(--color-error)] text-xs"> -{errors.terms.message}</p>
           )}
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Documento de Identidad"
-            className="input input-bordered w-full"
-            {...register("documentId")}
-          />
-          {errors.documentId && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.documentId.message}</p>
+          {errors.conditions && (
+            <p className="text-[var(--color-error)] text-xs"> -{errors.conditions.message}</p>
           )}
         </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            className="input input-bordered w-full"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.password.message}</p>
-          )}
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className="input input-bordered w-full"
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.confirmPassword.message}</p>
-          )}
-        </div>
-
-        <button type="submit" disabled={mutation.isPending} className="btn btn-primary w-full mt-4">
-          {mutation.isPending ? "Registering..." : "Register"}
-        </button>
+        <CustomButton type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? "Cargando..." : "Confirmar Registro"}
+        </CustomButton>
       </form>
       <p className="text-sm mt-4 text-center">
-        Already have an account?{" "}
-        <Link to="/login" className="text-blue-600 hover:underline">
-          Login
+        ¿Ya tienes una cuenta?{" "}
+        <Link to="/login" className="text-accent-600 hover:underline">
+          Ingresa ahora
         </Link>
       </p>
     </div>

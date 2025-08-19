@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores";
 import { useMutation } from "@tanstack/react-query";
 import { loginService } from "@/services";
+import { CustomButton, CustomInput } from "@/components/ui";
 
 export const LoginPage = () => {
   const {
@@ -31,45 +32,49 @@ export const LoginPage = () => {
   const onSubmit = (data: LoginFormData) => {
     console.log(data);
     mutation.mutate(data);
-    // Integrar API / React Query luego
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-        <div>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+        <CustomInput
+          type="text"
+          variant="primary"
+          placeholder="Documento de Identidad"
+          label="Documento de Identidad"
+          error={errors.documentId?.message}
+          {...register("documentId")}
+        />
+
+        <CustomInput
+          variant="primary"
+          type="password"
+          placeholder="Contraseña"
+          label="Contraseña"
+          error={errors.password?.message}
+          {...register("password")}
+        />
+
+        <div className="my-4 flex items-center">
           <input
-            type="text"
-            placeholder="Documento de Identidad"
-            className="input input-bordered w-full"
-            {...register("documentId")}
+            type="checkbox"
+            {...register("rememberMe")}
+            className="checkbox checkbox-primary checkbox-sm"
           />
-          {errors.documentId && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.documentId.message}</p>
-          )}
+          <span className="ml-2">
+            Recordar mi cuenta
+          </span>
         </div>
 
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            className="input input-bordered w-full"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm text-right mr-1">{errors.password.message}</p>
-          )}
-        </div>
-
-        <button type="submit" className="btn btn-primary w-full mt-4">
-          Login
-        </button>
+        <CustomButton type="submit" variant="primary" disabled={mutation.isPending}>
+          {mutation.isPending ? "Cargando..." : "Ingresar"}
+        </CustomButton>
       </form>
       <p className="text-sm mt-4 text-center">
-        Don&apos;t have an account?{" "}
-        <Link to="/register" className="text-blue-600 hover:underline">
-          Register
+        ¿No tienes una cuenta?{" "}
+        <Link to="/register" className="text-accent-600 hover:underline">
+          Registrate ahora
         </Link>
       </p>
     </div>
