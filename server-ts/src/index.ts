@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import { connectDB } from "@/config";
 import { authRoutes, testRoutes, userRoutes } from "@/routes";
 import { responseHandler, errorHandler} from "@/middlewares";
@@ -28,6 +29,7 @@ app.use(cors(corsOptions));
 connectDB();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(responseHandler);
 
 app.use("/api/v1/test", testRoutes);
