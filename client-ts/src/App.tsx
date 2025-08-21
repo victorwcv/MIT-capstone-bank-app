@@ -8,9 +8,8 @@ function App() {
   // warm up the server
   useEffect(() => {
     api
-      .get("/ping")
+      .get("/test/ping")
       .then(() => {
-        console.log("Server is warmed up");
         setIsLoading(false);
       })
       .catch((error) => {
