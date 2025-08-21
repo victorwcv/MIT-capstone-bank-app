@@ -18,12 +18,13 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const login = useAuthStore((state) => state.login);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const mutation = useMutation({
     mutationFn: loginService,
-    onSuccess: (user) => {
-      login(user);
+    onSuccess: (response) => {
+      console.log("Login successful", response);
+      setUser(response.data.user);
       navigate("/", { replace: true });
     },
     onError: (error: unknown) => alert(error.message),
