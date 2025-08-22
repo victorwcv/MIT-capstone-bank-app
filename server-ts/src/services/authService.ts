@@ -16,7 +16,6 @@ export const authenticateUser = async (documentId: string, password: string) => 
     documentId: userFound.documentId,
     fullName: userFound.fullName,
     email: userFound.email,
-    createdAt: userFound.createdAt,
   };
 
   return userWithoutPassword

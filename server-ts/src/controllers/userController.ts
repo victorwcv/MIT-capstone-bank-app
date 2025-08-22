@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { userService } from "@/services";
-import { hashPassword } from "@/utils";
+import { accountService, userService } from "@/services";
+import { createAccountNumber, hashPassword } from "@/utils";
+import { Types } from "mongoose";
 
 export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
   const { fullName, email, documentId, password } = req.body;
@@ -28,7 +29,30 @@ export const registerUserController = async (req: Request, res: Response, next: 
       password: hashedPassword,
     };
 
-    await userService.createUser(userToCreate);
+    const newUser = await userService.createUser(userToCreate);
+
+    if (!newUser) {
+      res.error("Failed to create user", 500);
+      return;
+    }
+
+    // Create initial account for the user
+    const initialAccount = {
+      ownerId: newUser._id as Types.ObjectId,
+      accountName: "Cuenta Digital",
+      alias: null,
+      accountNumber: createAccountNumber(),
+      currency: "PEN",
+      balance: 0,
+    };
+
+    const newAccount = await accountService.createAccount(initialAccount);
+
+    if (!newAccount) {
+      res.error("Failed to create initial account", 500);
+      return;
+    }
+
     res.success({}, "User created successfully", 201);
     console.log("✅ User created successfully");
   } catch (error) {
