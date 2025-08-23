@@ -26,11 +26,13 @@ export const registerSchema = z
   });
 
 export const transactionSchema = z.object({
-  type: z.enum(["DEPÓSITO", "RETIRO"]),
-  amount: z.number().min(0.01, { message: "Monto debe ser mayor a 0" }),
-  description: z.string().min(1, { message: "Descripción requerida" }),
-  category: z.string().min(1, { message: "Categoría requerida" }),
-  account: z.string().min(1, { message: "Cuenta destino requerida" }),
+  account: z.string(),
+  type: z.enum(["deposit", "withdraw", "transfer"]),
+  amount: z.string().refine((val) => {
+    const num = parseFloat(val);
+    return !isNaN(num) && num > 0;
+  }, "Amount must be a positive number"),
+  description: z.string().optional(),
 });
 
 

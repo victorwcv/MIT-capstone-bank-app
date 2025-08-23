@@ -1,16 +1,25 @@
 import { Link, NavLink } from "react-router";
-import { Home, List, PlusCircle, Settings } from "lucide-react";
+import {
+  Home,
+  List,
+  BadgeDollarSign,
+  Settings,
+  BanknoteArrowUp,
+  BanknoteArrowDown,
+  AppWindowMac,
+} from "lucide-react";
 
 export const Sidebar = () => {
   const menuItems = [
     { name: "Dashboard", path: "/", icon: <Home size={20} /> },
     { name: "Transacciones", path: "/transactions", icon: <List size={20} /> },
-    { name: "Realizar Transacción", path: "/transaction/new", icon: <PlusCircle size={20} /> },
-    { name: "Solicitar Tarjeta", path: "/card-request", icon: <PlusCircle size={20} /> },
+    { name: "Deposito", path: "/deposit", icon: <BanknoteArrowUp size={20} /> },
+    { name: "Retiro", path: "/withdraw", icon: <BanknoteArrowDown size={20} /> },
+    { name: "Solicitar Tarjeta", path: "/new-card", icon: <AppWindowMac size={20} /> },
     {
-      name: "Crear Cuenta de Ahorro",
-      path: "/create-account",
-      icon: <PlusCircle size={20} />,
+      name: "Solicitar Cuenta",
+      path: "/new-account",
+      icon: <BadgeDollarSign size={20} />,
     },
     { name: "Configuración", path: "/settings", icon: <Settings size={20} /> },
   ];

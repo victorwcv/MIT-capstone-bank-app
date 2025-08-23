@@ -1,16 +1,21 @@
 import { Bell } from "lucide-react";
 import { Link } from "react-router";
+import { useAuthStore } from "@/stores";
 
-interface HeaderProps {
-  userName: string;
-}
+export const Header = () => {
+  const user = useAuthStore((state) => state.user);
+  const userName = user?.fullName || "";
+  const userEmail = user?.email || "";
 
-export const Header = ({ userName }: HeaderProps) => {
   return (
     <header className="h-16 flex justify-between items-center p-4 bg-white shadow">
-      <Link to="/" className="text-xl font-bold">{""}</Link>
+      <Link to="/" className="text-xl font-bold">
+        {""}
+      </Link>
       <div className="flex items-center gap-4">
-        <span>{userName}</span>
+        <span className="font-semibold" title={userEmail}>
+          {userName}
+        </span>
         <button>
           <Bell size={24} />
         </button>

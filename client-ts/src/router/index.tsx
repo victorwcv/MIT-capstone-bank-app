@@ -1,6 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { MainLayout, AuthLayout } from "@/layouts";
-import { DashboardPage, LoginPage, RegisterPage, TransactionsPage, NotFoundPage, TransactionPage } from "@/pages";
+import {
+  DashboardPage,
+  LoginPage,
+  RegisterPage,
+  TransactionsPage,
+  NotFoundPage,
+  DepositPage,
+  WithdrawalPage,
+} from "@/pages";
 import { PrivateRoute } from "./PrivateRoute";
 
 export const AppRouter = () => {
@@ -32,10 +40,18 @@ export const AppRouter = () => {
             }
           />
           <Route
-            path="transaction/new"
+            path="deposit"
             element={
               <PrivateRoute>
-                <TransactionPage />
+                <DepositPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="withdraw"
+            element={
+              <PrivateRoute>
+                <WithdrawalPage />
               </PrivateRoute>
             }
           />
