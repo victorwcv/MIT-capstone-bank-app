@@ -4,9 +4,6 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #00c4f0;
-  --color-primary-focus: #009ec2;
-  --color-primary-content: #ffffff;
 }
 
 @theme {

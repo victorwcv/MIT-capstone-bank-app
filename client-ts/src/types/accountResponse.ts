@@ -1,0 +1,18 @@
+export interface AccountResponse {
+  data: Account[];
+  success: boolean;
+  message: string;
+}
+
+export interface Account {
+  _id: string;
+  ownerId: string;
+  accountName: string;
+  alias: null;
+  accountNumber: string;
+  currency: string;
+  balance: number;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}

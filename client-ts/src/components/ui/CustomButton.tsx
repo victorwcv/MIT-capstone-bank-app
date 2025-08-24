@@ -1,19 +1,15 @@
 import { cn } from "@/utils/utils";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  className?: string;
 }
 
-export const CustomButton = ({ variant = "primary", className, ...props }: Props) => {
+export const CustomButton = ({ className, ...props }: Props) => {
   return (
     <button
       {...props}
-       className={cn(
-        "btn w-full",
-        {
-          "btn-primary": variant === "primary",
-          "btn-secondary": variant === "secondary",
-        },
+      className={cn(
+        "w-full bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-400 rounded-md cursor-pointer disabled:bg-zinc-200 disabled:cursor-not-allowed",
         className
       )}
     >

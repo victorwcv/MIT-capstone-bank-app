@@ -41,7 +41,6 @@ export const LoginPage = () => {
       <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
         <CustomInput
           type="text"
-          variant="primary"
           placeholder="Documento de Identidad"
           label="Documento de Identidad"
           error={errors.documentId?.message}
@@ -49,7 +48,6 @@ export const LoginPage = () => {
         />
 
         <CustomInput
-          variant="primary"
           type="password"
           placeholder="Contraseña"
           label="Contraseña"

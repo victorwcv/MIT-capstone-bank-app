@@ -25,16 +25,69 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export const transactionSchema = z.object({
-  account: z.string(),
-  type: z.enum(["deposit", "withdraw", "transfer"]),
-  amount: z.string().refine((val) => {
-    const num = parseFloat(val);
-    return !isNaN(num) && num > 0;
-  }, "Amount must be a positive number"),
-  description: z.string().optional(),
-});
+export const transactionSchema = z
+  .object({
+    originAccountId: z.string().optional(),
+    destinationAccountId: z.string().optional(),
+    type: z.enum(["deposit", "withdraw", "transfer"]),
+    amount: z.string().refine((val) => {
+      const num = parseFloat(val);
+      return !isNaN(num) && num > 0;
+    }, "Amount must be a positive number"),
+    currency: z.enum(["USD", "PEN", "EUR"]),
+    description: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "deposit") {
+      if (!data.destinationAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Destination account is required for deposits",
+          path: ["destinationAccountId"],
+        });
+      }
+      if (data.originAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Origin account should not be provided for deposits",
+          path: ["originAccountId"],
+        });
+      }
+    }
 
+    if (data.type === "withdraw") {
+      if (!data.originAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Origin account is required for withdrawals",
+          path: ["originAccountId"],
+        });
+      }
+      if (data.destinationAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Destination account should not be provided for withdrawals",
+          path: ["destinationAccountId"],
+        });
+      }
+    }
+
+    if (data.type === "transfer") {
+      if (!data.originAccountId || !data.destinationAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Both origin and destination accounts are required for transfers",
+          path: ["originAccountId"],
+        });
+      } else if (data.originAccountId === data.destinationAccountId) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Origin and destination accounts must be different",
+          path: ["destinationAccountId"],
+        });
+      }
+    }
+  });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;

@@ -16,7 +16,6 @@ export const authMiddleware = (
     const decoded = verifyToken(token);
     (req as any).user = decoded;
     next();
-    console.log(req)
   } catch (error) {
     return res.error("Unauthorized, invalid token", 401);
   }

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { authService } from "@/services";
+import { accountService, authService } from "@/services";
 import { generateToken } from "@/utils";
 
 export const loginUserController = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,6 +15,7 @@ export const loginUserController = async (req: Request, res: Response, next: Nex
       res.error("Invalid credentials", 401);
       return;
     }
+    const accounts = await accountService.getUserAccounts(user.id);
 
     const token = generateToken({ id: user.id });
     res
@@ -24,7 +25,7 @@ export const loginUserController = async (req: Request, res: Response, next: Nex
         secure: process.env.NODE_ENV === "production",
         maxAge: 3600000,
       })
-      .success({ user, token }, "Login successful", 200);
+      .success({ user, accounts }, "Login successful", 200);
     console.log("✅ User logged in successfully");
   } catch (error) {
     next(error);

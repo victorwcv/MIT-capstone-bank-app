@@ -4,8 +4,9 @@ import { createAccountNumber, hashPassword } from "@/utils";
 import { Types } from "mongoose";
 
 export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
-  const { fullName, email, documentId, password } = req.body;
   try {
+    const { fullName, email, documentId, password } = req.body;
+    
     // Validate required fields
     if (!fullName || !email || !documentId || !password) {
       res.error("Missing required fields", 400);

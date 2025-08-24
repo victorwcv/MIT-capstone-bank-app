@@ -7,3 +7,13 @@ export const createAccount = async (accountData: Partial<IAccount>): Promise<IAc
   return account;
 }
 
+export const getAccountById = async (accountId: string): Promise<IAccount | null> => {
+  return await Account.findById(accountId);
+}
+
+export const getUserAccounts = async (userId: string): Promise<IAccount[]> => {
+  return await Account.find({ ownerId: userId });
+}
+
+
+

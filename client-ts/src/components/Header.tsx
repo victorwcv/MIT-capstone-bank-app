@@ -8,7 +8,7 @@ export const Header = () => {
   const userEmail = user?.email || "";
 
   return (
-    <header className="h-16 flex justify-between items-center p-4 bg-white shadow">
+    <header className="h-16 flex justify-between items-center p-4 bg-white shadow-md z-20">
       <Link to="/" className="text-xl font-bold">
         {""}
       </Link>
