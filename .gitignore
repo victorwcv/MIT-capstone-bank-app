@@ -26,3 +26,4 @@ dist-ssr
 createSuperAdmin.js
 createUsers.js
 mockUsers.js
+.vite
