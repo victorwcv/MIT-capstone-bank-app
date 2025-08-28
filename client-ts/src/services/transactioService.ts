@@ -1,7 +1,7 @@
 import api from "@/api/api";
-import { type TransactionFormData } from "@/types/schemas";
+import { type DepositFormData } from "@/types/schemas";
 
-export const transactionService = async (data: TransactionFormData) => {
-  const response = await api.post("/transactions", data);
+export const depositService = async (data: DepositFormData) => {
+  const response = await api.post(`/transactions/deposit/${data.userAccountId}`, data);
   return response.data;
 };

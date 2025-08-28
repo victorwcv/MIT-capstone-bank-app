@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { transactionSchema, type TransactionFormData } from "@/types/schemas";
+import { depositSchema, type DepositFormData } from "@/types/schemas";
 import { CustomButton, CustomInput } from "@/components/ui";
 import { useMutation } from "@tanstack/react-query";
-import { transactionService } from "@/services";
+import { depositService } from "@/services";
 import { useEffect, useState } from "react";
 import { getUserAccounts } from "@/services/accountService";
 import { useAuthStore } from "@/stores";
 import type { Account } from "@/types/accountResponse";
+import { parseAmount, toCents } from "@/utils/utils";
 
 const DEFAULT_AMOUNTS = ["50", "100", "200", "500", "1000", "2000"];
 
@@ -29,19 +30,19 @@ export const DepositPage = () => {
     watch,
     reset,
     formState: { errors, isValid },
-  } = useForm<TransactionFormData>({
-    resolver: zodResolver(transactionSchema),
+  } = useForm<DepositFormData>({
+    resolver: zodResolver(depositSchema),
     defaultValues: {
       type: "deposit",
       amount: "0",
-      currency: "USD",
+      currency: "PEN",
       description: "",
-      destinationAccountId: "",
+      userAccountId: "",
     },
   });
 
   const mutation = useMutation({
-    mutationFn: transactionService,
+    mutationFn: depositService,
     onSuccess: (response) => {
       console.log(response);
       setUserAccounts((prevAccounts) => {
@@ -63,8 +64,11 @@ export const DepositPage = () => {
     },
   });
 
-  const onSubmit = (data: TransactionFormData) => {
-    mutation.mutate(data);
+  const onSubmit = (data: DepositFormData) => {
+    const { amount: amountString, ...rest } = data;
+    const amount: number = toCents(parseAmount(amountString));
+    const newData = { ...rest, amount}
+    mutation.mutate(newData);
   };
 
   return (
@@ -82,7 +86,7 @@ export const DepositPage = () => {
                 <label
                   key={account._id}
                   className={`m-1 py-2 px-6 rounded-lg cursor-pointer  transition-colors duration-300 ${
-                    watch("destinationAccountId") === account._id
+                    watch("userAccountId") === account._id
                       ? "text-white bg-accent-500"
                       : "bg-zinc-100 hover:bg-zinc-200"
                   }`}
@@ -90,7 +94,7 @@ export const DepositPage = () => {
                   <input
                     type="radio"
                     value={account._id}
-                    {...register("destinationAccountId")}
+                    {...register("userAccountId")}
                     className="sr-only"
                   />
                   <p className="font-semibold">{account.alias || account.accountName}</p>
@@ -100,8 +104,8 @@ export const DepositPage = () => {
                   </p>
                 </label>
               ))}
-              {errors.destinationAccountId && (
-                <span className="text-red-500 text-sm">{errors.destinationAccountId.message}</span>
+              {errors.userAccountId && (
+                <span className="text-red-500 text-sm">{errors.userAccountId.message}</span>
               )}
             </div>
           </div>

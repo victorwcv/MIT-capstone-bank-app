@@ -39,7 +39,7 @@ export const RegisterPage = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 className="text-2xl font-bold mb-6 text-center Upppercase">Crear Cuenta</h1>
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <CustomInput
           {...register("fullName")}
           type="fullName"

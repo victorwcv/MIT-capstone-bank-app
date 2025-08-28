@@ -14,6 +14,11 @@ export const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      documentId: "86753424",
+      password: "password",
+      rememberMe: false,
+    },
   });
 
   const navigate = useNavigate();
@@ -38,7 +43,7 @@ export const LoginPage = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <CustomInput
           type="text"
           placeholder="Documento de Identidad"
@@ -66,7 +71,7 @@ export const LoginPage = () => {
           </span>
         </div>
 
-        <CustomButton type="submit" variant="primary" disabled={mutation.isPending}>
+        <CustomButton type="submit"  disabled={mutation.isPending}>
           {mutation.isPending ? "Cargando..." : "Ingresar"}
         </CustomButton>
       </form>

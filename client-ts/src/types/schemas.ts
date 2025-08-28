@@ -25,10 +25,9 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export const transactionSchema = z
+export const depositSchema = z
   .object({
-    originAccountId: z.string().optional(),
-    destinationAccountId: z.string().optional(),
+    userAccountId: z.string().min(1, { message: "User account ID is required" }),
     type: z.enum(["deposit", "withdraw", "transfer"]),
     amount: z.string().refine((val) => {
       const num = parseFloat(val);
@@ -37,58 +36,7 @@ export const transactionSchema = z
     currency: z.enum(["USD", "PEN", "EUR"]),
     description: z.string().optional(),
   })
-  .superRefine((data, ctx) => {
-    if (data.type === "deposit") {
-      if (!data.destinationAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Destination account is required for deposits",
-          path: ["destinationAccountId"],
-        });
-      }
-      if (data.originAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Origin account should not be provided for deposits",
-          path: ["originAccountId"],
-        });
-      }
-    }
-
-    if (data.type === "withdraw") {
-      if (!data.originAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Origin account is required for withdrawals",
-          path: ["originAccountId"],
-        });
-      }
-      if (data.destinationAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Destination account should not be provided for withdrawals",
-          path: ["destinationAccountId"],
-        });
-      }
-    }
-
-    if (data.type === "transfer") {
-      if (!data.originAccountId || !data.destinationAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Both origin and destination accounts are required for transfers",
-          path: ["originAccountId"],
-        });
-      } else if (data.originAccountId === data.destinationAccountId) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Origin and destination accounts must be different",
-          path: ["destinationAccountId"],
-        });
-      }
-    }
-  });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
-export type TransactionFormData = z.infer<typeof transactionSchema>;
+export type DepositFormData = z.infer<typeof depositSchema>;

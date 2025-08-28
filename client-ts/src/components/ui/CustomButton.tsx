@@ -9,7 +9,7 @@ export const CustomButton = ({ className, ...props }: Props) => {
     <button
       {...props}
       className={cn(
-        "w-full bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-400 rounded-md cursor-pointer disabled:bg-zinc-200 disabled:cursor-not-allowed",
+        "w-full p-4 bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-400 rounded-md cursor-pointer disabled:bg-zinc-200 disabled:cursor-not-allowed",
         className
       )}
     >
