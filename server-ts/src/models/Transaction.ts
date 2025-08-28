@@ -1,28 +1,41 @@
+import type { CurrencyType, TransactionType } from "@/types/types";
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface ITransaction extends Document {
-  currency: "USD" | "PEN" | "EUR" 
+  currency: CurrencyType;
   amount: number;
-  type: "deposit" | "withdraw" | "transfer";
+  type: TransactionType;
   description: string;
-  originAccountId: Types.ObjectId;
-  destinationAccountId: Types.ObjectId;
+  userAccountId: string;
+  destinationAccountId: string;
 }
 
 const transactionSchema = new Schema<ITransaction>(
   {
-    currency: { type: String, enum: ["USD", "PEN", "EUR"], required: true },
-    amount: { type: Number, required: true },
-    type: { type: String, enum: ["deposit", "withdraw", "transfer"], required: true },
-    description: { type: String, default: "" },
-    originAccountId: { 
-      type: Schema.Types.ObjectId,
-      ref: "Account", 
-      default: null 
+    currency: {
+      type: String,
+      enum: ["USD", "PEN", "EUR"],
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ["deposit", "withdraw", "transfer"],
+      required: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    userAccountId: {
+      type: String,
+      default: null,
     },
     destinationAccountId: {
-      type: Schema.Types.ObjectId,
-      ref: "Account",
+      type: String,
       default: null,
     },
   },
