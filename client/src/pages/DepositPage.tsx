@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { getUserAccounts } from "@/services/accountService";
 import { useAuthStore } from "@/stores";
 import type { Account } from "@/types/accountResponse";
-import { parseAmount, toCents } from "@/utils/utils";
+import { toCents, fromCents } from "@/utils/utils";
 
-const DEFAULT_AMOUNTS = ["50", "100", "200", "500", "1000", "2000"];
+const DEFAULT_AMOUNTS = ["20", "50", "100", "200", "500", "1000"];
 
 export const DepositPage = () => {
   const user = useAuthStore((state) => state.user?.id);
@@ -34,7 +34,7 @@ export const DepositPage = () => {
     resolver: zodResolver(depositSchema),
     defaultValues: {
       type: "deposit",
-      amount: "0",
+      amount: "",
       currency: "PEN",
       description: "",
       userAccountId: "",
@@ -65,10 +65,11 @@ export const DepositPage = () => {
   });
 
   const onSubmit = (data: DepositFormData) => {
-    const { amount: amountString, ...rest } = data;
-    const amount: number = toCents(parseAmount(amountString));
-    const newData = { ...rest, amount}
-    mutation.mutate(newData);
+    const { amount, ...rest } = data;
+    mutation.mutate({
+      ...rest,
+      amount: toCents(parseInt(amount as string)),
+    });
   };
 
   return (
@@ -100,7 +101,7 @@ export const DepositPage = () => {
                   <p className="font-semibold">{account.alias || account.accountName}</p>
                   <p className="flex justify-between flex-wrap">
                     <span>{account.accountNumber}</span>
-                    <span className="font-semibold">$ {account.balance}</span>
+                    <span className="font-semibold">$ {fromCents(account.balance).toFixed(2)}</span>
                   </p>
                 </label>
               ))}

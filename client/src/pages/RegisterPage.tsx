@@ -26,8 +26,11 @@ export const RegisterPage = () => {
       navigate("/login");
     },
     onError: (error: unknown) => {
-      alert(error.response.data.message || "An error occurred");
-      console.log(error);
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("An unknown error occurred");
+      }
     },
   });
 
@@ -82,10 +85,14 @@ export const RegisterPage = () => {
 
         <div className="my-2">
           <div>
-            <input {...register("terms")} type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
+            <input
+              {...register("terms")}
+              type="checkbox"
+              className="checkbox checkbox-primary checkbox-sm"
+            />
             <span className="ml-2 text-sm ">Acepto los Terminos y Condiciones</span>
           </div>
-          <div >
+          <div>
             <input
               {...register("conditions")}
               type="checkbox"

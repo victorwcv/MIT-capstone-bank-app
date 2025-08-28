@@ -6,10 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function parseAmount(amount: string): number {
-  return parseFloat(amount.replace(/[^0-9.-]+/g, ""));
-}
-
 export function toCents(amount: number): number {
   return Math.round(amount * 100);
 }

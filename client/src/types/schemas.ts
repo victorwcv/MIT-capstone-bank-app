@@ -25,17 +25,13 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export const depositSchema = z
-  .object({
-    userAccountId: z.string().min(1, { message: "User account ID is required" }),
-    type: z.enum(["deposit", "withdraw", "transfer"]),
-    amount: z.string().refine((val) => {
-      const num = parseFloat(val);
-      return !isNaN(num) && num > 0;
-    }, "Amount must be a positive number"),
-    currency: z.enum(["USD", "PEN", "EUR"]),
-    description: z.string().optional(),
-  })
+export const depositSchema = z.object({
+  userAccountId: z.string().min(1, { message: "User account ID is required" }),
+  type: z.enum(["deposit", "withdraw", "transfer"]),
+  amount: z.union([z.string().min(1), z.number().min(1)]),
+  currency: z.enum(["USD", "PEN", "EUR"]),
+  description: z.string().optional(),
+});
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;

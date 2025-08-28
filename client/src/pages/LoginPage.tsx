@@ -32,7 +32,13 @@ export const LoginPage = () => {
       setUser(response.data.user);
       navigate("/", { replace: true });
     },
-    onError: (error: unknown) => alert(error.message),
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        console.log("Login error", error.message);
+      } else {
+        console.log("Login error", error);
+      }
+    },
   });
 
   const onSubmit = (data: LoginFormData) => {
