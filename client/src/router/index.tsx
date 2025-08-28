@@ -13,7 +13,7 @@ import { PrivateRoute } from "./PrivateRoute";
 
 export const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/MIT-capstone-bank-app/">
       <Routes>
         {/* Rutas públicas (auth) */}
         <Route element={<AuthLayout />}>
