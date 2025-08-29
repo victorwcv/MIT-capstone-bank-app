@@ -1,15 +1,29 @@
 import { cn } from "@/utils/utils";
 
+type Variant = "primary" | "secondary";
+
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
+  variant?: Variant;
 }
 
-export const CustomButton = ({ className, ...props }: Props) => {
+const variantClasses: Record<Variant, string> = {
+  primary:
+    "bg-accent-500 hover:bg-accent-600 active:bg-accent-400",
+  secondary:
+    "bg-zinc-600 hover:bg-zinc-700 active:bg-zinc-800",
+};
+
+export const CustomButton = ({
+  variant = "primary",
+  className,
+  ...props
+}: Props) => {
   return (
     <button
       {...props}
       className={cn(
-        "w-full p-4 bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-400 rounded-md cursor-pointer disabled:bg-zinc-200 disabled:cursor-not-allowed",
+        "w-full text-white/90 p-4 rounded-sm cursor-pointer disabled:cursor-not-allowed disabled:bg-zinc-200 transition-colors duration-300",
+        variantClasses[variant],
         className
       )}
     >

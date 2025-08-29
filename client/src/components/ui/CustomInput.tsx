@@ -7,12 +7,12 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const CustomInput = ({ className, ...props }: Props) => {
   return (
-    <div className="relative flex flex-col pb-5">
+    <div className="relative flex flex-col">
       <span>{props.label} </span>
       <input
         {...props}
         className={cn(
-          "w-full p-3 border-2 border-zinc-400 focus:border-accent-500 outline-0 rounded-md",
+          "w-full p-3 border-2 border-zinc-300 focus:border-accent-500 outline-0 rounded-sm",
           {
             "border-red-400": !!props.error,
           },
@@ -21,7 +21,7 @@ export const CustomInput = ({ className, ...props }: Props) => {
       />
 
       {props.error && (
-        <span className="text-red-400 text-xs absolute bottom-0 right-2">{props.error}</span>
+        <span className="text-red-400 text-xs absolute -bottom-4 right-2">{props.error}</span>
       )}
     </div>
   );

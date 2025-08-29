@@ -3,7 +3,7 @@ import { loginUserController, logoutUserController } from "@/controllers";
 
 const router = Router();
 
-router.post("/", loginUserController);
-router.get("/", logoutUserController);
+router.post("/login", loginUserController);
+router.get("/logout", logoutUserController);
 
 export { router };

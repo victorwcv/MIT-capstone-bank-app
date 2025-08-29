@@ -1,11 +1,7 @@
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import { useAuthStore } from "@/stores";
 
-interface PrivateRouteProps {
-  children: React.JSX.Element;
-}
-
-export const PrivateRoute = ({ children }: PrivateRouteProps) => {
+export const PrivateRoute = () => {
   const user = useAuthStore((state) => state.user);
   // const user = null; // Placeholder for user authentication logic
 
@@ -13,5 +9,5 @@ export const PrivateRoute = ({ children }: PrivateRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <Outlet />;
 };

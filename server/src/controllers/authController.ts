@@ -22,7 +22,7 @@ export const loginUserController = async (req: Request, res: Response, next: Nex
       .cookie("token", token, {
         httpOnly: true,
         sameSite: "none",
-        secure: process.env.NODE_ENV === "production",
+        secure: true,
         maxAge: 3600000,
       })
       .success({ user: { ...user }, accounts: { ...accounts }, token }, "Login successful", 200);

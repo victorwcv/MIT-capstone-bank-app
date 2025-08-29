@@ -22,7 +22,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="loading loading-ring loading-xl text-primary"></div> 
+        <div className="loading loading-ring loading-xl text-primary"></div>
         <div className="mt-2 text-gray-700">Cargando</div>
       </div>
     );
@@ -37,7 +37,11 @@ function App() {
     );
   }
 
-  return <AppRouter />;
+  return (
+    <main className=" bg-zinc-100 text-gray-800">
+      <AppRouter />
+    </main>
+  );
 }
 
 export default App;

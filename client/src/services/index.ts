@@ -1,3 +1,3 @@
-export { loginService , registerService } from "./auth";
+export { loginService , registerService, logoutService } from "./auth";
 
 export { depositService } from "./transactioService";

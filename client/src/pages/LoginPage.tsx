@@ -28,7 +28,6 @@ export const LoginPage = () => {
   const mutation = useMutation({
     mutationFn: loginService,
     onSuccess: (response) => {
-      console.log("Login successful", response);
       setUser(response.data.user);
       navigate("/", { replace: true });
     },
@@ -42,14 +41,13 @@ export const LoginPage = () => {
   });
 
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
     mutation.mutate(data);
   };
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-2xl font-bold mb-6 text-center">Ingresar</h1>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
         <CustomInput
           type="text"
           placeholder="Documento de Identidad"
@@ -70,7 +68,7 @@ export const LoginPage = () => {
           <input
             type="checkbox"
             {...register("rememberMe")}
-            className="checkbox checkbox-primary checkbox-sm"
+            className="checkbox checkbox-sm"
           />
           <span className="ml-2">
             Recordar mi cuenta

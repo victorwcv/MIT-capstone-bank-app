@@ -8,6 +8,7 @@ import {
   NotFoundPage,
   DepositPage,
   WithdrawalPage,
+  ComingSoonPage,
 } from "@/pages";
 import { PrivateRoute } from "./PrivateRoute";
 
@@ -22,40 +23,20 @@ export const AppRouter = () => {
         </Route>
 
         {/* Rutas privadas */}
-        <Route element={<MainLayout />}>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <DashboardPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="transactions"
-            element={
-              <PrivateRoute>
-                <TransactionsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="deposit"
-            element={
-              <PrivateRoute>
-                <DepositPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="withdraw"
-            element={
-              <PrivateRoute>
-                <WithdrawalPage />
-              </PrivateRoute>
-            }
-          />
+
+        <Route element={<PrivateRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="transactions" element={<TransactionsPage />} />
+            <Route path="deposit" element={<DepositPage />} />
+            <Route path="withdraw" element={<WithdrawalPage />} />
+            <Route path="transfer" element={<ComingSoonPage />} />
+            <Route path="new-card" element={<ComingSoonPage />} />
+            <Route path="new-money-account" element={<ComingSoonPage />} />
+            <Route path="settings" element={<ComingSoonPage />} />
+          </Route>
         </Route>
+
         {/* Ruta para 404 Not Found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
