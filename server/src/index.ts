@@ -11,13 +11,13 @@ dotenv.config();
 const app = express();
 
 const ORIGIN =
-  process.env.NODE_ENV === "production"
-    ? process.env.PRODUCTION_ORIGIN
-    : process.env.DEVELOPMENT_ORIGIN;
+  process.env.NODE_ENV === "development" ? "http://localhost:5173" : "https://victorwcv.github.io";
 
 const corsOptions: cors.CorsOptions = {
   origin: ORIGIN,
   methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Authorization"],
   credentials: true,
 };
 
@@ -37,8 +37,12 @@ app.use("/api/v1/accounts", accountRoutes);
 
 app.use(errorHandler);
 
+const HOST =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost"
+    : "https://mit-capstone-bank-app.onrender.com";
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at ${ORIGIN}${PORT}`);
+  console.log(`✅ Server running at ${HOST}:${PORT}`);
 });
