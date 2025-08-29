@@ -19,3 +19,7 @@
   --color-accent-900: #003a49;
   --color-accent-950: #002c38;
 }
+
+html {
+  overflow: hidden;
+}

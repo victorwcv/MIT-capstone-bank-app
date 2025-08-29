@@ -103,7 +103,7 @@ export const DepositPage = () => {
                   <p className="font-semibold">{account.alias || account.accountName}</p>
                   <p className="flex justify-between flex-wrap">
                     <span>{account.accountNumber}</span>
-                    <span className="font-semibold">$ {fromCents(account.balance).toFixed(2)}</span>
+                    <span className="font-semibold">{account.currency} {fromCents(account.balance).toFixed(2)}</span>
                   </p>
                 </label>
               ))}
@@ -126,7 +126,7 @@ export const DepositPage = () => {
                   }`}
                 >
                   <input type="radio" value={amount} {...register("amount")} className="sr-only" />
-                  <p className="font-semibold text-base md:text-xl">$ {amount}</p>
+                  <p className="font-semibold text-base md:text-xl">{amount}</p>
                 </label>
               ))}
               <CustomInput className="font-semibold text-base md:text-xl text-center" />

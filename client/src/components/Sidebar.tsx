@@ -41,7 +41,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <aside className="w-xs bg-gradient-to-t from-accent-700 to-accent-800 text-white shadow-md h-dvh flex flex-col p-6">
+    <aside className="w-xs bg-gradient-to-t from-accent-700 to-accent-800 text-white shadow-md h-dvh min-h-auto overflow-auto flex flex-col p-6">
       <div className="flex items-center justify-center">
         <Link to="/" className="py-6 font-extrabold text-3xl">
           VWCV BANK
