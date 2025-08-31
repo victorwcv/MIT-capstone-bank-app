@@ -7,18 +7,9 @@ export const registerUserController = async (req: Request, res: Response, next: 
   try {
     const { fullName, email, documentId, password } = req.body;
     
-    // Validate required fields
-    if (!fullName || !email || !documentId || !password) {
-      res.error("Missing required fields", 400);
-      return;
-    }
-
-    // Check if user already exists
-    const existingUser = await userService.findUserByEmail(email);
-    if (existingUser) {
-      res.error("User already exists", 400);
-      return;
-    }
+   
+    await userService.findUserByEmail(email);
+ 
 
     const hashedPassword = await hashPassword(password);
 
@@ -32,11 +23,6 @@ export const registerUserController = async (req: Request, res: Response, next: 
 
     const newUser = await userService.createUser(userToCreate);
 
-    if (!newUser) {
-      res.error("Failed to create user", 500);
-      return;
-    }
-
     // Create initial account for the user
     const initialAccount = {
       ownerId: newUser._id as Types.ObjectId,
@@ -48,11 +34,6 @@ export const registerUserController = async (req: Request, res: Response, next: 
     };
 
     const newAccount = await accountService.createAccount(initialAccount);
-
-    if (!newAccount) {
-      res.error("Failed to create initial account", 500);
-      return;
-    }
 
     res.success({}, "User created successfully", 201);
     console.log("✅ User created successfully");

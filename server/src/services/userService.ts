@@ -1,4 +1,4 @@
-import { User, type IUser} from '@/models';
+import { User, type IUser } from "@/models";
 
 export const createUser = async (data: Partial<IUser>) => {
   const user = new User(data);
@@ -10,5 +10,11 @@ export const getAllUsers = async () => {
 };
 
 export const findUserByEmail = async (email: string) => {
-  return User.findOne({ email });
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user;
 };

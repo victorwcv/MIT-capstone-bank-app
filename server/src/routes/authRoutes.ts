@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { loginUserController, logoutUserController } from "@/controllers";
+import { loginController, logoutController, refreshController } from "@/controllers";
 
 const router = Router();
 
-router.post("/login", loginUserController);
-router.get("/logout", logoutUserController);
+router.post("/login", loginController);
+router.get("/logout", logoutController);
+router.post("/refresh", refreshController);
 
 export { router };

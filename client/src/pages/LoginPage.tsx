@@ -29,6 +29,7 @@ export const LoginPage = () => {
     mutationFn: loginService,
     onSuccess: (response) => {
       setUser(response.data.user);
+      localStorage.setItem("access-token", response.data.accessToken);
       navigate("/", { replace: true });
     },
     onError: (error: unknown) => {

@@ -1,3 +1,8 @@
 export { hashPassword, comparePassword } from "./crypto";
-export { generateToken, verifyToken } from "./jwt";
+export {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+} from "./jwt";
 export { createAccountNumber } from "./account";

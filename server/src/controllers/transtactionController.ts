@@ -14,7 +14,6 @@ export const depositController = async (req: Request, res: Response, next: NextF
       description,
       userAccountId,
     };
-    console.log("userAccountId", userAccountId)
     const accountUpdated = await accountService.deposit(userAccountId, amount, currency);
     const transaction = await transactionService.saveTransaction(newDeposit);
 
