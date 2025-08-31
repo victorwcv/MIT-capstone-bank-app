@@ -14,7 +14,7 @@ const transactions: Transaction[] = [
 export const DashboardPage = () => {
   return (
     <>
-      <div className="flex gap-4 m-4">
+      <div className="flex sm:flex-row flex-col gap-4 m-4">
         <BalanceCard title="BALANCE" amount="$2,450.00" subtitle="+12% este mes" />
         <BalanceCard title="DEPÓSITO" amount="+$3,200" subtitle="este mes" />
         <BalanceCard title="RETIRO" amount="-$1,800" subtitle="este mes" />
