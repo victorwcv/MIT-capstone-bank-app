@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const TIMEOUT = 15000;
+
 const API_BASE_URL =
   import.meta.env.VITE_ENV === "development"
     ? "http://localhost:5000/api/v1"
@@ -11,7 +11,6 @@ let accessToken: string | null =  null;
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: TIMEOUT,
   withCredentials: true,
 });
 

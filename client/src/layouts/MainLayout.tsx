@@ -7,7 +7,7 @@ export const MainLayout = () => {
       <Sidebar />
       <div className="flex-1 h-screen overflow-y-auto ">
         <MobileHeader />
-        <div className="p-4 mb-16 sm:mb-0 ">
+        <div className="p-o sm:p-4  mb-16 sm:mb-0 ">
           <Outlet />
         </div>
         <MobileFooter />

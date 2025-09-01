@@ -26,9 +26,9 @@ export const registerSchema = z
   });
 
 export const depositSchema = z.object({
-  userAccountId: z.string().min(1, { message: "User account ID is required" }),
+  userAccountId: z.string().min(1, { message: "Seleccione una cuenta" }),
   type: z.enum(["deposit", "withdraw", "transfer"]),
-  amount: z.union([z.string().min(1), z.number().min(1)]),
+  amount: z.number().min(1, { message: "Ingrese una cantidad válida" }),
   currency: z.enum(["USD", "PEN", "EUR"]),
   description: z.string().optional(),
 });
