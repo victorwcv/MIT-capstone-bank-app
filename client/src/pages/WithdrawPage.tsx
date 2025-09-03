@@ -1,6 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { depositSchema, type DepositFormData } from "@/types/schemas";
+import { withdrawSchema, type WithdrawFormData } from "@/types/schemas";
 import { CustomBlock, CustomButton, CustomInput } from "@/components/ui";
 import { useMutation } from "@tanstack/react-query";
 import { depositService } from "@/services";
@@ -9,11 +9,11 @@ import { getUserAccounts } from "@/services/accountService";
 import { useAuthStore } from "@/stores";
 import type { Account } from "@/types/accountResponse";
 import { toCents } from "@/utils/utils";
-import { BanknoteArrowUp } from "lucide-react";
+import { BanknoteArrowDown } from "lucide-react";
 
 const DEFAULT_AMOUNTS = [20, 50, 100, 200, 500];
 
-export const DepositPage = () => {
+export const WithdrawPage = () => {
   const user = useAuthStore((state) => state.user?.id);
   const [userAccounts, setUserAccounts] = useState<Account[]>([]);
 
@@ -30,11 +30,11 @@ export const DepositPage = () => {
     reset,
     setValue,
     formState: { errors, isValid },
-  } = useForm<DepositFormData>({
-    resolver: zodResolver(depositSchema),
+  } = useForm<WithdrawFormData>({
+    resolver: zodResolver(withdrawSchema),
     mode: "onChange",
     defaultValues: {
-      type: "deposit",
+      type: "withdraw",
     },
   });
 
@@ -54,7 +54,7 @@ export const DepositPage = () => {
     },
   });
 
-  const onSubmit = (data: DepositFormData) => {
+  const onSubmit = (data: WithdrawFormData) => {
     mutation.mutate({
       ...data,
       amount: toCents(data.amount),
@@ -66,14 +66,14 @@ export const DepositPage = () => {
       {/* Título */}
       <CustomBlock>
         <h2 className="flex items-center gap-2 text-xl sm:text-2xl font-bold uppercase">
-          <BanknoteArrowUp size={28} /> Realizar Depósito
+          <BanknoteArrowDown size={28} /> Realizar retiro
         </h2>
       </CustomBlock>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Selección de Cuenta */}
         <CustomBlock>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">Cuenta a Depositar</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">Cuenta</h3>
           <Controller
             name="userAccountId"
             control={control}
@@ -84,10 +84,7 @@ export const DepositPage = () => {
                   <button
                     key={account._id}
                     type="button"
-                    onClick={() => {
-                      field.onChange(account._id);
-                      setValue("currency", account.currency);
-                    }}
+                    onClick={() => {field.onChange(account._id); setValue("currency", account.currency);}}
                     className={`text-white/90 m-1 p-3 text-left rounded transition-colors duration-150 ${
                       field.value === account._id ? "bg-accent-500" : "bg-zinc-400"
                     }`}
@@ -113,7 +110,7 @@ export const DepositPage = () => {
 
         {/* Selección de Monto */}
         <CustomBlock>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto a Depositar</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto a retirar</h3>
           <Controller
             name="amount"
             control={control}
@@ -181,7 +178,7 @@ export const DepositPage = () => {
             disabled={!isValid || mutation.isPending}
             className="w-full py-4 text-lg sm:text-xl font-semibold"
           >
-            {mutation.isPending ? "Procesando..." : "Realizar depósito"}
+            {mutation.isPending ? "Procesando..." : "Realizar retiro"}
           </CustomButton>
         </CustomBlock>
       </form>

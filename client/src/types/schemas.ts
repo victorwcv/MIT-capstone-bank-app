@@ -33,6 +33,15 @@ export const depositSchema = z.object({
   description: z.string().optional(),
 });
 
+export const withdrawSchema = z.object({
+  userAccountId: z.string().min(1, { message: "Seleccione una cuenta" }),
+  type: z.enum(["deposit", "withdraw", "transfer"]),
+  amount: z.number().min(1, { message: "Ingrese una cantidad válida" }),
+  currency: z.enum(["USD", "PEN", "EUR"]),
+  description: z.string().optional(),
+});
+
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type DepositFormData = z.infer<typeof depositSchema>;
+export type WithdrawFormData = z.infer<typeof withdrawSchema>;

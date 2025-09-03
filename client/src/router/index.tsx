@@ -7,7 +7,7 @@ import {
   TransactionsPage,
   NotFoundPage,
   DepositPage,
-  WithdrawalPage,
+  WithdrawPage,
   ComingSoonPage,
 } from "@/pages";
 import { PrivateRoute } from "./PrivateRoute";
@@ -29,7 +29,7 @@ export const AppRouter = () => {
             <Route path="/" element={<DashboardPage />} />
             <Route path="transactions" element={<TransactionsPage />} />
             <Route path="deposit" element={<DepositPage />} />
-            <Route path="withdraw" element={<WithdrawalPage />} />
+            <Route path="withdraw" element={<WithdrawPage />} />
             <Route path="transfer" element={<ComingSoonPage />} />
             <Route path="new-card" element={<ComingSoonPage />} />
             <Route path="new-money-account" element={<ComingSoonPage />} />

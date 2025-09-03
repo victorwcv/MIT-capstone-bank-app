@@ -10,7 +10,7 @@ export interface Account {
   accountName: string;
   alias: null;
   accountNumber: string;
-  currency: string;
+  currency: "USD" | "PEN" | "EUR";
   balance: number;
   createdAt: Date;
   updatedAt: Date;

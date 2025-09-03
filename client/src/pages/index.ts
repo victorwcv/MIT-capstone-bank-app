@@ -4,5 +4,5 @@ export { DepositPage} from "./DepositPage";
 export { LoginPage } from "./LoginPage";
 export { RegisterPage } from "./RegisterPage";
 export { NotFoundPage } from "./NotFoundPage";
-export { WithdrawalPage } from "./WithdrawalPage";
+export { WithdrawPage } from "./WithdrawPage";
 export { ComingSoonPage } from "./ComingSoonPage";
