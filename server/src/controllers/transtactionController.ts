@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { accountService, transactionService } from "@/services";
 import { ITransaction } from "@/models";
+import { successResponse } from "@/utils";
 
 export const depositController = async (req: Request, res: Response, next: NextFunction) => {
-  const { amount, currency, description } = req.body;
-  const { userAccountId } = req.params;
+  const { amount, currency, description, userAccountId } = req.body;
 
   try {
     const newDeposit: Partial<ITransaction> = {
@@ -17,7 +17,7 @@ export const depositController = async (req: Request, res: Response, next: NextF
     const accountUpdated = await accountService.deposit(userAccountId, amount, currency);
     const transaction = await transactionService.saveTransaction(newDeposit);
 
-    res.success({ accountUpdated, transaction }, "Deposit successful" );
+    res.status(201).json(successResponse({ accountUpdated, transaction }, "Deposit successful"));
     console.log("✅ Deposit successful")
   } catch (error) {
     next(error);

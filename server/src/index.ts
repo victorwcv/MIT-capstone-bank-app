@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { connectDB, corsSetup } from "@/config";
 import { accountRoutes, authRoutes, testRoutes, transactionRoutes, userRoutes } from "@/routes";
-import { responseHandler, errorHandler } from "@/middlewares";
+import { errorHandler } from "@/middlewares";
 
 dotenv.config();
 
@@ -14,7 +14,6 @@ connectDB();
 app.use(corsSetup());
 app.use(express.json());
 app.use(cookieParser());
-app.use(responseHandler);
 
 app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/auth", authRoutes);

@@ -1,9 +1,23 @@
 import { Account, type IAccount } from "@/models";
 import { CurrencyType } from "@/types/types";
+import { createAccountNumber } from "@/utils";
 
-export const createAccount = async (accountData: Partial<IAccount>): Promise<IAccount> => {
-  const account = new Account(accountData);
-  return account.save();
+export const createAccount = async (
+  userId: string,
+  accountData?: Partial<IAccount>,
+): Promise<IAccount> => {
+  const newAccount = {
+    ownerId: userId,
+    accountName: "Cuenta Digital",
+    alias: null,
+    accountNumber: createAccountNumber(),
+    currency: "PEN",
+    balance: 0,
+    ...accountData,
+  };
+  const account = new Account(newAccount);
+  await account.save();
+  return account;
 };
 
 export const getAccountById = async (accountId: string): Promise<IAccount | null> => {

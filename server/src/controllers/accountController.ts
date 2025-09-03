@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { accountService } from "@/services";
+import { successResponse } from "@/utils";
 
 export const getUserAccountsController = async (
   req: Request,
@@ -9,7 +10,7 @@ export const getUserAccountsController = async (
   const { userId } = req.params;
   try {
     const accounts = await accountService.getUserAccounts(userId);
-    res.success(accounts, "Accounts retrieved successfully", 200);
+    res.status(200).json(successResponse(accounts, "Accounts retrieved successfully"));
   } catch (error) {
     next(error);
   }

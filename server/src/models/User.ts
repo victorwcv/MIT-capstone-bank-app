@@ -14,15 +14,14 @@ const userSchema = new Schema<IUser>(
       required: true,
       trim: true,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     documentId: {
       type: String,
       required: true,
       unique: true,
+    },
+    email: {
+      type: String,
+      required: true,
     },
     password: {
       type: String,

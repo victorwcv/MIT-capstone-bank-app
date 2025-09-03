@@ -3,7 +3,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const MONGO_URI = process.env._MONGO_DB || "mongodb://localhost:27017/banking-app";
+if (!process.env._MONGO_DB) {
+  throw new Error("MONGO_DB is not defined");
+}
+const MONGO_URI =
+  process.env.NODE_ENV === "development"
+    ? "mongodb://localhost:27017/banking-app"
+    : process.env._MONGO_DB;
 
 export const connectDB = async () => {
   try {

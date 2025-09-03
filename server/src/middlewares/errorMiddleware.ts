@@ -1,20 +1,26 @@
+// src/middlewares/errorHandler.ts
 import { Request, Response, NextFunction } from "express";
+import { AppError } from "@/errors/AppError";
 
 export const errorHandler = (
-  err: any,
+  err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.error("🔥 Error:", err);
+  console.error(err);
 
-  const status = err.status || 500;
-  const message = err.message || "Internal Server Error";
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      code: err.code,
+    });
+  }
 
-  return res.status(status).json({
+  return res.status(500).json({
     success: false,
-    message,
-    // Solo mostramos más detalles si estás en desarrollo
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    message: "Internal Server Error",
+    code: "INTERNAL_SERVER_ERROR",
   });
 };
