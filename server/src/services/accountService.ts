@@ -1,3 +1,4 @@
+import { ConflictError } from "@/errors/AppError";
 import { Account, type IAccount } from "@/models";
 import { CurrencyType } from "@/types/types";
 import { createAccountNumber } from "@/utils";
@@ -35,12 +36,32 @@ export const deposit = async (
 ): Promise<IAccount> => {
   const account = await Account.findById(accountId);
   if (!account) {
-    throw new Error("Account not found");
+    throw new ConflictError("Account not found", "ACCOUNT_NOT_FOUND");
   }
   if (account.currency !== currency) {
-    throw new Error("Invalid currency");
+    throw new ConflictError("Currency mismatch", "CURRENCY_MISMATCH");
   }
   account.balance += amount;
+  await account.save();
+  return account;
+};
+
+export const withdraw = async (
+  accountId: string,
+  amount: number,
+  currency: CurrencyType
+): Promise<IAccount> => {
+  const account = await Account.findById(accountId);
+  if (!account) {
+    throw new ConflictError("Account not found", "ACCOUNT_NOT_FOUND");
+  }
+  if (account.currency !== currency) {
+    throw new ConflictError("Currency mismatch", "CURRENCY_MISMATCH");
+  }
+  if (account.balance < amount) {
+    throw new ConflictError("Insufficient balance", "INSUFFICIENT_BALANCE");
+  }
+  account.balance -= amount;
   await account.save();
   return account;
 };

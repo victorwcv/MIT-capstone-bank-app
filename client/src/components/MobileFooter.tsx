@@ -26,7 +26,7 @@ export const MobileFooter = () => {
             }
           >
             <div className="shrink-0">{item.icon}</div>
-            <span className="truncate max-w-[60px]">
+            <span className="truncate w-full max-w-[60px] text-center">
               {item.name}
             </span>
           </NavLink>

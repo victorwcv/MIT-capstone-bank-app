@@ -4,25 +4,27 @@ import { depositSchema, type DepositFormData } from "@/types/schemas";
 import { CustomBlock, CustomButton, CustomInput } from "@/components/ui";
 import { useMutation } from "@tanstack/react-query";
 import { depositService } from "@/services";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserAccounts } from "@/services/accountService";
 import { useAuthStore } from "@/stores";
-import type { Account } from "@/types/accountResponse";
 import { toCents } from "@/utils/utils";
 import { BanknoteArrowUp } from "lucide-react";
+import { useAccountStore } from "@/stores";
 
 const DEFAULT_AMOUNTS = [20, 50, 100, 200, 500];
 
 export const DepositPage = () => {
   const user = useAuthStore((state) => state.user?.id);
-  const [userAccounts, setUserAccounts] = useState<Account[]>([]);
+  const setAccounts = useAccountStore((state) => state.setAccounts);
+  const updateAccount = useAccountStore((state) => state.updateAccount);
+  const userAccounts = useAccountStore((state) => state.accounts);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || userAccounts.length) return;
     getUserAccounts(user).then((accounts) => {
-      setUserAccounts(accounts.data);
+      setAccounts(accounts.data);
     });
-  }, [user]);
+  }, [user, setAccounts, userAccounts.length]);
 
   const {
     control,
@@ -35,17 +37,17 @@ export const DepositPage = () => {
     mode: "onChange",
     defaultValues: {
       type: "deposit",
+      userAccountId: "",
+      amount: 0,
+      currency: "USD",
+      description: "",
     },
   });
 
   const mutation = useMutation({
     mutationFn: depositService,
     onSuccess: (response) => {
-      setUserAccounts((prev) =>
-        prev.map((acc) =>
-          acc._id === response.data.accountUpdated._id ? response.data.accountUpdated : acc
-        )
-      );
+      updateAccount(response.data.accountUpdated._id, response.data.accountUpdated);
       reset();
     },
     onError: (error: unknown) => {
@@ -73,7 +75,7 @@ export const DepositPage = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Selección de Cuenta */}
         <CustomBlock>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">Cuenta a Depositar</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">Cuenta</h3>
           <Controller
             name="userAccountId"
             control={control}
@@ -113,7 +115,7 @@ export const DepositPage = () => {
 
         {/* Selección de Monto */}
         <CustomBlock>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto a Depositar</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto</h3>
           <Controller
             name="amount"
             control={control}
@@ -136,6 +138,8 @@ export const DepositPage = () => {
                 <CustomInput
                   type="text"
                   placeholder="Otros"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={field.value ? String(field.value) : ""}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -162,9 +166,7 @@ export const DepositPage = () => {
             render={({ field }) => (
               <CustomInput
                 type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                placeholder="Ej: Sueldo de Enero"
+                placeholder="..."
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.description?.message}

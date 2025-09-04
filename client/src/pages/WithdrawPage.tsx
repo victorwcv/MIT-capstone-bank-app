@@ -3,26 +3,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { withdrawSchema, type WithdrawFormData } from "@/types/schemas";
 import { CustomBlock, CustomButton, CustomInput } from "@/components/ui";
 import { useMutation } from "@tanstack/react-query";
-import { depositService } from "@/services";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getUserAccounts } from "@/services/accountService";
 import { useAuthStore } from "@/stores";
-import type { Account } from "@/types/accountResponse";
 import { toCents } from "@/utils/utils";
 import { BanknoteArrowDown } from "lucide-react";
+import { withdrawService } from "@/services";
+import { useAccountStore } from "@/stores";
+
 
 const DEFAULT_AMOUNTS = [20, 50, 100, 200, 500];
 
 export const WithdrawPage = () => {
   const user = useAuthStore((state) => state.user?.id);
-  const [userAccounts, setUserAccounts] = useState<Account[]>([]);
+    const setAccounts = useAccountStore((state) => state.setAccounts);
+  const updateAccount = useAccountStore((state) => state.updateAccount);
+  const userAccounts = useAccountStore((state) => state.accounts);
 
-  useEffect(() => {
-    if (!user) return;
+    useEffect(() => {
+    if (!user || userAccounts.length) return;
     getUserAccounts(user).then((accounts) => {
-      setUserAccounts(accounts.data);
+      setAccounts(accounts.data);
     });
-  }, [user]);
+  }, [user, setAccounts, userAccounts.length]);
 
   const {
     control,
@@ -35,17 +38,17 @@ export const WithdrawPage = () => {
     mode: "onChange",
     defaultValues: {
       type: "withdraw",
+      userAccountId: "",
+      amount: 0,
+      currency: "USD",
+      description: "",
     },
   });
 
   const mutation = useMutation({
-    mutationFn: depositService,
+    mutationFn: withdrawService,
     onSuccess: (response) => {
-      setUserAccounts((prev) =>
-        prev.map((acc) =>
-          acc._id === response.data.accountUpdated._id ? response.data.accountUpdated : acc
-        )
-      );
+      updateAccount(response.data.accountUpdated._id, response.data.accountUpdated);
       reset();
     },
     onError: (error: unknown) => {
@@ -84,7 +87,10 @@ export const WithdrawPage = () => {
                   <button
                     key={account._id}
                     type="button"
-                    onClick={() => {field.onChange(account._id); setValue("currency", account.currency);}}
+                    onClick={() => {
+                      field.onChange(account._id);
+                      setValue("currency", account.currency);
+                    }}
                     className={`text-white/90 m-1 p-3 text-left rounded transition-colors duration-150 ${
                       field.value === account._id ? "bg-accent-500" : "bg-zinc-400"
                     }`}
@@ -110,7 +116,7 @@ export const WithdrawPage = () => {
 
         {/* Selección de Monto */}
         <CustomBlock>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto a retirar</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">Monto</h3>
           <Controller
             name="amount"
             control={control}
@@ -133,6 +139,8 @@ export const WithdrawPage = () => {
                 <CustomInput
                   type="text"
                   placeholder="Otros"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   value={field.value ? String(field.value) : ""}
                   onChange={(e) => {
                     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -159,9 +167,7 @@ export const WithdrawPage = () => {
             render={({ field }) => (
               <CustomInput
                 type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                placeholder="Ej: Sueldo de Enero"
+                placeholder="..."
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.description?.message}
