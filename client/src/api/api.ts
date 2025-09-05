@@ -37,7 +37,8 @@ apiClient.interceptors.response.use(
 
       try {
         const res = await apiClient.post("auth/refresh");
-        const newAccess = res.data.data.accessToken;
+        console.log("New access token:", res);
+        const newAccess = res.data.accessToken;
         localStorage.setItem("access-token", newAccess);
 
         // reintenta con el nuevo token

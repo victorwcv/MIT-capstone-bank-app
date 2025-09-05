@@ -2,11 +2,11 @@ import api from "@/api/api";
 import { type DepositFormData } from "@/types/schemas";
 
 export const depositService = async (data: DepositFormData) => {
-  const response = await api.post(`/transactions/deposit`, data);
+  const response = await api.post(`/operation/deposit`, data);
   return response.data;
 };
 
 export const withdrawService = async (data: DepositFormData) => {
-  const response = await api.post(`/transactions/withdraw`, data);
+  const response = await api.post(`/operation/withdraw`, data);
   return response.data;
 };

@@ -5,9 +5,11 @@ import { successResponse } from "@/utils";
 
 export const depositController = async (req: Request, res: Response, next: NextFunction) => {
   const { amount, currency, description, userAccountId } = req.body;
+  const { id } = req.user as { id: string };
 
   try {
     const newDeposit: Partial<ITransaction> = {
+      ownerId: id,
       amount,
       type: "deposit",
       currency,
@@ -26,9 +28,11 @@ export const depositController = async (req: Request, res: Response, next: NextF
 
 export const withdrawController = async (req: Request, res: Response, next: NextFunction) => {
   const { amount, currency, description, userAccountId } = req.body;
+  const { id } = req.user as { id: string };
 
   try {
     const newWithdraw: Partial<ITransaction> = {
+      ownerId: id,
       amount,
       type: "withdraw",
       currency,

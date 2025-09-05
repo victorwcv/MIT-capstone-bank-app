@@ -2,6 +2,7 @@ import type { CurrencyType, TransactionType } from "@/types/types";
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface ITransaction extends Document {
+  ownerId: string;
   currency: CurrencyType;
   amount: number;
   type: TransactionType;
@@ -12,6 +13,7 @@ export interface ITransaction extends Document {
 
 const transactionSchema = new Schema<ITransaction>(
   {
+    ownerId: { type: String, required: true },
     currency: {
       type: String,
       enum: ["USD", "PEN", "EUR"],
