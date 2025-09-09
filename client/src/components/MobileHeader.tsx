@@ -1,15 +1,13 @@
-import { AlignJustify } from "lucide-react";
 import { Link } from "react-router";
+import logo from "@/assets/vc-logo.png";
 
 export const MobileHeader = () => {
   return (
-    <header className="sticky top-0 w-full h-16 flex justify-between items-center px-4 bg-gradient-to-t from-accent-700 to-accent-800 text-white shadow-md sm:hidden">
-      <Link to="/" className="text-xl font-bold">
-        VC BANK
+    <header className="py-4 px-2">
+      <Link to="/" className="text-3xl font-bold flex items-center">
+        <img src={logo} alt="vc logo" className="w-12 h-auto" />
+        Wallet
       </Link>
-      <div className="flex items-center gap-4">
-        <AlignJustify size={24} />
-      </div>
     </header>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AppRouter } from "./router";
-import api from "./api/api";
+import api from "./api/apiClient";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +38,7 @@ function App() {
   }
 
   return (
-    <main className=" bg-zinc-100 text-gray-800">
+    <main className=" bg-slate-50 text-gray-900">
       <AppRouter />
     </main>
   );

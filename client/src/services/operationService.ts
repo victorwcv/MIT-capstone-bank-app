@@ -1,4 +1,4 @@
-import api from "@/api/api";
+import api from "@/api/apiClient";
 import { type DepositFormData } from "@/types/schemas";
 
 export const depositService = async (data: DepositFormData) => {

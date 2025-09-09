@@ -1,5 +1,5 @@
 import { type LoginFormData, type RegisterFormData } from "@/types/schemas";
-import api from "@/api/api";
+import api from "@/api/apiClient";
 
 export const registerService = async (data: RegisterFormData) => {
   const response = await api.post("/user", data);

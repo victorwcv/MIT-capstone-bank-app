@@ -1,4 +1,4 @@
-import apiClient from "@/api/api";
+import apiClient from "@/api/apiClient";
 
 export const getTransactions = async (userId: string, page: number, limit: number) => {
   const transactions = await apiClient.get(`/transaction/${userId}`, { params: { page, limit } });
