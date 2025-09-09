@@ -1,8 +1,8 @@
-export { DashboardPage } from "./DashboardPage";
-export { TransactionsPage } from "./TransactionsPage";
-export { DepositPage} from "./DepositPage";
-export { LoginPage } from "./LoginPage";
-export { RegisterPage } from "./RegisterPage";
-export { NotFoundPage } from "./NotFoundPage";
-export { WithdrawPage } from "./WithdrawPage";
-export { ComingSoonPage } from "./ComingSoonPage";
+export * from "./DashboardPage";
+export * from "./TransactionsPage";
+export * from "./DepositPage";
+export * from "./LoginPage";
+export * from "./RegisterPage";
+export * from "./NotFoundPage";
+export * from "./WithdrawPage";
+export * from "./ComingSoonPage";
