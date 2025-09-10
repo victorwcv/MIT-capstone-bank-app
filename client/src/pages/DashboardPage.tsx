@@ -36,7 +36,7 @@ export const DashboardPage = () => {
 
   const itemTemplate = (transaction: Transaction, index: number) => {
     return (
-      <div className="flex justify-between py-3 border-b border-gray-200 text-xl" key={index}>
+      <div className="flex justify-between p-3 border-b border-gray-200 text-xl" key={index}>
         <div className="flex items-center gap-2">
           <div className={`p-1 rounded-full  ${setClassName(transaction.type)}`}>{setBadge(transaction.type)}</div>
           <div>{transaction.name}</div>
