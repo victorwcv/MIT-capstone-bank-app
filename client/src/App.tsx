@@ -1,5 +1,6 @@
+import { RouterProvider } from "react-router";
 import { useEffect, useState } from "react";
-import { AppRouter } from "./router";
+import { router } from "./router";
 import api from "./api/apiClient";
 
 function App() {
@@ -38,9 +39,7 @@ function App() {
   }
 
   return (
-    <main className=" bg-slate-50 text-gray-900">
-      <AppRouter />
-    </main>
+    <RouterProvider router={router} />
   );
 }
 

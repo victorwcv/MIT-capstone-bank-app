@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+/* import { BrowserRouter, Routes, Route } from "react-router";
 import { MainLayout, AuthLayout } from "@/layouts";
 import {
   DashboardPage,
@@ -10,19 +10,19 @@ import {
   WithdrawPage,
   ComingSoonPage,
 } from "@/pages";
-import { PrivateRoute } from "./PrivateRoute";
+import { PrivateRoute } from "./PrivateRoute"; */
 
-export const AppRouter = () => {
+/* export const AppRouter = () => {
   return (
     <BrowserRouter basename="/MIT-capstone-bank-app/">
       <Routes>
-        {/* Rutas públicas (auth) */}
+       
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Route>
 
-        {/* Rutas privadas */}
+     
 
         <Route element={<PrivateRoute />}>
           <Route element={<MainLayout />}>
@@ -37,9 +37,22 @@ export const AppRouter = () => {
           </Route>
         </Route>
 
-        {/* Ruta para 404 Not Found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
-};
+}; */
+
+import { DashboardLayout } from "@/layouts/DashboardLayout";
+import { Component as Overview } from "@/pages/Overview";
+import { createBrowserRouter } from "react-router";
+
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <DashboardLayout />,
+    children: [{ index: true, element: <Overview /> }],
+  },
+],{
+  basename: "/MIT-capstone-bank-app/"
+});
