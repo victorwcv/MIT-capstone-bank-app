@@ -46,6 +46,7 @@ import { PrivateRoute } from "./PrivateRoute"; */
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { Component as Overview } from "@/pages/Overview";
 import { Component as Send } from "@/pages/Send";
+import { Component as Activity } from '@/pages/Activity';
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter(
@@ -56,6 +57,7 @@ export const router = createBrowserRouter(
       children: [
         { index: true, element: <Overview /> },
         { path: "send", element: <Send /> },
+        { path: "activity", element: <Activity /> },
       ],
     },
   ],
