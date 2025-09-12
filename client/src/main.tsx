@@ -8,14 +8,21 @@ import App from "./App";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
+import { ThemeProvider } from "./components/ThemeProvider";
 //import "./index.css";
+
+const value = {
+  ripple: true,
+};
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <PrimeReactProvider>
-        <App />
-        <Toaster position="top-right" />
+      <PrimeReactProvider value={value}>
+        <ThemeProvider>
+          <App />
+          <Toaster position="top-right" />
+        </ThemeProvider>
       </PrimeReactProvider>
     </QueryClientProvider>
   </React.StrictMode>

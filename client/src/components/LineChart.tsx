@@ -30,7 +30,7 @@ export const LineChart = ({ data }: Props) => {
       {
         label: "Balance",
         data: data.map((d) => d.amount),
-        borderColor: "#3b82f6",
+        borderColor: "#06b5d4",
         backgroundColor: "rgba(59, 130, 246, 0.1)",
         tension: 0.3,
       },
