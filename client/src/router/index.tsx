@@ -45,14 +45,21 @@ import { PrivateRoute } from "./PrivateRoute"; */
 
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { Component as Overview } from "@/pages/Overview";
+import { Component as Send } from "@/pages/Send";
 import { createBrowserRouter } from "react-router";
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <DashboardLayout />,
+      children: [
+        { index: true, element: <Overview /> },
+        { path: "send", element: <Send /> },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <DashboardLayout />,
-    children: [{ index: true, element: <Overview /> }],
-  },
-],{
-  basename: "/MIT-capstone-bank-app/"
-});
+    basename: "/MIT-capstone-bank-app/",
+  }
+);

@@ -13,27 +13,27 @@ export const DashboardLayout = () => {
     {
       label: "Overview",
       icon: "pi pi-home",
-      command: () => nav("/dashboard"),
+      command: () => nav("/"),
     },
     {
       label: "Accounts",
       icon: "pi pi-credit-card",
-      command: () => nav("/dashboard/accounts"),
+      command: () => nav("accounts"),
     },
     {
       label: "Send",
       icon: "pi pi-send",
-      command: () => nav("/dashboard/send"),
+      command: () => nav("send"),
     },
     {
       label: "Activity",
       icon: "pi pi-list",
-      command: () => nav("/dashboard/activity"),
+      command: () => nav("activity"),
     },
     {
       label: "Settings",
       icon: "pi pi-cog",
-      command: () => nav("/dashboard/settings"),
+      command: () => nav("settings"),
     },
   ];
 
