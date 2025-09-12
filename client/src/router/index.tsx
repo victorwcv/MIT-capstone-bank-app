@@ -46,7 +46,9 @@ import { PrivateRoute } from "./PrivateRoute"; */
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { Component as Overview } from "@/pages/Overview";
 import { Component as Send } from "@/pages/Send";
-import { Component as Activity } from '@/pages/Activity';
+import { Component as Activity } from "@/pages/Activity";
+import { Component as Settings } from "@/pages/Settings";
+import { NotFound } from "@/pages/NotFound";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter(
@@ -58,7 +60,12 @@ export const router = createBrowserRouter(
         { index: true, element: <Overview /> },
         { path: "send", element: <Send /> },
         { path: "activity", element: <Activity /> },
+        { path: "settings", element: <Settings /> },
       ],
+    },
+    {
+      path: "*",
+      element: <NotFound />,
     },
   ],
   {

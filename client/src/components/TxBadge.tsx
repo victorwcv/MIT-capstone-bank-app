@@ -1,6 +1,5 @@
 import { Tag } from 'primereact/tag';
 import type { Transaction } from '@/types';
-import { statusSeverity } from '@/utils/txHelpers';
 
 interface Props {
   tx: Transaction;
