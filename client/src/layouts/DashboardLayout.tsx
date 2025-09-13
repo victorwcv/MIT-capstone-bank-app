@@ -4,10 +4,13 @@ import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
 import { useUIStore } from "@/stores";
 import { useNavigate } from "react-router";
+import { useIsMobile } from "@/hooks";
+import logo from "@/assets/vc-logo.png";
 
 export const DashboardLayout = () => {
   const { theme, sidebarOpen, toggleSidebar, setTheme } = useUIStore();
   const nav = useNavigate();
+  const isMobile = useIsMobile();
 
   const items = [
     {
@@ -37,8 +40,21 @@ export const DashboardLayout = () => {
     },
   ];
 
-  const start = <span className="text-xl font-bold">Wallet</span>;
-  const end = (
+  const header = (
+    <div className="flex align-items-center text-xl font-bold">
+      <img src={logo} alt="vc logo" style={{ width: "2.5rem", height: "auto" }} className="mr-2" />
+      <p>Wallet</p>
+    </div>
+  );
+
+  const start = (
+    <div className="flex align-items-center text-xl font-bold mr-4">
+      <Button icon="pi pi-bars" rounded text onClick={toggleSidebar} className="mr-2" />
+      <img src={logo} alt="vc logo" style={{ width: "2rem", height: "auto" }} />
+      <p>Wallet</p>
+    </div>
+  );
+  const end =  isMobile ? null : (
     <div className="flex align-items-center gap-2">
       <Button
         icon={`pi ${theme === "light" ? "pi-moon" : "pi-sun"}`}
@@ -51,18 +67,26 @@ export const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-column" data-theme={theme}>
-      <Menubar model={items} start={start} end={end} className="border-noround" />
+      <Menubar
+        start={start}
+        end={end}
+        pt={{
+          button: { style: { display: "none" } },
+        }}
+      />
       <Sidebar
+        header={header}
         visible={sidebarOpen}
         onHide={toggleSidebar}
-        modal={false}
+        modal={true}
         dismissable={false}
-        showCloseIcon={false}
-        className="w-18rem"
+        showCloseIcon={true}
+        fullScreen={isMobile}
+        blockScroll
       >
         <nav className="flex flex-column gap-3 p-3">
           {items.map((i) => (
-            <Button key={i.label} label={i.label} icon={i.icon} text onClick={i.command} />
+            <Button key={i.label} label={i.label} icon={i.icon} onClick={i.command} text />
           ))}
         </nav>
       </Sidebar>
