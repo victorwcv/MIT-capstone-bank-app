@@ -3,7 +3,7 @@ import type { Account, Transaction } from '@/types';
 
 const rnd = (min: number, max: number) => Math.random() * (max - min) + min;
 
-const randomMoney = (currency: 'USD' | 'EUR' | 'GBP' | 'MXN' = 'USD'): number =>
+const randomMoney = (): number =>
   Number(rnd(-800, 800).toFixed(2));
 
 const generateTxForDay = (date: Date): Transaction[] => {

@@ -1,4 +1,4 @@
-import type { Account, Money, Transaction } from '@/types';
+import type { Account, Transaction, TransferDto } from '@/types';
 import { MOCK_ACCOUNTS, MOCK_TX } from './_mocks';
 
 const delay = (ms = 600) => new Promise<void>(r => setTimeout(r, ms));
@@ -15,12 +15,6 @@ export const fetchTransactions = async (): Promise<Transaction[]> => {
   return MOCK_TX;
 };
 
-export interface TransferDto {
-  fromAccountId: string;
-  to: string; // email | iban
-  amount: Money;
-  note?: string;
-}
 
 export const createTransfer = async (dto: TransferDto): Promise<Transaction> => {
   await delay(900);

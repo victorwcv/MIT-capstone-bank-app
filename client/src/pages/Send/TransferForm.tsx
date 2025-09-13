@@ -9,6 +9,7 @@ import { useTransfer } from '@/hooks/useTransfer';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-hot-toast';
+import type { TransferDto } from '@/types';
 
 const schema = z.object({
   fromAccountId: z.string().min(1, 'Required'),
@@ -21,7 +22,7 @@ type Form = z.infer<typeof schema>;
 
 export const TransferForm = () => {
   const { data: accounts } = useAccounts();
-  const { mutate, isLoading } = useTransfer();
+  const { mutate, isPending: isLoading } = useTransfer();
   const nav = useNavigate();
 
   const {
@@ -36,12 +37,13 @@ export const TransferForm = () => {
   });
 
   const onSubmit = (data: Form) => {
-    mutate(data, {
+    const dataToSubmit: TransferDto = { ...data, amount: { amount: data.amount, currency: 'USD' } };
+    mutate(dataToSubmit, {
       onSuccess: () => {
         toast.success('Transfer sent!');
         nav('/activity');
       },
-      onError: (e: any) => toast.error(e.message),
+      onError: (e) => toast.error(e.message),
     });
   };
 

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createTransfer, type TransferDto } from '@/services/wallet.service';
+import { createTransfer } from '@/services/wallet.service';
 
 export const useTransfer = () => {
   const qc = useQueryClient();
